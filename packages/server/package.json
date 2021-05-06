@@ -1,0 +1,40 @@
+{
+  "name": "@ganbatte/server",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Tapani Haka <tapani.haka@barona.fi>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "ts-node -T src/app",
+    "dev": "nodemon -x npm start",
+    "build": "tsc --project tsconfig.json",
+    "export-schema": "ts-node -T src/exportSchema"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.2",
+    "nodemon": "^2.0.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "apollo-server": "^2.24.0",
+    "class-validator": "^0.13.1",
+    "graphql": "^15.5.0",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.32"
+  }
+}

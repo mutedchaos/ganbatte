@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file: ./.postgres-env
+    environment:
+      POSTGRES_USER: ganbatte
+  frontend:
+    build:
+      context: .
+      target: frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./packages/frontend/src:/app/packages/frontend/src
+  server:
+    build:
+      context: .
+      target: server
+    volumes:
+      - ./packages/server/src:/app/packages/server/src
+    ports:
+      - 3001:3000
+volumes:
+  pgdata:

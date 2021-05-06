@@ -1,0 +1,8 @@
+type Query {
+  testEntity(id: String!): TestEntity!
+  anotherTestEntity: TestEntity!
+}
+
+type TestEntity {
+  id: String!
+}
