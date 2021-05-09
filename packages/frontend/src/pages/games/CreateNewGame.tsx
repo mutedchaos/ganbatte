@@ -10,7 +10,7 @@ export default function CreateNewGame() {
 
   return (
     <MainLayout heading="Create New Game">
-      <CreateEntityForm onValidate={tempValidate} />
+      <CreateEntityForm onValidate={tempValidate} entityType={'game'} />
     </MainLayout>
   )
 }

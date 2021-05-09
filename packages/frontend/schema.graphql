@@ -1,4 +1,5 @@
 type Query {
+  isNameAvailable(type: String!, name: String!): Boolean!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
 }

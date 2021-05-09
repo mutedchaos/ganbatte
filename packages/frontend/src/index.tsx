@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import { RelayEnvironmentProvider } from 'react-relay/hooks'
 
 import App from './App'
+import LoadingIndicator from './components/LoadingIndicator'
 import RelayEnvironment from './RelayEnvironment'
 import reportWebVitals from './reportWebVitals'
 ReactDOM.render(
   <React.StrictMode>
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback={'Loading...'}>
+      <Suspense fallback={<LoadingIndicator />}>
         <App />
       </Suspense>
     </RelayEnvironmentProvider>
