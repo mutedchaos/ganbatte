@@ -16,6 +16,7 @@ export default function Router() {
     <ReachRouter>
       <ReachDestination path="/" jsx={<Home />}></ReachDestination>
       <ReachDestination path="/games" jsx={<Games />}></ReachDestination>
+      <ReachDestination path="/games/-/create" jsx={<Games />}></ReachDestination>
     </ReachRouter>
   )
 }
