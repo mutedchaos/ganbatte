@@ -1,6 +1,6 @@
 import { Link } from '@reach/router'
 import styled from 'styled-components'
-import OrangeButtonVisual from './OrangeButton'
+import { OrangeButtonVisual } from './OrangeButton'
 
 const Button = OrangeButtonVisual
 const StyledLink = styled(Link)`

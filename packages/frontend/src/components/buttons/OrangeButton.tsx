@@ -1,7 +1,9 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
+import { ButtonVisual } from './base'
+import { PlainButton } from './PlainButton'
 
-const Visual = styled.div`
+const Visual = styled(ButtonVisual)`
   background: orange;
   display: inline-block;
   text-decoration: none;
@@ -27,6 +29,16 @@ interface Props {
   children: ReactNode
 }
 
-export default function OrangeButtonVisual({ children }: Props) {
+export function OrangeButtonVisual({ children }: Props) {
   return <Visual>{children}</Visual>
+}
+
+export default function OrangeButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { children, ...otherProps } = props
+
+  return (
+    <PlainButton {...otherProps}>
+      <OrangeButtonVisual>{children}</OrangeButtonVisual>
+    </PlainButton>
+  )
 }
