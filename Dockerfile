@@ -1,6 +1,7 @@
 FROM node:14.16.1-alpine AS base
 
 WORKDIR /app
+HEALTHCHECK CMD node /app/healthcheck.js
 
 FROM base AS root-deps
 COPY package*.json ./
@@ -23,6 +24,7 @@ RUN mkdir lib && npm run export-schema && cp lib/schema.graphql /lib/schema.grap
 FROM server-deps AS server
 WORKDIR /app/packages/server
 COPY packages/server/ ./
+COPY health.js ./
 CMD ["npm", "run", "dev"]
 
 FROM root-deps AS frontend-deps
@@ -33,6 +35,7 @@ FROM frontend-deps AS frontend
 WORKDIR /app/packages/frontend
 COPY packages/frontend/ ./
 COPY --from=gql-schema /lib/schema.graphql ./
+COPY health.js ./
 CMD ["npm", "start"]
 
 
