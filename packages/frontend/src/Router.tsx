@@ -2,6 +2,7 @@ import { Router as ReachRouter } from '@reach/router'
 import React, { ReactNode } from 'react'
 import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
+import GameView from './pages/games/GameView/GameView'
 import Home from './pages/home/Home'
 
 interface DestinationProps {
@@ -15,9 +16,10 @@ function ReachDestination({ jsx }: DestinationProps) {
 export default function Router() {
   return (
     <ReachRouter>
-      <ReachDestination path="/" jsx={<Home />}></ReachDestination>
-      <ReachDestination path="/games" jsx={<Games />}></ReachDestination>
-      <ReachDestination path="/games/-/create" jsx={<CreateNewGame />}></ReachDestination>
+      <ReachDestination path="/" jsx={<Home />} />
+      <ReachDestination path="/games" jsx={<Games />} />
+      <ReachDestination path="/games/-/create" jsx={<CreateNewGame />} />
+      <ReachDestination path="/games/:gameId" jsx={<GameView />} />
     </ReachRouter>
   )
 }

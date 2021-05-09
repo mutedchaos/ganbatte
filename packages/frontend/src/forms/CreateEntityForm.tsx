@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import styled from 'styled-components'
 import { ValidationStatus } from '../common'
+import LoadingIndicator from '../components/LoadingIndicator'
 import FormControls from '../components/misc/FormControls'
 import { Input } from '../components/misc/Input'
 import { Label } from '../components/misc/Label'
@@ -7,12 +9,22 @@ import { ValidationError } from '../components/misc/ValidationError'
 import AvailabilityChecker from './AvailabilityChecker'
 
 interface Props {
-  onValidate(name: string): Promise<string | null>
+  onValidate?(name: string): Promise<string | null>
+  onSubmit(name: string): Promise<void>
   entityType: 'game'
 }
 
-export default function CreateEntityForm({ onValidate, entityType }: Props) {
-  const [value, setValue] = useState('banana')
+const AbsoluteLoadingIndicator = styled(LoadingIndicator)`
+  position: absolute;
+`
+
+const HiddenSpan = styled.span`
+  visibility: hidden;
+`
+
+export default function CreateEntityForm({ onValidate, entityType, onSubmit }: Props) {
+  const [submitting, setSubmitting] = useState(false)
+  const [value, setValue] = useState('')
   const [validationStatus, setValidationStatus] = useState(ValidationStatus.Validating)
   const [nameValidationStatus, setNameValidationStatus] = useState(ValidationStatus.Validating)
   const updateValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value), [])
@@ -22,18 +34,32 @@ export default function CreateEntityForm({ onValidate, entityType }: Props) {
   useEffect(() => {
     let active = true
     setValidationStatus(ValidationStatus.Validating)
-    onValidate(sanitizedName).then((result) => {
-      if (active) {
-        setValidationStatus(result ? ValidationStatus.Invalid : ValidationStatus.Valid)
-      }
-    })
+    if (!onValidate) {
+      setValidationStatus(ValidationStatus.Valid)
+    } else {
+      onValidate(sanitizedName).then((result) => {
+        if (active) {
+          setValidationStatus(result ? ValidationStatus.Invalid : ValidationStatus.Valid)
+        }
+      })
+    }
     return () => {
       active = false
     }
   }, [onValidate, sanitizedName])
 
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      setSubmitting(true)
+
+      onSubmit(sanitizedName).catch((err) => setSubmitting(false))
+    },
+    [onSubmit, sanitizedName]
+  )
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <AvailabilityChecker
         name={sanitizedName}
         entityType={entityType}
@@ -47,8 +73,19 @@ export default function CreateEntityForm({ onValidate, entityType }: Props) {
         )}
       </div>
       <FormControls
-        disableSubmit={validationStatus !== ValidationStatus.Valid || nameValidationStatus !== ValidationStatus.Valid}
-        submitLabel={'Create'}
+        disableSubmit={
+          validationStatus !== ValidationStatus.Valid || nameValidationStatus !== ValidationStatus.Valid || submitting
+        }
+        submitLabel={
+          submitting ? (
+            <>
+              <AbsoluteLoadingIndicator />
+              <HiddenSpan>Create</HiddenSpan>
+            </>
+          ) : (
+            'Create'
+          )
+        }
       />
     </form>
   )

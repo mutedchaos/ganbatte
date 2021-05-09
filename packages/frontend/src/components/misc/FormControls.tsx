@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import CancelButton from '../buttons/CancelButton'
 import { SubmitButton } from '../buttons/SubmitButton'
 
 interface Props {
   disableSubmit?: boolean
-  submitLabel: string
+  submitLabel: ReactNode
 }
 
 const Container = styled.div`

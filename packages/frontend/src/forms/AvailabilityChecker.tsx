@@ -33,9 +33,9 @@ function AvailabilityCheckerImpl({ name, onUpdateValidationStatus, entityType }:
   )
 
   useEffect(() => {
-    const newState = response.isNameAvailable ? ValidationStatus.Valid : ValidationStatus.Invalid
+    const newState = name && response.isNameAvailable ? ValidationStatus.Valid : ValidationStatus.Invalid
     onUpdateValidationStatus(newState)
-  }, [response, onUpdateValidationStatus])
+  }, [response, onUpdateValidationStatus, name])
 
   return <></>
 }

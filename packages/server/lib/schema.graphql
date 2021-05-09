@@ -7,3 +7,13 @@ type Query {
 type TestEntity {
   id: String!
 }
+
+type Mutation {
+  createGame(name: String!): Game!
+}
+
+type Game {
+  id: String!
+  name: String!
+  nameLower: String!
+}

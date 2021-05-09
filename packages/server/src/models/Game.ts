@@ -4,6 +4,13 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm'
 @ObjectType()
 @Entity()
 export default class Game {
+  constructor(name?: string) {
+    if (name !== undefined) {
+      this.name = name
+      this.nameLower = name.toLowerCase()
+    }
+  }
+
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
   public id: string
