@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { RelayEnvironmentProvider } from 'react-relay/hooks'
 
 import App from './App'
-import './index.css'
 import RelayEnvironment from './RelayEnvironment'
 import reportWebVitals from './reportWebVitals'
 ReactDOM.render(
