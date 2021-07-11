@@ -60,21 +60,26 @@ export default function CreateEntityForm({ onValidate, entityType, onSubmit }: P
 
   return (
     <form onSubmit={handleSubmit}>
-      <AvailabilityChecker
-        name={sanitizedName}
-        entityType={entityType}
-        onUpdateValidationStatus={setNameValidationStatus}
-      />
+      {sanitizedName && (
+        <AvailabilityChecker
+          name={sanitizedName}
+          entityType={entityType}
+          onUpdateValidationStatus={setNameValidationStatus}
+        />
+      )}
       <Label>Name</Label>
       <Input autoFocus value={value} onChange={updateValue} />
       <div key="validation">
-        {nameValidationStatus === ValidationStatus.Invalid && (
+        {nameValidationStatus === ValidationStatus.Invalid && sanitizedName && (
           <ValidationError>An entity already exists with this name.</ValidationError>
         )}
       </div>
       <FormControls
         disableSubmit={
-          validationStatus !== ValidationStatus.Valid || nameValidationStatus !== ValidationStatus.Valid || submitting
+          validationStatus !== ValidationStatus.Valid ||
+          nameValidationStatus !== ValidationStatus.Valid ||
+          submitting ||
+          !sanitizedName
         }
         submitLabel={
           submitting ? (

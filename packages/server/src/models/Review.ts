@@ -16,7 +16,7 @@ export default class Review {
   public reviewSource: string
 
   @Field(() => String, { nullable: true })
-  @Column()
+  @Column({ type: String, nullable: true })
   public reviewUrl: string | null
 
   @Field(() => Number)

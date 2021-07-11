@@ -1,4 +1,4 @@
-import { Arg, Mutation, Resolver } from 'type-graphql'
+import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import Game from '../models/Game'
 import { gameRepository } from '../repositories'
 
@@ -9,5 +9,10 @@ export class GameResolver {
     const game = new Game(name)
     await gameRepository.save(game)
     return game
+  }
+
+  @Query(() => [Game])
+  async listGames() {
+    return await gameRepository.find({ order: { nameLower: 'ASC', id: 'ASC' } })
   }
 }

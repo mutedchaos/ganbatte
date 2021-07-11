@@ -1,6 +1,6 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { GenreAssociationType } from '../misc/GenreAssociationType'
+import { GenreAssociationType } from './misc/GenreAssociationType'
 import Game from './Game'
 import Genre from './Genre'
 
@@ -11,7 +11,10 @@ export default class GameGenre {
   @Field(() => String)
   public id: string
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: GenreAssociationType,
+  })
   public association: GenreAssociationType
 
   @ManyToOne(() => Game, (game) => game.genres)

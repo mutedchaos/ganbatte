@@ -1,7 +1,14 @@
 type Query {
+  listGames: [Game!]!
   isNameAvailable(type: String!, name: String!): Boolean!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
+}
+
+type Game {
+  id: String!
+  name: String!
+  nameLower: String!
 }
 
 type TestEntity {
@@ -10,10 +17,4 @@ type TestEntity {
 
 type Mutation {
   createGame(name: String!): Game!
-}
-
-type Game {
-  id: String!
-  name: String!
-  nameLower: String!
 }
