@@ -15,4 +15,9 @@ export class GameResolver {
   async listGames() {
     return await gameRepository.find({ order: { nameLower: 'ASC', id: 'ASC' } })
   }
+
+  @Query(() => Game)
+  async game(@Arg('gameId') gameId: string) {
+    return await gameRepository.findOne(gameId)
+  }
 }

@@ -4,13 +4,14 @@ import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
 import GameView from './pages/games/GameView/GameView'
 import Home from './pages/home/Home'
+import { routePropContext } from './contexts/RoutePropContext'
 
 interface DestinationProps {
   path: string
   jsx: ReactNode
 }
-function ReachDestination({ jsx }: DestinationProps) {
-  return <>{jsx}</>
+function ReachDestination({ jsx, ...otherProps }: DestinationProps) {
+  return <routePropContext.Provider value={otherProps}>{jsx}</routePropContext.Provider>
 }
 
 export default function Router() {

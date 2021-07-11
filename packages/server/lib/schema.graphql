@@ -1,5 +1,6 @@
 type Query {
   listGames: [Game!]!
+  game(gameId: String!): Game!
   isNameAvailable(type: String!, name: String!): Boolean!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
