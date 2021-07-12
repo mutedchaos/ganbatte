@@ -44,22 +44,21 @@ export const repositoryByName = {
   businessEntity: businessEntityRepository,
   platform: platformRepository,
   gameOwnership: gameOwnershipRepository,
-  releaseRelatedBusinessEntity:releaseRelatedBusinessEntityRepository
+  releaseRelatedBusinessEntity: releaseRelatedBusinessEntityRepository,
 }
 
 function createRepositoryProxy<T>(entity: Constructable<T>): Repository<T> {
-  /**/
-  return new Proxy(
+  return (new Proxy<{ repository: null | Repository<T> }>(
     {
-      repository: null as any,
+      repository: null,
     },
     {
       get(obj, prop) {
         if (!obj.repository) {
           obj.repository = getConnection().getRepository(entity)
         }
-        return obj.repository![prop]
+        return obj.repository[prop as keyof Repository<T>]
       },
     }
-  ) as any
+  ) as unknown) as Repository<T>
 }
