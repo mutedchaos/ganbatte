@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { ReactNode } from 'react'
 import { GraphQLTaggedNode, PreloadedQuery, usePreloadedQuery } from 'react-relay'
+
 import { DataCtx, useAppData } from '../AppData'
 
 export type CachedEntityType = keyof DataCtx

@@ -1,4 +1,5 @@
-import { getConnection, Repository } from 'typeorm'
+import { Repository, getConnection } from 'typeorm'
+
 import BusinessEntity from './models/BusinessEntity'
 import Game from './models/Game'
 import GameGenre from './models/GameGenre'

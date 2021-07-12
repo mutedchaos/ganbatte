@@ -6,12 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "lerna run lint",
-    "tsc": "lerna run tsc"
+    "tsc": "lerna run tsc",
+    "prettier": "prettier --write $(find packages/server/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json') $(find packages/frontend/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json')"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "import-sort-style-module": "^6.0.0",
     "lerna": "^4.0.0",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "prettier-plugin-import-sort": "0.0.7"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
   }
 }

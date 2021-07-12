@@ -1,4 +1,5 @@
 import React from 'react'
+
 import AppData from './AppData'
 import { GlobalStyles } from './GlobalStyles'
 import Router from './Router'

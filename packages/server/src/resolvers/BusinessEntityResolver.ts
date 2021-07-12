@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+
 import BusinessEntity from '../models/BusinessEntity'
 import { businessEntityRepository } from '../repositories'
 

@@ -6,6 +6,7 @@ import App from './App'
 import LoadingIndicator from './components/LoadingIndicator'
 import RelayEnvironment from './RelayEnvironment'
 import reportWebVitals from './reportWebVitals'
+
 ReactDOM.render(
   <React.StrictMode>
     <RelayEnvironmentProvider environment={RelayEnvironment}>

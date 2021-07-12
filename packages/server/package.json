@@ -22,7 +22,7 @@
     "build": "tsc --project tsconfig.json",
     "export-schema": "ts-node -T src/exportSchema",
     "tsc": "npm run build",
-    "lint": "eslint"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "devDependencies": {
     "@types/node": "^15.0.2",

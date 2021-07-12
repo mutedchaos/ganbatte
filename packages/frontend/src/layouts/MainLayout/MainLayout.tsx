@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
+
 import { headings } from '../../components/headings'
 import NavBar from './NavBar/NavBar'
 

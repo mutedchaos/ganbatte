@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import AppTitle from './AppTitle'
 import NavBarLink from './NavBarLink'
 
@@ -19,7 +20,7 @@ export default function NavBar() {
       <NavBarLink to="/games">Games</NavBarLink>
       <NavBarLink to="/platforms">Platforms</NavBarLink>
       <NavBarLink to="/businessEntities">Business entities</NavBarLink>
-      
+
       <Spacer />
       <AppTitle />
     </Nav>

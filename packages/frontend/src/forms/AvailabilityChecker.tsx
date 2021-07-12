@@ -1,6 +1,7 @@
 import { graphql } from 'babel-plugin-relay/macro'
 import React, { Suspense, useCallback, useEffect } from 'react'
 import { useLazyLoadQuery } from 'react-relay/hooks'
+
 import { ValidationStatus } from '../common'
 import { BlankLoadingIndicator } from '../components/LoadingIndicator'
 import { AvailabilityCheckerQuery } from './__generated__/AvailabilityCheckerQuery.graphql'

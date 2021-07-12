@@ -1,7 +1,10 @@
 import 'reflect-metadata'
-import { buildSchema } from 'type-graphql'
+
 import * as fs from 'fs'
+
 import { printSchema } from 'graphql'
+import { buildSchema } from 'type-graphql'
+
 import { resolvers } from './resolvers'
 
 async function run() {

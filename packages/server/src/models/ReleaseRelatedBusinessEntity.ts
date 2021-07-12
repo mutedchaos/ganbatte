@@ -1,5 +1,6 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
 import BusinessEntity from './BusinessEntity'
 import Release from './Release'
 

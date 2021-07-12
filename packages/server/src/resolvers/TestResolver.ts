@@ -1,4 +1,5 @@
 import { Arg, Query, Resolver } from 'type-graphql'
+
 import TestEntity from '../models/TestEntity'
 import { testRepository } from '../repositories'
 

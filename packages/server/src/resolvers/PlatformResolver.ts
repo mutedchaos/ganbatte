@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+
 import Platform from '../models/Platform'
 import { platformRepository } from '../repositories'
 

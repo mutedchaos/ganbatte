@@ -1,5 +1,6 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+
 import GameOwnership from './GameOwnership'
 import Platform from './Platform'
 import ReleaseRelatedBusinessEntity from './ReleaseRelatedBusinessEntity'

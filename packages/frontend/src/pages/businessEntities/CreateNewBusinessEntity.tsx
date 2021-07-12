@@ -1,7 +1,8 @@
 import { navigate } from '@reach/router'
+import { graphql } from 'babel-plugin-relay/macro'
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-relay/hooks'
-import { graphql } from 'babel-plugin-relay/macro'
+
 import CreateEntityForm from '../../forms/CreateEntityForm'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 import { CreateNewBusinessEntityMutation } from './__generated__/CreateNewBusinessEntityMutation.graphql'

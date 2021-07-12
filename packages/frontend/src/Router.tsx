@@ -1,16 +1,17 @@
 import { Router as ReachRouter } from '@reach/router'
 import React, { ReactNode } from 'react'
+
+import { routePropContext } from './contexts/RoutePropContext'
+import BusinessEntities from './pages/businessEntities/BusinessEntities'
+import BusinessEntityView from './pages/businessEntities/BusinessEntityView/BusinessEntityView'
+import CreateNewBusinessEntity from './pages/businessEntities/CreateNewBusinessEntity'
 import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
 import GameView from './pages/games/GameView/GameView'
 import Home from './pages/home/Home'
-import { routePropContext } from './contexts/RoutePropContext'
 import CreateNewPlatform from './pages/platforms/CreateNewPlatform'
-import PlatformView from './pages/platforms/PlatformView/PlatformView'
-import BusinessEntities from './pages/businessEntities/BusinessEntities'
-import CreateNewBusinessEntity from './pages/businessEntities/CreateNewBusinessEntity'
-import BusinessEntityView from './pages/businessEntities/BusinessEntityView/BusinessEntityView'
 import Platforms from './pages/platforms/Platforms'
+import PlatformView from './pages/platforms/PlatformView/PlatformView'
 
 interface DestinationProps {
   path: string

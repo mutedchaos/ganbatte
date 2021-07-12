@@ -1,4 +1,5 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+
 import Game from '../models/Game'
 import { gameRepository } from '../repositories'
 

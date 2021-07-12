@@ -1,8 +1,9 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { GenreAssociationType } from './misc/GenreAssociationType'
+
 import Game from './Game'
 import Genre from './Genre'
+import { GenreAssociationType } from './misc/GenreAssociationType'
 
 @ObjectType()
 @Entity()

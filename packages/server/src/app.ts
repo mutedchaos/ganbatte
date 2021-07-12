@@ -1,8 +1,10 @@
 // import 'dotenv/config'
 import 'reflect-metadata'
-import { connectToDatabase } from './db'
+
 import { ApolloServer } from 'apollo-server'
 import { buildSchema } from 'type-graphql'
+
+import { connectToDatabase } from './db'
 import { resolvers } from './resolvers'
 
 async function run() {

@@ -1,20 +1,21 @@
 import React, { ReactNode, useContext, useMemo } from 'react'
 import { PreloadedQuery, useQueryLoader } from 'react-relay'
-import {
-  BusinessEntityViewQuery,
-  default as BusinessEntityViewQueryImpl,
-} from './pages/businessEntities/BusinessEntityView/__generated__/BusinessEntityViewQuery.graphql'
+
 import {
   BusinessEntitiesQuery,
   default as BusinessEntitiesQueryImpl,
 } from './pages/businessEntities/__generated__/BusinessEntitiesQuery.graphql'
-import { default as GameViewQueryImpl, GameViewQuery } from './pages/games/GameView/__generated__/GameViewQuery.graphql'
-import GamesQueryImpl, { GamesQuery } from './pages/games/__generated__/GamesQuery.graphql'
 import {
-  default as PlatformViewQueryImpl,
+  BusinessEntityViewQuery,
+  default as BusinessEntityViewQueryImpl,
+} from './pages/businessEntities/BusinessEntityView/__generated__/BusinessEntityViewQuery.graphql'
+import GamesQueryImpl, { GamesQuery } from './pages/games/__generated__/GamesQuery.graphql'
+import { GameViewQuery, default as GameViewQueryImpl } from './pages/games/GameView/__generated__/GameViewQuery.graphql'
+import { PlatformsQuery, default as PlatformsQueryImpl } from './pages/platforms/__generated__/PlatformsQuery.graphql'
+import {
   PlatformViewQuery,
+  default as PlatformViewQueryImpl,
 } from './pages/platforms/PlatformView/__generated__/PlatformViewQuery.graphql'
-import { default as PlatformsQueryImpl, PlatformsQuery } from './pages/platforms/__generated__/PlatformsQuery.graphql'
 
 interface Props {
   children: ReactNode
