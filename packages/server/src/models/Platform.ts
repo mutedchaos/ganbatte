@@ -6,14 +6,24 @@ import Release from './Release'
 @ObjectType()
 @Entity()
 export default class Platform {
+  constructor(name?: string) {
+    if (name !== undefined) {
+      this.name = name
+      this.nameLower = name.toLowerCase()
+    }
+  }
+
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
   public id: string
 
   @Column()
-  @Index({ unique: true })
   @Field()
   public name: string
+
+  @Column()
+  @Index({ unique: true })
+  public nameLower: string
 
   @OneToMany(() => Release, (release) => release.platform)
   public releases: Promise<Release[]>

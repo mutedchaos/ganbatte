@@ -23,7 +23,6 @@ export default class Game {
   @Column()
   public name: string
 
-  @Field(() => String)
   @Index({ unique: true })
   @Column()
   public nameLower: string

@@ -26,6 +26,10 @@ export default function CreateNewBusinessEntity() {
             navigate('/businessEntities/' + data.createBusinessEntity.id)
             resolve()
           },
+          updater(store) {
+            // TODO: implement with connections and edges
+            store.invalidateStore()
+          },
         })
       })
     },

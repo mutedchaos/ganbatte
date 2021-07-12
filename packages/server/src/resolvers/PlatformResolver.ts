@@ -8,9 +8,8 @@ export class PlatformResolver {
   @Mutation(() => Platform)
   async createPlatform(@Arg('name') name: string) {
     // TODO: authorization
-    const platform = new Platform()
-    platform.name = name
-    await platformRepository.save(platform)
+    const platform = new Platform(name)
+      await platformRepository.save(platform)
     return platform
   }
 

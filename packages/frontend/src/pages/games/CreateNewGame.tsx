@@ -22,10 +22,14 @@ export default function CreateNewGame() {
         mutate({
           variables: { name },
           onError: reject,
-          onCompleted(data) {
+          onCompleted(data) {            
             navigate('/games/' + data.createGame.id)
             resolve()
           },
+          updater(store) {
+            // TODO: implement with connections and edges
+            store.invalidateStore()
+          }
         })
       })
     },

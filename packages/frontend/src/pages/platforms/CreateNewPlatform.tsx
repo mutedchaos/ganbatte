@@ -26,6 +26,10 @@ export default function CreateNewPlatform() {
             navigate('/platforms/' + data.createPlatform.id)
             resolve()
           },
+          updater(store) {
+            // TODO: implement with connections and edges
+            store.invalidateStore()
+          },
         })
       })
     },
