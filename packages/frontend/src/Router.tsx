@@ -36,7 +36,7 @@ export default function Router() {
 
       <ReachDestination path="/businessEntities" jsx={<BusinessEntities />} />
       <ReachDestination path="/businessEntities/-/create" jsx={<CreateNewBusinessEntity />} />
-      <ReachDestination path="/businessEntities/:gameId" jsx={<BusinessEntityView />} />
+      <ReachDestination path="/businessEntities/:businessEntityId" jsx={<BusinessEntityView />} />
     </ReachRouter>
   )
 }
