@@ -17,6 +17,9 @@ export default function NavBar() {
     <Nav>
       <NavBarLink to="/">Home</NavBarLink>
       <NavBarLink to="/games">Games</NavBarLink>
+      <NavBarLink to="/platforms">Platforms</NavBarLink>
+      <NavBarLink to="/businessEntities">Business entities</NavBarLink>
+      
       <Spacer />
       <AppTitle />
     </Nav>

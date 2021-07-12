@@ -20,13 +20,18 @@
     "start": "ts-node -T src/app",
     "dev": "nodemon -x npm start",
     "build": "tsc --project tsconfig.json",
-    "export-schema": "ts-node -T src/exportSchema"
+    "export-schema": "ts-node -T src/exportSchema",
+    "tsc": "npm run build",
+    "lint": "eslint"
   },
   "devDependencies": {
     "@types/node": "^15.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.5"
   },
   "dependencies": {
     "apollo-server": "^2.24.0",

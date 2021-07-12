@@ -6,6 +6,7 @@ import { gameRepository } from '../repositories'
 export class GameResolver {
   @Mutation(() => Game)
   async createGame(@Arg('name') name: string) {
+    // TODO: authorization
     const game = new Game(name)
     await gameRepository.save(game)
     return game

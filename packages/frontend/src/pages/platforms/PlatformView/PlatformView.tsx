@@ -5,12 +5,12 @@ import { default as CachedLoader } from '../../../common/CachedLoader'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 
-export default function GameView() {
-  const gameId = useContext(routePropContext).gameId as string
+export default function PlatformView() {
+  const platformId = useContext(routePropContext).platformId as string
 
   const query = graphql`
-    query GameViewQuery($gameId: String!) {
-      game(gameId: $gameId) {
+    query PlatformViewQuery($platformId: String!) {
+      platform(platformId: $platformId) {
         id
         name
       }
@@ -18,15 +18,15 @@ export default function GameView() {
   `
 
   return (
-    <MainLayout heading="Games">
-      <CachedLoader entity="game" id={gameId} query={query}>
-        <GameViewImpl />
+    <MainLayout heading="Platforms">
+      <CachedLoader entity="platform" id={platformId} query={query}>
+        <PlatformViewImpl />
       </CachedLoader>
     </MainLayout>
   )
 }
 
-export function GameViewImpl() {
-  const data = useCachedData('game')
-  return <h2>{data.game.name}</h2>
+export function PlatformViewImpl() {
+  const data = useCachedData('platform')
+  return <h2>{data.platform.name}</h2>
 }

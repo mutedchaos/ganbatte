@@ -7,10 +7,10 @@ import CreateNewButton from '../../components/buttons/CreateNewButton'
 import FloatRight from '../../components/styles/FloatRight'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 
-export default function Games() {
+export default function BusinessEntities() {
   const query = graphql`
-    query GamesQuery {
-      listGames {
+    query BusinessEntitiesQuery {
+      listBusinessEntities {
         id
         name
       }
@@ -18,27 +18,27 @@ export default function Games() {
   `
 
   return (
-    <MainLayout heading="Games">
-      <CachedLoader entity={'games'} query={query}>
-        <GamesImpl />
+    <MainLayout heading="BusinessEntities">
+      <CachedLoader entity={'businessEntities'} query={query}>
+        <BusinessEntitiesImpl />
       </CachedLoader>
     </MainLayout>
   )
 }
 
-export function GamesImpl() {
-  const data = useCachedData('games')
+export function BusinessEntitiesImpl() {
+  const data = useCachedData('businessEntities')
 
   return (
     <>
       <FloatRight>
         <CreateNewButton />
       </FloatRight>
-      <h2>List of all games</h2>
+      <h2>List of all businessEntities</h2>
       <ul>
-        {data.listGames.map((game) => (
-          <li key={game.id}>
-            <Link to={`/games/${game.id}`}>{game.name}</Link>
+        {data.listBusinessEntities.map((businessEntity) => (
+          <li key={businessEntity.id}>
+            <Link to={`/businessEntities/${businessEntity.id}`}>{businessEntity.name}</Link>
           </li>
         ))}
       </ul>

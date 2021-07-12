@@ -11,6 +11,7 @@ export default class Platform {
 
   @Column()
   @Index({ unique: true })
+  @Field()
   public name: string
 
   @OneToMany(() => Release, (release) => release.platform)

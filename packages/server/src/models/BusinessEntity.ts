@@ -11,6 +11,7 @@ export default class BusinessEntity {
 
   @Column()
   @Index({ unique: true })
+  @Field()
   public name: string
 
   @OneToMany(() => ReleaseRelatedBusinessEntity, (entity) => entity.businessEntity)

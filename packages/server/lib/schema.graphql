@@ -1,9 +1,18 @@
 type Query {
+  listBusinessEntities: [BusinessEntity!]!
+  businessEntity(businessEntityId: String!): BusinessEntity!
   listGames: [Game!]!
   game(gameId: String!): Game!
   isNameAvailable(type: String!, name: String!): Boolean!
+  listPlatforms: [Platform!]!
+  platform(platformId: String!): Platform!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
+}
+
+type BusinessEntity {
+  id: String!
+  name: String!
 }
 
 type Game {
@@ -12,10 +21,17 @@ type Game {
   nameLower: String!
 }
 
+type Platform {
+  id: String!
+  name: String!
+}
+
 type TestEntity {
   id: String!
 }
 
 type Mutation {
+  createBusinessEntity(name: String!): BusinessEntity!
   createGame(name: String!): Game!
+  createPlatform(name: String!): Platform!
 }

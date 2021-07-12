@@ -11,7 +11,7 @@ import AvailabilityChecker from './AvailabilityChecker'
 interface Props {
   onValidate?(name: string): Promise<string | null>
   onSubmit(name: string): Promise<void>
-  entityType: 'game'
+  entityType: 'game' | 'platform' | 'businessEntity'
 }
 
 const AbsoluteLoadingIndicator = styled(LoadingIndicator)`
