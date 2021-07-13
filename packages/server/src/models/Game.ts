@@ -12,6 +12,7 @@ export default class Game {
     if (name !== undefined) {
       this.name = name
       this.nameLower = name.toLowerCase()
+      this.sortName = name.toLowerCase()
     }
   }
 
@@ -26,6 +27,10 @@ export default class Game {
   @Index({ unique: true })
   @Column()
   public nameLower: string
+
+  @Field()
+  @Column()
+  public sortName: string
 
   @OneToMany(() => Sequel, (sequel) => sequel.predecessor)
   public sequels: Promise<Sequel[]>

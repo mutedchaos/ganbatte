@@ -3,8 +3,10 @@ import React, { useContext } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/CachedLoader'
+import Editable from '../../../components/misc/Editable'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
+import GameDetailEditor from './GameDetailEditor'
 
 export default function GameView() {
   const gameId = useContext(routePropContext).gameId as string
@@ -29,5 +31,9 @@ export default function GameView() {
 
 export function GameViewImpl() {
   const data = useCachedData('game')
-  return <h2>{data.game.name}</h2>
+  return (
+    <Editable editor={<GameDetailEditor />}>
+      <h2>{data.game.name}</h2>
+    </Editable>
+  )
 }

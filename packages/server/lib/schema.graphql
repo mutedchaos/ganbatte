@@ -18,7 +18,7 @@ type BusinessEntity {
 type Game {
   id: String!
   name: String!
-  nameLower: String!
+  sortName: String!
 }
 
 type Platform {
@@ -33,5 +33,10 @@ type TestEntity {
 type Mutation {
   createBusinessEntity(name: String!): BusinessEntity!
   createGame(name: String!): Game!
+  updateGame(data: GameUpdate!, id: String!): Game!
   createPlatform(name: String!): Platform!
+}
+
+input GameUpdate {
+  name: String!
 }

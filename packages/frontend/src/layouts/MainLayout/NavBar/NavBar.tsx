@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import AppTitle from './AppTitle'
+import EditorLock from './EditorLock'
 import NavBarLink from './NavBarLink'
 
 const Nav = styled.nav`
@@ -22,6 +23,7 @@ export default function NavBar() {
       <NavBarLink to="/businessEntities">Business entities</NavBarLink>
 
       <Spacer />
+      <EditorLock />
       <AppTitle />
     </Nav>
   )
