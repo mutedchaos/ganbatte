@@ -15,9 +15,11 @@ export default class Release {
   public id: string
 
   @Column()
+  @Field()
   public specifier: string
 
   @Column({ type: Date, nullable: true })
+  @Field(() => Date, { nullable: true })
   public releaseDate: Date | null
 
   @JoinColumn({ name: 'game' })
@@ -36,6 +38,7 @@ export default class Release {
   @ManyToOne(() => Platform, (platform) => platform.releases)
   public lazyPlatform: Promise<Platform | null>
 
+  @Field(() => Platform)
   public get platform() {
     return this.lazyPlatform
   }

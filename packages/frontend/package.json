@@ -26,7 +26,7 @@
     "start": "concurrently \"npm run dev\" \"npm run relay-compiler-watch\"",
     "relay-compiler": "relay-compiler --language typescript --extensions ts tsx",
     "relay-compiler-watch": "npm run relay-compiler -- --watch",
-    "update": "cd ../server && npm run export-schema && cp lib/schema.graphql ../frontend && cd - && npm run relay-compiler",
+    "update": "cd ../server && npm run export-schema && cp lib/schema.graphql ../frontend && cd - && npm run relay-compiler -- --customScalars.DateTime=String",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

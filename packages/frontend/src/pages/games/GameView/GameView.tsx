@@ -20,6 +20,11 @@ export default function GameView() {
         sortName
         releases {
           id
+          specifier
+          releaseDate
+          platform {
+            name
+          }
         }
       }
     }

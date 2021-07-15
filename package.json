@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "lerna run lint",
     "tsc": "lerna run tsc",
+    "update": "lerna run update",
     "prettier": "prettier --write $(find packages/server/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json') $(find packages/frontend/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json')"
   },
   "author": "",

@@ -11,8 +11,11 @@ async function run() {
   const schema2 = await buildSchema({
     resolvers,
   })
-
-  await fs.promises.writeFile(__dirname + '/../lib/schema.graphql', printSchema(schema2), 'utf-8')
+  const dir = __dirname + '/../lib'
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir)
+  }
+  await fs.promises.writeFile(dir + '/schema.graphql', printSchema(schema2), 'utf-8')
 }
 
 run().catch((err) => {

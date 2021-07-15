@@ -25,14 +25,22 @@ type Game {
 
 type Release {
   id: String!
+  specifier: String!
+  releaseDate: DateTime
+  platform: Platform!
 }
 
-type NameIdPair {
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Platform {
   id: String!
   name: String!
 }
 
-type Platform {
+type NameIdPair {
   id: String!
   name: String!
 }
@@ -67,8 +75,3 @@ input CreateRelease {
   specifier: String!
   releaseDate: DateTime
 }
-
-"""
-The javascript `Date` as string. Type represents date and time as the ISO Date string.
-"""
-scalar DateTime

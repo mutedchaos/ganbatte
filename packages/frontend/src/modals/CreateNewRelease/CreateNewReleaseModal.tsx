@@ -56,6 +56,7 @@ export default function CreateNewReleaseModal({ onClose }: Props) {
           data: {
             gameId: game.id,
             ...state,
+            releaseDate: state.releaseDate?.toISOString(),
             publisher: state.publisher?.trim() || null,
             developer: state.publisher?.trim() || null,
           },
