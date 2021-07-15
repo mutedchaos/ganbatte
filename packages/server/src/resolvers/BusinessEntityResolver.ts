@@ -1,13 +1,14 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql'
 
 import BusinessEntity from '../models/BusinessEntity'
 import { businessEntityRepository } from '../repositories'
+import { Role } from '../services/roles'
 
 @Resolver()
 export class BusinessEntityResolver {
   @Mutation(() => BusinessEntity)
+  @Authorized(Role.DATA_MANAGER)
   async createBusinessEntity(@Arg('name') name: string) {
-    // TODO: authorization
     const businessEntity = new BusinessEntity(name)
     await businessEntityRepository.save(businessEntity)
     return businessEntity

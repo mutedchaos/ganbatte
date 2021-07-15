@@ -1,4 +1,4 @@
-import { Arg, Field, InputType, Mutation, Resolver } from 'type-graphql'
+import { Arg, Authorized, Field, InputType, Mutation, Resolver } from 'type-graphql'
 
 import Game from '../models/Game'
 import Release from '../models/Release'
@@ -10,6 +10,7 @@ import {
   releaseRepository,
 } from '../repositories'
 import getBusinessEntityPossiblyCreatingOne from '../services/businessEntities/getBusinessEntityPossiblyCreatingOne'
+import { Role } from '../services/roles'
 
 @InputType()
 class CreateRelease {
@@ -30,6 +31,7 @@ class CreateRelease {
 
 @Resolver()
 export class ReleaseResolver {
+  @Authorized(Role.DATA_MANAGER)
   @Mutation(() => Game)
   async createReleases(@Arg('data') data: CreateRelease) {
     const publisher = data.publisher && (await getBusinessEntityPossiblyCreatingOne(data.publisher))

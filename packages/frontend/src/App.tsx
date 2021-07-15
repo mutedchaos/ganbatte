@@ -9,6 +9,7 @@ import { ModalProvider } from './contexts/modal'
 import { ConfirmationPopupProvider } from './contexts/useConfirmationPopup'
 import { GlobalStyles } from './GlobalStyles'
 import SuggestSavingChanges from './layouts/SuggestSavingChanges/SuggestSavingChanges'
+import Authentication from './pages/authentication/Authentication'
 import Router from './Router'
 
 // import { graphql } from 'babel-plugin-relay/macro'
@@ -19,16 +20,18 @@ function App() {
       <GlobalStyles />
       <ConfirmationPopupProvider>
         <ModalProvider>
-          <AppData>
-            <DataCacheProvider>
-              <EditorLockProvider>
-                <GlobalEditProvider>
-                  <SuggestSavingChanges />
-                  <Router />
-                </GlobalEditProvider>
-              </EditorLockProvider>
-            </DataCacheProvider>
-          </AppData>
+          <Authentication>
+            <AppData>
+              <DataCacheProvider>
+                <EditorLockProvider>
+                  <GlobalEditProvider>
+                    <SuggestSavingChanges />
+                    <Router />
+                  </GlobalEditProvider>
+                </EditorLockProvider>
+              </DataCacheProvider>
+            </AppData>
+          </Authentication>
         </ModalProvider>
       </ConfirmationPopupProvider>
       <GlobalErrors />

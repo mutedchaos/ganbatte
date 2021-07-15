@@ -9,6 +9,7 @@ import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
 import GameView from './pages/games/GameView/GameView'
 import Home from './pages/home/Home'
+import Me from './pages/me/Me'
 import CreateNewPlatform from './pages/platforms/CreateNewPlatform'
 import Platforms from './pages/platforms/Platforms'
 import PlatformView from './pages/platforms/PlatformView/PlatformView'
@@ -25,6 +26,7 @@ export default function Router() {
   return (
     <ReachRouter>
       <ReachDestination path="/" jsx={<Home />} />
+      <ReachDestination path="/me" jsx={<Me />} />
 
       <ReachDestination path="/games" jsx={<Games />} />
       <ReachDestination path="/games/-/create" jsx={<CreateNewGame />} />

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { headings } from '../../components/headings'
 import { Modals } from '../../contexts/modal'
-import NavBar from './NavBar/NavBar'
+import { PlaceholderNavBar } from './NavBar/NavBar'
 
 interface Props {
   heading: string
@@ -14,10 +14,10 @@ const Body = styled.div`
   padding: 20px;
 `
 
-export default function MainLayout({ children, heading }: Props) {
+export default function SimpleLayout({ children, heading }: Props) {
   return (
     <div>
-      <NavBar />
+      <PlaceholderNavBar />
       <headings.Page>{heading}</headings.Page>
       <Body>
         <Modals>

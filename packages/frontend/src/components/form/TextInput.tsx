@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react'
 
-interface Props<TField extends string> {
+type Props<TField extends string> = {
   value: string
   field: TField
 
   onUpdate(update: { [key in TField]: string }): void
-}
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
 
-export default function TextInput<TField extends string>({ value, onUpdate, field }: Props<TField>) {
+export default function TextInput<TField extends string>({ value, onUpdate, field, ...otherProps }: Props<TField>) {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
@@ -16,5 +16,5 @@ export default function TextInput<TField extends string>({ value, onUpdate, fiel
     [field, onUpdate]
   )
 
-  return <input value={value} onChange={handleChange} />
+  return <input value={value} onChange={handleChange} {...otherProps} />
 }

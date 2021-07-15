@@ -21,9 +21,17 @@ export default function NavBar() {
       <NavBarLink to="/games">Games</NavBarLink>
       <NavBarLink to="/platforms">Platforms</NavBarLink>
       <NavBarLink to="/businessEntities">Business entities</NavBarLink>
-
+      <NavBarLink to="/me">Me</NavBarLink>
       <Spacer />
       <EditorLock />
+      <AppTitle />
+    </Nav>
+  )
+}
+
+export function PlaceholderNavBar() {
+  return (
+    <Nav>
       <AppTitle />
     </Nav>
   )

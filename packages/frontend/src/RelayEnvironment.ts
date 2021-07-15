@@ -1,5 +1,13 @@
 import { Environment, FetchFunction, Network, RecordSource, Store } from 'relay-runtime'
+
 import { addGlobalError } from './components/GlobalErrors'
+
+let token = localStorage.getItem('gan-token')
+
+export function forgetToken() {
+  token = ''
+  localStorage.removeItem('gan-token')
+}
 
 const fetchGraphQL = async (text: string | null | undefined, variables: any) => {
   // Fetch data from GitHub's GraphQL API:
@@ -7,6 +15,7 @@ const fetchGraphQL = async (text: string | null | undefined, variables: any) => 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token ? 'Bearer ' + token : 'None',
     },
     body: JSON.stringify({
       query: text,
@@ -14,8 +23,15 @@ const fetchGraphQL = async (text: string | null | undefined, variables: any) => 
     }),
   })
 
+  if (response.status === 401) document.location.reload()
+  const newToken = response.headers.get('x-new-token')
+  if (newToken) {
+    token = newToken
+    localStorage.setItem('gan-token', newToken)
+  }
   // Get the response as JSON
   const json = await response.json()
+
   if ('errors' in json) {
     for (const error of json.errors) {
       addGlobalError(error)

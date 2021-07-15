@@ -1,7 +1,9 @@
-import { Arg, Directive, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Directive, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql'
 import { Like, Repository } from 'typeorm'
 
+import User from '../models/User'
 import { repositoryByName } from '../repositories'
+import { Role } from '../services/roles'
 
 @ObjectType()
 class DeletedIdContainer {
@@ -23,6 +25,12 @@ class NameIdPair {
     this.id = id
     this.name = name
   }
+}
+
+@ObjectType()
+class CurrentUser {
+  @Field(() => User, { nullable: true })
+  user: User | null
 }
 
 type EntityType<T extends Repository<any>> = T extends Repository<infer U> ? U : never
@@ -53,6 +61,7 @@ export class MiscResolver {
     return entities.map((e) => new NameIdPair(e.id, e.name))
   }
 
+  @Authorized(Role.DATA_MANAGER)
   @Mutation(() => DeletedIdContainer)
   async deleteEntity(@Arg('type', () => String) type: ValidType, @Arg('id') id: string) {
     const repository: Repository<Unspecified> = repositoryByName[type]
@@ -60,5 +69,18 @@ export class MiscResolver {
     await repository.delete({ id })
 
     return new DeletedIdContainer(id)
+  }
+
+  @Query(() => CurrentUser)
+  async getAuthenticatedUser(@Ctx() context: { user: User | null }) {
+    return Object.assign(new CurrentUser(), {
+      user: context.user,
+    })
+  }
+
+  @Authorized()
+  @Query(() => User)
+  async me(@Ctx() context: { user: User | null }) {
+    return context.user
   }
 }

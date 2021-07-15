@@ -5,6 +5,8 @@ type Query {
   game(gameId: String!): Game!
   isNameAvailable(type: String!, name: String!): Boolean!
   getAutocompleteSuggestions(type: String!, query: String!): [NameIdPair!]!
+  getAuthenticatedUser: CurrentUser!
+  me: User!
   listPlatforms: [Platform!]!
   platform(platformId: String!): Platform!
   testEntity(id: String!): TestEntity!
@@ -45,17 +47,34 @@ type NameIdPair {
   name: String!
 }
 
+type CurrentUser {
+  user: User
+}
+
+type User {
+  id: String!
+  username: String!
+  role: String!
+}
+
 type TestEntity {
   id: String!
 }
 
 type Mutation {
+  login(password: String!, username: String!): AuthResponse!
+  createAccount(password: String!, username: String!): AuthResponse!
   createBusinessEntity(name: String!): BusinessEntity!
   createGame(name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
   createReleases(data: CreateRelease!): Game!
+}
+
+type AuthResponse {
+  success: Boolean!
+  errorMessage: String
 }
 
 input GameUpdate {

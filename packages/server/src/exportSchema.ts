@@ -10,6 +10,9 @@ import { resolvers } from './resolvers'
 async function run() {
   const schema2 = await buildSchema({
     resolvers,
+    authChecker() {
+      return true
+    },
   })
   const dir = __dirname + '/../lib'
   if (!fs.existsSync(dir)) {

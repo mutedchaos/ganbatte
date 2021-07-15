@@ -1,13 +1,14 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql'
 
 import Platform from '../models/Platform'
 import { platformRepository } from '../repositories'
+import { Role } from '../services/roles'
 
 @Resolver()
 export class PlatformResolver {
+  @Authorized(Role.DATA_MANAGER)
   @Mutation(() => Platform)
   async createPlatform(@Arg('name') name: string) {
-    // TODO: authorization
     const platform = new Platform(name)
       await platformRepository.save(platform)
     return platform
