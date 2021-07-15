@@ -1,4 +1,6 @@
+import { graphql } from 'babel-plugin-relay/macro'
 import React, { useCallback, useReducer } from 'react'
+import { useMutation } from 'react-relay'
 
 import { useCachedData } from '../../common/CachedDataProvider'
 import DateInput from '../../components/form/DateInput'
@@ -9,6 +11,7 @@ import { headings } from '../../components/headings'
 import FormControls from '../../components/misc/FormControls'
 import { ModalProps } from '../../contexts/modal'
 import { Validateable } from '../../contexts/Validation'
+import { CreateNewReleaseModalMutation } from './__generated__/CreateNewReleaseModalMutation.graphql'
 import PlatformCheckboxes from './PlatformCheckboxes'
 
 type Props = ModalProps
@@ -30,16 +33,40 @@ const initialState: State = {
 }
 
 export default function CreateNewReleaseModal({ onClose }: Props) {
+  const [mutate] = useMutation<CreateNewReleaseModalMutation>(graphql`
+    mutation CreateNewReleaseModalMutation($data: CreateRelease!) {
+      createReleases(data: $data) {
+        id
+        releases {
+          id
+        }
+      }
+    }
+  `)
+
   const { game } = useCachedData('game')
+
+  const [state, updateState] = useReducer((state: State, mods: Partial<State>) => ({ ...state, ...mods }), initialState)
+
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      onClose() // TODO: actually submit
+      mutate({
+        variables: {
+          data: {
+            gameId: game.id,
+            ...state,
+            publisher: state.publisher?.trim() || null,
+            developer: state.publisher?.trim() || null,
+          },
+        },
+        onCompleted() {
+          onClose()
+        },
+      })
     },
-    [onClose]
+    [game.id, mutate, onClose, state]
   )
-
-  const [state, updateState] = useReducer((state: State, mods: Partial<State>) => ({ ...state, ...mods }), initialState)
 
   return (
     <form onSubmit={handleSubmit}>

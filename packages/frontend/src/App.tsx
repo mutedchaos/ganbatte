@@ -2,6 +2,7 @@ import React from 'react'
 
 import AppData from './AppData'
 import { DataCacheProvider } from './common/CachedDataProvider'
+import GlobalErrors from './components/GlobalErrors'
 import { GlobalEditProvider } from './contexts/ActiveEditingContext'
 import { EditorLockProvider } from './contexts/EditorLockContext'
 import { ModalProvider } from './contexts/modal'
@@ -30,6 +31,7 @@ function App() {
           </AppData>
         </ModalProvider>
       </ConfirmationPopupProvider>
+      <GlobalErrors />
     </div>
   )
 }

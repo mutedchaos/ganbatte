@@ -1,8 +1,7 @@
-import { Arg, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
-
+import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql'
 import Game from '../models/Game'
-import Release from '../models/Release'
 import { gameRepository } from '../repositories'
+
 
 @InputType()
 export class GameUpdate implements Partial<Game> {

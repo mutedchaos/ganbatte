@@ -47,6 +47,7 @@ type Mutation {
   updateGame(data: GameUpdate!, id: String!): Game!
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
+  createReleases(data: CreateRelease!): Game!
 }
 
 input GameUpdate {
@@ -57,3 +58,17 @@ input GameUpdate {
 type DeletedIdContainer {
   id: String!
 }
+
+input CreateRelease {
+  gameId: String!
+  developer: String
+  publisher: String
+  platforms: [String!]!
+  specifier: String!
+  releaseDate: DateTime
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime

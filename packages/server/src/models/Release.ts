@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql'
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import Game from './Game'
 import GameOwnership from './GameOwnership'
@@ -17,17 +17,32 @@ export default class Release {
   @Column()
   public specifier: string
 
-  @Column()
-  public releaseDate: Date
+  @Column({ type: Date, nullable: true })
+  public releaseDate: Date | null
 
-  @Column()
-  public isSelfPublished: boolean
+  @JoinColumn({ name: 'game' })
+  @ManyToOne(() => Game, (game) => game.releases, { nullable: false })
+  public lazyGame: Promise<Game>
 
-  @ManyToOne(() => Game, (game) => game.releases)
-  public game: Promise<Game>
+  public get game() {
+    return this.lazyGame
+  }
 
+  public set game(game: Game | Promise<Game>) {
+    this.lazyGame = Promise.resolve(game)
+  }
+
+  @JoinColumn({ name: 'platform' })
   @ManyToOne(() => Platform, (platform) => platform.releases)
-  public platform: Promise<Platform>
+  public lazyPlatform: Promise<Platform | null>
+
+  public get platform() {
+    return this.lazyPlatform
+  }
+
+  public set platform(platform: Promise<Platform | null> | Platform | null) {
+    this.lazyPlatform = Promise.resolve(platform)
+  }
 
   @ManyToOne(() => Release, (release) => release.leadTo)
   public basedOn: Promise<Release | null>

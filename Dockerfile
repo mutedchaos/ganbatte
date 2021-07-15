@@ -18,6 +18,7 @@ COPY packages/server/tsconfig.json ./
 COPY packages/server/src/exportSchema.ts ./src/exportSchema.ts
 COPY packages/server/src/repositories.ts ./src/repositories.ts
 COPY packages/server/src/resolvers ./src/resolvers/
+COPY packages/server/src/services ./src/services/
 COPY packages/server/src/models ./src/models/
 RUN mkdir lib && npm run export-schema && cp lib/schema.graphql /lib/schema.graphql
 

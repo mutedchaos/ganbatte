@@ -1,4 +1,5 @@
 import { Environment, FetchFunction, Network, RecordSource, Store } from 'relay-runtime'
+import { addGlobalError } from './components/GlobalErrors'
 
 const fetchGraphQL = async (text: string | null | undefined, variables: any) => {
   // Fetch data from GitHub's GraphQL API:
@@ -14,7 +15,13 @@ const fetchGraphQL = async (text: string | null | undefined, variables: any) => 
   })
 
   // Get the response as JSON
-  return await response.json()
+  const json = await response.json()
+  if ('errors' in json) {
+    for (const error of json.errors) {
+      addGlobalError(error)
+    }
+  }
+  return json
 }
 
 // Relay passes a "params" object with the query name and text. So we define a helper function
