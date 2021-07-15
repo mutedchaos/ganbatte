@@ -6,10 +6,20 @@ interface Props {
   sublabel?: ReactNode
   children: ReactNode
 }
-const Container = styled.div``
-const Label = styled.div``
-const Body = styled.div``
+const Container = styled.div`
+  margin-top: 10px;
+  border-bottom: 1px dotted lightgray;
+  padding-bottom: 10px;
+`
+const Label = styled.div`
+  margin-bottom: 5px;
+`
+const Body = styled.div`
+  margin-left: 10px;
+`
 const Sublabel = styled.div`
+  margin-top: -5px;
+  margin-bottom: 5px;
   font-size: 0.8em;
 `
 
