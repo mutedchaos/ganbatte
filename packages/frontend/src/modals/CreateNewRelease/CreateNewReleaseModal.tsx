@@ -2,6 +2,7 @@ import React, { useCallback, useReducer } from 'react'
 
 import { useCachedData } from '../../common/CachedDataProvider'
 import Labeled from '../../components/form/Labeled'
+import BusinessEntityInput from '../../components/form/specific/AutocompleteInput'
 import { headings } from '../../components/headings'
 import FormControls from '../../components/misc/FormControls'
 import { ModalProps } from '../../contexts/modal'
@@ -22,7 +23,6 @@ const initialState: State = {
   publisher: null,
   releaseDate: null,
   specifier: '',
-  
 }
 
 export default function CreateNewReleaseModal({ onClose }: Props) {
@@ -47,7 +47,7 @@ export default function CreateNewReleaseModal({ onClose }: Props) {
       <Labeled label="Additional information to identify the release">x</Labeled>
       <Labeled label="Release date">x</Labeled>
       <Labeled label="Developer" sublabel="If you need to add many, please do so after creation.">
-        x
+        <BusinessEntityInput value={state.developer} field="developer" onUpdate={updateState} type="businessEntity" />
       </Labeled>
       <Labeled label="Publisher" sublabel="If you need to add many, please do so after creation.">
         x
@@ -56,4 +56,3 @@ export default function CreateNewReleaseModal({ onClose }: Props) {
     </form>
   )
 }
-

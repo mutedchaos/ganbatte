@@ -4,6 +4,7 @@ type Query {
   listGames: [Game!]!
   game(gameId: String!): Game!
   isNameAvailable(type: String!, name: String!): Boolean!
+  getAutocompleteSuggestions(type: String!, query: String!): [NameIdPair!]!
   listPlatforms: [Platform!]!
   platform(platformId: String!): Platform!
   testEntity(id: String!): TestEntity!
@@ -24,6 +25,11 @@ type Game {
 
 type Release {
   id: String!
+}
+
+type NameIdPair {
+  id: String!
+  name: String!
 }
 
 type Platform {
