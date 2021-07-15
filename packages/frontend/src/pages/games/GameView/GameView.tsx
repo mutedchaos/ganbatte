@@ -33,7 +33,7 @@ export default function GameView() {
 export function GameViewImpl() {
   const data = useCachedData('game')
   return (
-    <Editable editor={<GameDetailEditor />}>
+    <Editable key={data.game.id} editor={<GameDetailEditor />}>
       <h2>{data.game.name}</h2>
     </Editable>
   )

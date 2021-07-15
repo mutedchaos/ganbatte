@@ -34,10 +34,15 @@ type Mutation {
   createBusinessEntity(name: String!): BusinessEntity!
   createGame(name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
+  deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
 }
 
 input GameUpdate {
   name: String!
   sortName: String!
+}
+
+type DeletedIdContainer {
+  id: String!
 }

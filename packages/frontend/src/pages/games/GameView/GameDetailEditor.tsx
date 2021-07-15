@@ -3,6 +3,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useMutation } from 'react-relay'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
+import DeleteEntityButton from '../../../common/DeleteEntityButton'
 import mutateAsPromise from '../../../common/mutateAsPromise'
 import trimStrings from '../../../common/trimStrings'
 import Labeled from '../../../components/form/Labeled'
@@ -59,6 +60,13 @@ export default function GameDetailEditor() {
 
   return (
     <>
+      <DeleteEntityButton
+        type="game"
+        id={cachedGame.game.id}
+        typeLabel="Game"
+        entityName={cachedGame.game.id}
+        targetPage="/games"
+      />
       <h1>{cachedGame.game.name}</h1>
       <Labeled label="Name">
         <TextInput value={state.name} field={'name'} onUpdate={updateState} />
