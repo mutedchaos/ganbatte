@@ -12,6 +12,7 @@ import AvailabilityChecker from './AvailabilityChecker'
 interface Props {
   onValidate?(name: string): Promise<string | null>
   onSubmit(name: string): Promise<void>
+  onCancel(): void
   entityType: 'game' | 'platform' | 'businessEntity'
 }
 
@@ -23,7 +24,7 @@ const HiddenSpan = styled.span`
   visibility: hidden;
 `
 
-export default function CreateEntityForm({ onValidate, entityType, onSubmit }: Props) {
+export default function CreateEntityForm({ onValidate, entityType, onSubmit, onCancel }: Props) {
   const [submitting, setSubmitting] = useState(false)
   const [value, setValue] = useState('')
   const [validationStatus, setValidationStatus] = useState(ValidationStatus.Validating)
@@ -76,6 +77,7 @@ export default function CreateEntityForm({ onValidate, entityType, onSubmit }: P
         )}
       </div>
       <FormControls
+        onCancel={onCancel}
         disableSubmit={
           validationStatus !== ValidationStatus.Valid ||
           nameValidationStatus !== ValidationStatus.Valid ||

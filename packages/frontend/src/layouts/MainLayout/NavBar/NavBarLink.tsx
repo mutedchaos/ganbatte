@@ -2,6 +2,8 @@ import { Link, useMatch } from '@reach/router'
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
+import { useIsModalActive } from '../../../contexts/modal'
+
 interface Props {
   to: string
   children: ReactNode
@@ -13,10 +15,17 @@ const Container = styled.div`
   position: relative;
 `
 
-const BaseStyle = styled.div`
+const Common = styled.div`
   background: orange;
   color: black;
   padding: 10px 20px;
+`
+
+const Disabled = styled(Common)`
+  color: gray;
+`
+
+const BaseStyle = styled(Common)`
   transition: background 250ms linear;
   &:hover {
     background: yellow;
@@ -55,19 +64,24 @@ const HideLeft = Hide
 
 export default function NavBarLink({ to, children }: Props) {
   const match = useMatch(to)
+  const isModalActive = useIsModalActive()
 
   return (
     <Container>
       {match && <HideLeft />}
-      <StyledLink to={to} key="link">
-        {!match ? (
-          <DefaultStyle>{children}</DefaultStyle>
-        ) : match.path === to ? (
-          <ActiveStyle>{children}</ActiveStyle>
-        ) : (
-          <PrefixStyle>{children}</PrefixStyle>
-        )}
-      </StyledLink>
+      {isModalActive ? (
+        <Disabled>{children}</Disabled>
+      ) : (
+        <StyledLink to={to} key="link">
+          {!match ? (
+            <DefaultStyle>{children}</DefaultStyle>
+          ) : match.path === to ? (
+            <ActiveStyle>{children}</ActiveStyle>
+          ) : (
+            <PrefixStyle>{children}</PrefixStyle>
+          )}
+        </StyledLink>
+      )}
       <Separator style={{ visibility: match ? 'hidden' : 'visible' }} />
     </Container>
   )

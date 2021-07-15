@@ -2,11 +2,12 @@ import { graphql } from 'babel-plugin-relay/macro'
 import React, { useContext } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
-import { default as CachedLoader } from '../../../common/CachedLoader'
+import { default as CachedLoader } from '../../../common/EnsureLoaded'
 import Editable from '../../../components/misc/Editable'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import GameDetailEditor from './GameDetailEditor'
+import { GameReleases } from './GameReleases'
 
 export default function GameView() {
   const gameId = useContext(routePropContext).gameId as string
@@ -17,6 +18,9 @@ export default function GameView() {
         id
         name
         sortName
+        releases {
+          id
+        }
       }
     }
   `
@@ -33,8 +37,11 @@ export default function GameView() {
 export function GameViewImpl() {
   const data = useCachedData('game')
   return (
-    <Editable key={data.game.id} editor={<GameDetailEditor />}>
-      <h2>{data.game.name}</h2>
-    </Editable>
+    <div key={data.game.id}>
+      <Editable editor={<GameDetailEditor />}>
+        <h2>{data.game.name}</h2>
+      </Editable>
+      <GameReleases />
+    </div>
   )
 }

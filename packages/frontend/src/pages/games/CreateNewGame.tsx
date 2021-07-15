@@ -36,9 +36,13 @@ export default function CreateNewGame() {
     [mutate]
   )
 
+  const returnToList = useCallback(() => {
+    navigate('/games')
+  }, [])
+
   return (
     <MainLayout heading="Create New Game">
-      <CreateEntityForm entityType={'game'} onSubmit={handleSubmit} />
+      <CreateEntityForm entityType={'game'} onSubmit={handleSubmit} onCancel={returnToList} />
     </MainLayout>
   )
 }

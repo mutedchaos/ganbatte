@@ -35,10 +35,14 @@ export default function CreateNewBusinessEntity() {
     },
     [mutate]
   )
+  
+  const returnToList = useCallback(() => {
+    navigate('/businessentities')
+  }, [])
 
   return (
     <MainLayout heading="Create New BusinessEntity">
-      <CreateEntityForm entityType={'businessEntity'} onSubmit={handleSubmit} />
+      <CreateEntityForm entityType={'businessEntity'} onSubmit={handleSubmit} onCancel={returnToList} />
     </MainLayout>
   )
 }

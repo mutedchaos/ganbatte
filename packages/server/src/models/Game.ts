@@ -1,7 +1,10 @@
+import { release } from 'os'
+
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 import GameGenre from './GameGenre'
+import Release from './Release'
 import Review from './Review'
 import Sequel from './Sequel'
 
@@ -43,4 +46,8 @@ export default class Game {
 
   @OneToMany(() => GameGenre, (genre) => genre.game)
   public genres: Promise<GameGenre[]>
+
+  @Field(() => [Release])
+  @OneToMany(() => Release, (release) => release.game)
+  public releases: Promise<Release[]>
 }

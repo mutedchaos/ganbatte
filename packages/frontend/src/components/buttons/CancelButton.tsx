@@ -13,5 +13,5 @@ const MyButton = styled(PlainButton)`
 `
 
 export default function CancelButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <MyButton {...props}>{props.children ?? 'Cancel'}</MyButton>
+  return <MyButton type='button' {...props}>{props.children ?? 'Cancel'}</MyButton>
 }

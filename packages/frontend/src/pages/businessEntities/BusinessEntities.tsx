@@ -3,7 +3,7 @@ import { graphql } from 'babel-plugin-relay/macro'
 import React from 'react'
 
 import { useCachedData } from '../../common/CachedDataProvider'
-import CachedLoader from '../../common/CachedLoader'
+import CachedLoader from '../../common/EnsureLoaded'
 import CreateNewButton from '../../components/buttons/CreateNewButton'
 import FloatRight from '../../components/styles/FloatRight'
 import MainLayout from '../../layouts/MainLayout/MainLayout'

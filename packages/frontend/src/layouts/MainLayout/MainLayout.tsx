@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
 import { headings } from '../../components/headings'
+import { Modals } from '../../contexts/modal'
 import NavBar from './NavBar/NavBar'
 
 interface Props {
@@ -18,7 +19,9 @@ export default function MainLayout({ children, heading }: Props) {
     <div>
       <NavBar />
       <headings.Page>{heading}</headings.Page>
-      <Body>{children}</Body>
+      <Body>
+        <Modals>{children}</Modals>
+      </Body>
     </div>
   )
 }

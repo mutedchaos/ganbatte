@@ -1,6 +1,7 @@
-import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
 
 import Game from '../models/Game'
+import Release from '../models/Release'
 import { gameRepository } from '../repositories'
 
 @InputType()
@@ -12,7 +13,7 @@ export class GameUpdate implements Partial<Game> {
   public sortName?: string
 }
 
-@Resolver()
+@Resolver(() => Game)
 export class GameResolver {
   @Mutation(() => Game)
   async createGame(@Arg('name') name: string) {
@@ -41,4 +42,9 @@ export class GameResolver {
   async game(@Arg('gameId') gameId: string) {
     return await gameRepository.findOne(gameId)
   }
+/*
+  @FieldResolver(() => [Release])
+  async releases(@Root() game: Game) {
+    return await game.releases
+  }*/
 }

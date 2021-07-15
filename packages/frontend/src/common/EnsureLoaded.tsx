@@ -1,9 +1,9 @@
 import React, { ReactNode, useEffect } from 'react'
-import { GraphQLTaggedNode } from 'react-relay'
+import { GraphQLTaggedNode, usePreloadedQuery } from 'react-relay'
 
 import { useAppData, useAppLoaders } from '../AppData'
 import LoadingIndicator from '../components/LoadingIndicator'
-import CachedDataProvider, { CachedEntityType } from './CachedDataProvider'
+import { CachedEntityType, useCachedData, useDataCache } from './CachedDataProvider'
 
 type SupportedEntity = CachedEntityType
 
@@ -30,10 +30,24 @@ export default function EnsureLoaded({ children, entity, id, query }: Props) {
   if (!queryRef) return <LoadingIndicator />
 
   return (
-    <CachedDataProvider entity={entity} query={query}>
+    <Cacher query={query} entity={entity}>
       {children}
-    </CachedDataProvider>
+    </Cacher>
   )
+}
+
+interface CacherProps {
+  children: ReactNode
+  query: GraphQLTaggedNode
+  entity: SupportedEntity
+}
+
+function Cacher({ children, query, entity }: CacherProps) {
+  const data = usePreloadedQuery(query, useAppData()[entity] as any)
+  useDataCache(entity, data as any)
+  const entry = useCachedData(entity)
+  if (!entry) return <LoadingIndicator />
+  return <>{children}</>
 }
 
 function takesNoArg(fn: (() => void) | ((id: string) => void)): fn is () => void {

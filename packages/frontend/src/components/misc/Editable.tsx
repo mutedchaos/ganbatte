@@ -4,7 +4,7 @@ import { useIsEditorLocked } from '../../contexts/EditorLockContext'
 
 interface Props {
   editor: ReactNode
-  children: ReactNode
+  children?: ReactNode
 }
 
 export default function Editable({ children, editor }: Props) {

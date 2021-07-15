@@ -7,6 +7,7 @@ import { SubmitButton } from '../buttons/SubmitButton'
 interface Props {
   disableSubmit?: boolean
   submitLabel: ReactNode
+  onCancel(): void
 }
 
 const Container = styled.div`
@@ -16,11 +17,11 @@ const Container = styled.div`
   }
 `
 
-export default function FormControls({ disableSubmit, submitLabel }: Props) {
+export default function FormControls({ disableSubmit, submitLabel, onCancel }: Props) {
   return (
     <Container>
       <SubmitButton disabled={disableSubmit}>{submitLabel}</SubmitButton>
-      <CancelButton />
+      <CancelButton onClick={onCancel} />
     </Container>
   )
 }

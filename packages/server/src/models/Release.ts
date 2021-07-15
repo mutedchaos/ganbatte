@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
+import Game from './Game'
 import GameOwnership from './GameOwnership'
 import Platform from './Platform'
 import ReleaseRelatedBusinessEntity from './ReleaseRelatedBusinessEntity'
@@ -21,6 +22,9 @@ export default class Release {
 
   @Column()
   public isSelfPublished: boolean
+
+  @ManyToOne(() => Game, (game) => game.releases)
+  public game: Promise<Game>
 
   @ManyToOne(() => Platform, (platform) => platform.releases)
   public platform: Promise<Platform>

@@ -19,6 +19,11 @@ type Game {
   id: String!
   name: String!
   sortName: String!
+  releases: [Release!]!
+}
+
+type Release {
+  id: String!
 }
 
 type Platform {

@@ -35,10 +35,13 @@ export default function CreateNewPlatform() {
     },
     [mutate]
   )
+  const returnToList = useCallback(() => {
+    navigate('/platforms')
+  }, [])
 
   return (
     <MainLayout heading="Create New Platform">
-      <CreateEntityForm entityType={'platform'} onSubmit={handleSubmit} />
+      <CreateEntityForm entityType={'platform'} onSubmit={handleSubmit} onCancel={returnToList} />
     </MainLayout>
   )
 }
