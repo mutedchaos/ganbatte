@@ -2,3 +2,4 @@ node_modules
 docker-compose.override.yml
 .postgres-env
 local
+packages/server/lib
