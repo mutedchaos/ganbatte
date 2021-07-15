@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-
 import { getVaguelyUniqueId } from '../common/useVaguelyUniqueId'
-import FloatRight from './styles/FloatRight'
+
 
 interface MyError {
   message: string
