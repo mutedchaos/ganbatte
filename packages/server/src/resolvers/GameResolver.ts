@@ -7,6 +7,9 @@ import { gameRepository } from '../repositories'
 export class GameUpdate implements Partial<Game> {
   @Field()
   public name?: string
+
+  @Field()
+  public sortName?: string
 }
 
 @Resolver()

@@ -39,4 +39,5 @@ type Mutation {
 
 input GameUpdate {
   name: String!
+  sortName: String!
 }

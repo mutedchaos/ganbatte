@@ -98,8 +98,19 @@ function useGlobalEdit(state: GlobalEditState) {
   }, [globalEdit, key, state])
 }
 
-export function useEditing<TState>(pristineState: TState, onSave: (state: TState) => Promise<void>) {
-  const [state, updateState] = useReducer((old: TState, mod: Partial<TState>) => ({ ...old, ...mod }), pristineState)
+export interface EditingOptions<TState> {
+  customReducer?(state: TState, mod: Partial<TState>): TState
+}
+
+export function useEditing<TState>(
+  pristineState: TState,
+  onSave: (state: TState) => Promise<void>,
+  options?: EditingOptions<TState>
+) {
+  const [state, updateState] = useReducer(
+    options?.customReducer ?? ((old: TState, mod: Partial<TState>) => ({ ...old, ...mod })),
+    pristineState
+  )
 
   const isDirty = useMemo(() => JSON.stringify(state) !== JSON.stringify(pristineState), [pristineState, state])
 

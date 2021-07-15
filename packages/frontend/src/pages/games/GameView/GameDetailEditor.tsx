@@ -4,9 +4,10 @@ import { useMutation } from 'react-relay'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import mutateAsPromise from '../../../common/mutateAsPromise'
+import trimStrings from '../../../common/trimStrings'
 import Labeled from '../../../components/form/Labeled'
 import TextInput from '../../../components/form/TextInput'
-import { useEditing } from '../../../contexts/ActiveEditingContext'
+import { EditingOptions, useEditing } from '../../../contexts/ActiveEditingContext'
 import { GameDetailEditorMutation } from './__generated__/GameDetailEditorMutation.graphql'
 
 export default function GameDetailEditor() {
@@ -15,6 +16,7 @@ export default function GameDetailEditor() {
       updateGame(id: $id, data: $data) {
         id
         name
+        sortName
       }
     }
   `)
@@ -23,8 +25,9 @@ export default function GameDetailEditor() {
   const pristineState = useMemo(
     () => ({
       name: cachedGame.game.name,
+      sortName: cachedGame.game.sortName,
     }),
-    [cachedGame.game.name]
+    [cachedGame.game.name, cachedGame.game.sortName]
   )
 
   const handleSave = useCallback(
@@ -32,20 +35,36 @@ export default function GameDetailEditor() {
       return mutateAsPromise(mutate, {
         variables: {
           id: cachedGame.game.id,
-          data: state,
+          data: trimStrings(state),
         },
       })
     },
     [cachedGame.game.id, mutate]
   )
 
-  const { state, updateState } = useEditing(pristineState, handleSave)
+  const options = useMemo<EditingOptions<typeof pristineState>>(
+    () => ({
+      customReducer(state, mod) {
+        if (mod.name && !mod.sortName && state.sortName === state.name.toLowerCase()) {
+          return { ...state, ...mod, sortName: mod.name.toLowerCase() }
+        } else {
+          return { ...state, ...mod }
+        }
+      },
+    }),
+    []
+  )
+
+  const { state, updateState } = useEditing(pristineState, handleSave, options)
 
   return (
     <>
       <h1>{cachedGame.game.name}</h1>
       <Labeled label="Name">
         <TextInput value={state.name} field={'name'} onUpdate={updateState} />
+      </Labeled>
+      <Labeled label="Sort Name">
+        <TextInput value={state.sortName} field={'sortName'} onUpdate={updateState} />
       </Labeled>
       <div>{JSON.stringify(state)}</div>
     </>

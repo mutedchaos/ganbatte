@@ -16,6 +16,7 @@ export default function GameView() {
       game(gameId: $gameId) {
         id
         name
+        sortName
       }
     }
   `
