@@ -8,6 +8,7 @@ import TextInput from '../../components/form/TextInput'
 import { headings } from '../../components/headings'
 import FormControls from '../../components/misc/FormControls'
 import { ModalProps } from '../../contexts/modal'
+import PlatformCheckboxes from './PlatformCheckboxes'
 
 type Props = ModalProps
 
@@ -43,8 +44,8 @@ export default function CreateNewReleaseModal({ onClose }: Props) {
     <form onSubmit={handleSubmit}>
       <headings.Modal>Create a release</headings.Modal>
       {game.releases.length ? <Labeled label="Based on another release">x</Labeled> : null}
-      <Labeled label={'Platform(s)'} sublabel="Choose at least one">
-        x
+      <Labeled label={'Platform(s)'}>
+        <PlatformCheckboxes value={state.platforms} field="platforms" onUpdate={updateState} />
       </Labeled>
       <Labeled label="Additional information to identify the release">
         <TextInput value={state.specifier} field="specifier" onUpdate={updateState} />

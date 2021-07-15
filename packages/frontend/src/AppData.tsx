@@ -2,6 +2,10 @@ import React, { ReactNode, useContext, useMemo } from 'react'
 import { PreloadedQuery, useQueryLoader } from 'react-relay'
 
 import {
+  EnsurePlatformsAreLoadedQuery,
+  default as EnsurePlatformsAreLoadedQueryImpl,
+} from './components/loaders/__generated__/EnsurePlatformsAreLoadedQuery.graphql'
+import {
   BusinessEntitiesQuery,
   default as BusinessEntitiesQueryImpl,
 } from './pages/businessEntities/__generated__/BusinessEntitiesQuery.graphql'
@@ -11,7 +15,6 @@ import {
 } from './pages/businessEntities/BusinessEntityView/__generated__/BusinessEntityViewQuery.graphql'
 import GamesQueryImpl, { GamesQuery } from './pages/games/__generated__/GamesQuery.graphql'
 import { GameViewQuery, default as GameViewQueryImpl } from './pages/games/GameView/__generated__/GameViewQuery.graphql'
-import { PlatformsQuery, default as PlatformsQueryImpl } from './pages/platforms/__generated__/PlatformsQuery.graphql'
 import {
   PlatformViewQuery,
   default as PlatformViewQueryImpl,
@@ -25,7 +28,7 @@ export interface DataCtx {
   games: PreloadedQuery<GamesQuery> | null | undefined
   game: PreloadedQuery<GameViewQuery> | null | undefined
 
-  platforms: PreloadedQuery<PlatformsQuery> | null | undefined
+  platforms: PreloadedQuery<EnsurePlatformsAreLoadedQuery> | null | undefined
   platform: PreloadedQuery<PlatformViewQuery> | null | undefined
 
   businessEntities: PreloadedQuery<BusinessEntitiesQuery> | null | undefined
@@ -48,7 +51,7 @@ export default function AppData({ children }: Props) {
   const [games, loadGames] = useQueryLoader<GamesQuery>(GamesQueryImpl)
   const [game, loadGame] = useQueryLoader<GameViewQuery>(GameViewQueryImpl)
 
-  const [platforms, loadPlatforms] = useQueryLoader<PlatformsQuery>(PlatformsQueryImpl)
+  const [platforms, loadPlatforms] = useQueryLoader<EnsurePlatformsAreLoadedQuery>(EnsurePlatformsAreLoadedQueryImpl)
   const [platform, loadPlatform] = useQueryLoader<PlatformViewQuery>(PlatformViewQueryImpl)
 
   const [businessEntities, loadBusinessEntities] = useQueryLoader<BusinessEntitiesQuery>(BusinessEntitiesQueryImpl)
