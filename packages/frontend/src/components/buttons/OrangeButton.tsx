@@ -3,9 +3,9 @@ import { ThemeProvider } from 'styled-components'
 
 import { ChildrenOnlyProps } from '../../common/ChildrenOnlyProps'
 import { orangeTheme } from '../../theme'
-import NiftyButton, { NiftyButtonVisual } from './NiftyButton'
+import NiftyButton, { NiftyButtonProps, NiftyButtonVisual } from './NiftyButton'
 
-export default function OrangeButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function OrangeButton(props: NiftyButtonProps) {
   return (
     <ThemeProvider theme={orangeTheme}>
       <NiftyButton {...props} />

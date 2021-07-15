@@ -5,6 +5,7 @@ interface Props {
   label: ReactNode
   sublabel?: ReactNode
   children: ReactNode
+  required?: boolean
 }
 const Container = styled.div`
   margin-top: 10px;
@@ -23,10 +24,17 @@ const Sublabel = styled.div`
   font-size: 0.8em;
 `
 
-export default function Labeled({ label, children, sublabel }: Props) {
+const Required = styled.span`
+  color: red;
+`
+
+export default function Labeled({ label, children, sublabel, required }: Props) {
   return (
     <Container>
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && <Required>*</Required>}
+      </Label>
       {sublabel && <Sublabel>{sublabel}</Sublabel>}
       <Body>{children}</Body>
     </Container>

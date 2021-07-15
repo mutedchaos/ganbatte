@@ -1,11 +1,11 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
+
 import { ChildrenOnlyProps } from '../../common/ChildrenOnlyProps'
 import { redTheme } from '../../theme'
-import NiftyButton, { NiftyButtonVisual } from './NiftyButton'
+import NiftyButton, { NiftyButtonProps, NiftyButtonVisual } from './NiftyButton'
 
-
-export default function RedButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function RedButton(props: NiftyButtonProps) {
   return (
     <ThemeProvider theme={redTheme}>
       <NiftyButton {...props} />

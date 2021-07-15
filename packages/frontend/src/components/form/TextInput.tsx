@@ -1,13 +1,32 @@
+import { valuesIn } from 'lodash'
 import React, { useCallback } from 'react'
+import styled, { css } from 'styled-components'
+
+import { useValidation } from '../../contexts/Validation'
 
 type Props<TField extends string> = {
   value: string
   field: TField
 
   onUpdate(update: { [key in TField]: string }): void
+  onValidate?(value: string): boolean
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
 
-export default function TextInput<TField extends string>({ value, onUpdate, field, ...otherProps }: Props<TField>) {
+const Input = styled.input<{ isValid: boolean }>`
+  ${({ isValid }) =>
+    !isValid &&
+    css`
+      outline: 1px solid red;
+    `}
+`
+
+export default function TextInput<TField extends string>({
+  value,
+  onUpdate,
+  field,
+  onValidate,
+  ...otherProps
+}: Props<TField>) {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
@@ -16,5 +35,8 @@ export default function TextInput<TField extends string>({ value, onUpdate, fiel
     [field, onUpdate]
   )
 
-  return <input value={value} onChange={handleChange} {...otherProps} />
+  const isValid = (!otherProps.required || !!value.trim()) && (onValidate?.(value) ?? true)
+  useValidation(isValid)
+
+  return <Input isValid={isValid} value={value} onChange={handleChange} {...otherProps} />
 }

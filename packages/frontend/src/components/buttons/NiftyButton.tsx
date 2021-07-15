@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
+import { useIsFailingValidation } from '../../contexts/Validation'
 
 import { ButtonVisual } from './base'
 import { PlainButton } from './PlainButton'
@@ -26,19 +27,24 @@ const Visual = styled(ButtonVisual)`
   }
   transition: background-color 100ms linear, box-shadow 100ms linear, transform 100ms linear; ;
 `
-interface Props {
+interface VisualProps {
   children: ReactNode
 }
 
-export function NiftyButtonVisual({ children }: Props) {
+export function NiftyButtonVisual({ children }: VisualProps) {
   return <Visual>{children}</Visual>
 }
 
-export default function NiftyButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  const { children, ...otherProps } = props
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & { validated?: boolean }
+export type NiftyButtonProps = Props
+
+export default function NiftyButton(props: Props) {
+  const { children, validated, ...otherProps } = props
+
+  const isInvalid = useIsFailingValidation()
 
   return (
-    <PlainButton {...otherProps}>
+    <PlainButton {...otherProps} disabled={otherProps.disabled || (validated && isInvalid)}>
       <NiftyButtonVisual>{children}</NiftyButtonVisual>
     </PlainButton>
   )
