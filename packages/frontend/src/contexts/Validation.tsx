@@ -57,7 +57,10 @@ export function useValidation(isValid: boolean) {
   const key = useVaguelyUniqueId()
 
   useEffect(() => {
-    if (!control) throw new Error('Validation not set up')
+    if (!control) {
+      if (isValid) return
+      throw new Error('Validation not set up')
+    }
     control.register(key, isValid)
     return () => {
       control.unregister(key)
