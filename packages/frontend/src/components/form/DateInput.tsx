@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { asDate, intepreteDate } from '../../common/dateUtils'
+import { useValidation } from '../../contexts/Validation'
 
 interface Props<TField extends string> {
   value: Date | null
@@ -26,15 +27,18 @@ export default function DateInput<TField extends string>({ value, onUpdate, fiel
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
       setTempValue(newValue)
-      onUpdate({ [field]: asDate(newValue) } as { [key in TField]: Date | null })
+      const newDate = asDate(newValue)
+      onUpdate({ [field]: newDate && isNaN(newDate?.valueOf()) ? null : newDate } as { [key in TField]: Date | null })
     },
     [field, onUpdate]
   )
 
+  const isValid = parsed.value === tempValue.toUpperCase() || !tempValue
+  useValidation(isValid)
+
   return (
     <>
-      <Input isValid={parsed.value === tempValue.toUpperCase()} value={tempValue} onChange={handleChange} />{' '}
-      {parsed.formatted}
+      <Input isValid={isValid} value={tempValue} onChange={handleChange} /> {parsed.formatted}
     </>
   )
 }

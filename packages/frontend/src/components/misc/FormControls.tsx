@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
+import { useIsFailingValidation } from '../../contexts/Validation'
 import CancelButton from '../buttons/CancelButton'
 import { SubmitButton } from '../buttons/SubmitButton'
 
@@ -18,9 +19,10 @@ const Container = styled.div`
 `
 
 export default function FormControls({ disableSubmit, submitLabel, onCancel }: Props) {
+  const isFailingValidation = useIsFailingValidation()
   return (
     <Container>
-      <SubmitButton disabled={disableSubmit}>{submitLabel}</SubmitButton>
+      <SubmitButton disabled={disableSubmit || isFailingValidation}>{submitLabel}</SubmitButton>
       <CancelButton onClick={onCancel} />
     </Container>
   )
