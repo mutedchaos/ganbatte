@@ -48,8 +48,10 @@ export default class Release {
   }
 
   @ManyToOne(() => Release, (release) => release.leadTo)
+  @Field(() => Release, { nullable: true })
   public basedOn: Promise<Release | null>
 
+  @Field(() => [Release])
   @OneToMany(() => Release, (release) => release.basedOn)
   public leadTo: Promise<Release[]>
 
@@ -59,6 +61,7 @@ export default class Release {
   @OneToMany(() => GameOwnership, (ownership) => ownership.release)
   public owners: Promise<GameOwnership[]>
 
-  @OneToMany(() => ReleaseRelatedBusinessEntity, (entity) => entity.release)
+  @OneToMany(() => ReleaseRelatedBusinessEntity, (entity) => entity.lazyRelease)
+  @Field(() => [ReleaseRelatedBusinessEntity])
   public businessEntities: Promise<ReleaseRelatedBusinessEntity[]>
 }

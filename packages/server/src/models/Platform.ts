@@ -25,6 +25,6 @@ export default class Platform {
   @Index({ unique: true })
   public nameLower: string
 
-  @OneToMany(() => Release, (release) => release.platform)
+  @OneToMany(() => Release, (release) => release.lazyPlatform)
   public releases: Promise<Release[]>
 }

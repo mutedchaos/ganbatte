@@ -61,6 +61,11 @@ async function run() {
       allowedHeaders: ['Content-Type', 'Authorization'],
       exposedHeaders: ['x-new-token'],
     },
+    formatError(error) {
+      const { originalError } = error
+      console.error(originalError?.stack)
+      return error
+    },
   })
   await server.listen(3000)
 

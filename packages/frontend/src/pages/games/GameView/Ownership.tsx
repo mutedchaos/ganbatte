@@ -2,7 +2,7 @@ import { graphql } from 'babel-plugin-relay/macro'
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-relay'
 
-import TypedValueSelect, { StringLabeledOption } from '../../../forms/TypedValueSelect'
+import TypedValueSelect, { StringLabeledOption } from '../../../components/form/TypedValueSelect'
 import { GameViewQueryResponse } from './__generated__/GameViewQuery.graphql'
 import { OwnershipMutation, OwnershipType } from './__generated__/OwnershipMutation.graphql'
 

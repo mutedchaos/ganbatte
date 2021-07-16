@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Field, FieldResolver, InputType, Mutation, Resolver, Root } from 'type-graphql'
+import { Arg, Authorized, Ctx, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { v4 as uuid } from 'uuid'
 
 import Game from '../models/Game'
@@ -36,6 +36,13 @@ class CreateRelease {
 
 @Resolver(() => Release)
 export class ReleaseResolver {
+  @Query(() => Release)
+  async getRelease(@Arg('id') id: string) {
+    const release = releaseRepository.findOne(id)
+    if (!release) throw new Error('Release not found')
+    return release
+  }
+
   @Authorized(Role.DATA_MANAGER)
   @Mutation(() => Game)
   async createReleases(@Arg('data') data: CreateRelease) {

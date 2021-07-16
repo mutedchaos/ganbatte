@@ -9,6 +9,7 @@ type Query {
   me: User!
   listPlatforms: [Platform!]!
   platform(platformId: String!): Platform!
+  getRelease(id: String!): Release!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
 }
@@ -30,6 +31,9 @@ type Release {
   specifier: String!
   releaseDate: DateTime
   platform: Platform!
+  basedOn: Release
+  leadTo: [Release!]!
+  businessEntities: [ReleaseRelatedBusinessEntity!]!
   ownership: GameOwnership!
 }
 
@@ -41,6 +45,18 @@ scalar DateTime
 type Platform {
   id: String!
   name: String!
+}
+
+type ReleaseRelatedBusinessEntity {
+  id: String!
+  roleDescription: String!
+  role: ReleaseEntityRole!
+  businessEntity: BusinessEntity!
+}
+
+enum ReleaseEntityRole {
+  Developer
+  Publisher
 }
 
 type GameOwnership {

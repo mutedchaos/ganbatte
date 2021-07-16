@@ -25,6 +25,6 @@ export default class BusinessEntity {
   @Index({ unique: true })
   public nameLower: string
 
-  @OneToMany(() => ReleaseRelatedBusinessEntity, (entity) => entity.businessEntity)
+  @OneToMany(() => ReleaseRelatedBusinessEntity, (entity) => entity.lazyBusinessEntity)
   public releases: Promise<ReleaseRelatedBusinessEntity[]>
 }
