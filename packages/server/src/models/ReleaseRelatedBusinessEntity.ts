@@ -27,7 +27,7 @@ export default class ReleaseRelatedBusinessEntity {
   public role: ReleaseEntityRole
 
   @JoinColumn({ name: 'release' })
-  @ManyToOne(() => Release, (release) => release.businessEntities, { nullable: false })
+  @ManyToOne(() => Release, (release) => release.businessEntities, { nullable: false, onDelete: 'CASCADE' })
   public lazyRelease: Promise<Release>
 
   public get release() {

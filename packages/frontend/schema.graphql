@@ -115,7 +115,7 @@ input GameUpdate {
 }
 
 type DeletedIdContainer {
-  id: String!
+  entityId: ID!
 }
 
 input CreateRelease {

@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Directive, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Field, ID, Mutation, ObjectType, Query, Resolver } from 'type-graphql'
 import { Like, Repository } from 'typeorm'
 
 import User from '../models/User'
@@ -7,12 +7,11 @@ import { Role } from '../services/roles'
 
 @ObjectType()
 class DeletedIdContainer {
-  @Directive('@deleteRecord')
-  @Field()
-  public id: string
+  @Field(() => ID)
+  public entityId: string
 
   constructor(id: string) {
-    this.id = id
+    this.entityId = id
   }
 }
 

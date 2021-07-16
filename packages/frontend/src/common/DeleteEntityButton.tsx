@@ -3,19 +3,19 @@ import { graphql } from 'babel-plugin-relay/macro'
 import React, { useCallback } from 'react'
 import { useMutation } from 'react-relay'
 import styled from 'styled-components'
+
 import { RedButtonVisual } from '../components/buttons/RedButton'
 import FloatRight from '../components/styles/FloatRight'
 import { useConfirmationPopup } from '../contexts/useConfirmationPopup'
-import CancelledError from './CancelledError'
 import { DeleteEntityButtonMutation } from './__generated__/DeleteEntityButtonMutation.graphql'
-
+import CancelledError from './CancelledError'
 
 interface Props {
-  type: 'game'
+  type: 'game' | 'release'
   typeLabel: string
   id: string
   entityName: string
-  targetPage: string
+  targetPage?: string
 }
 const Button = styled.button`
   background: none;
@@ -35,7 +35,7 @@ export default function DeleteEntityButton({ id, typeLabel, type, entityName, ta
   const [mutate] = useMutation<DeleteEntityButtonMutation>(graphql`
     mutation DeleteEntityButtonMutation($type: String!, $id: String!) {
       deleteEntity(id: $id, type: $type) {
-        id
+        entityId @deleteRecord
       }
     }
   `)
@@ -58,7 +58,9 @@ export default function DeleteEntityButton({ id, typeLabel, type, entityName, ta
         mutate({
           variables: { type, id },
           onCompleted() {
-            navigate(targetPage)
+            if (targetPage) {
+              navigate(targetPage)
+            }
           },
         })
       },

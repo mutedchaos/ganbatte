@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useLazyLoadQuery } from 'react-relay'
 import styled from 'styled-components'
 
+import DeleteEntityButton from '../../../../common/DeleteEntityButton'
 import DateInput from '../../../../components/form/DateInput'
 import Labeled from '../../../../components/form/Labeled'
 import PlatformDropdown from '../../../../components/form/specific/PlatformDropdown'
@@ -52,6 +53,7 @@ export default function ReleaseEditor({ releaseId }: Props) {
           }
           platform {
             id
+            name
           }
           specifier
           releaseDate
@@ -88,6 +90,12 @@ export default function ReleaseEditor({ releaseId }: Props) {
   return (
     <Container>
       <Validateable onValidate={validate}>
+        <DeleteEntityButton
+          type="release"
+          typeLabel="release"
+          id={release.id}
+          entityName={release.platform.name + ' ' + release.specifier}
+        />
         <headings.BlockHeading>Editing release</headings.BlockHeading>
         <Flex>
           <Labeled label="Platform">
