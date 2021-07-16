@@ -1,9 +1,10 @@
 import { graphql } from 'babel-plugin-relay/macro'
 import { useCallback, useMemo } from 'react'
-import { useLazyLoadQuery } from 'react-relay'
+import { useLazyLoadQuery, useMutation } from 'react-relay'
 import styled from 'styled-components'
 
 import DeleteEntityButton from '../../../../common/DeleteEntityButton'
+import mutateAsPromise from '../../../../common/mutateAsPromise'
 import DateInput from '../../../../components/form/DateInput'
 import Labeled from '../../../../components/form/Labeled'
 import PlatformDropdown from '../../../../components/form/specific/PlatformDropdown'
@@ -12,6 +13,7 @@ import TextInput from '../../../../components/form/TextInput'
 import { headings } from '../../../../components/headings'
 import { useEditing } from '../../../../contexts/ActiveEditingContext'
 import { Validateable } from '../../../../contexts/Validation'
+import { ReleaseEditorMutation } from './__generated__/ReleaseEditorMutation.graphql'
 import { ReleaseEditorQuery } from './__generated__/ReleaseEditorQuery.graphql'
 import BusinessEntityRelationEditor from './BusinessEntityRelationEditor'
 
@@ -75,6 +77,22 @@ export default function ReleaseEditor({ releaseId }: Props) {
     { releaseId }
   )
 
+  const [mutate] = useMutation<ReleaseEditorMutation>(graphql`
+    mutation ReleaseEditorMutation($releaseId: String!, $data: ReleaseUpdate!) {
+      updateRelease(id: $releaseId, data: $data) {
+        id
+        specifier
+        releaseDate
+        platform {
+          id # do we need other things as well?
+        }
+        basedOn {
+          id
+        }
+      }
+    }
+  `)
+
   const pristineState = useMemo<State>(
     () => ({
       platformId: release.platform.id,
@@ -85,7 +103,18 @@ export default function ReleaseEditor({ releaseId }: Props) {
     [release.basedOn?.id, release.platform.id, release.releaseDate, release.specifier]
   )
 
-  const handleSave = useCallback(async () => {}, [])
+  const handleSave = useCallback(
+    async (state: State) => {
+      return mutateAsPromise(mutate, {
+        variables: {
+          releaseId: release.id,
+          data: { ...state, releaseDate: state.releaseDate?.toISOString() },
+        },
+      })
+    },
+    [mutate, release.id]
+  )
+
   const { state, updateState, validate } = useEditing(pristineState, handleSave)
 
   return (
@@ -120,7 +149,7 @@ export default function ReleaseEditor({ releaseId }: Props) {
           />
         </Labeled>
         <Labeled label="Business entities">
-          <BusinessEntityRelationEditor relations={release.businessEntities} />
+          <BusinessEntityRelationEditor relations={release.businessEntities} releaseId={release.id} />
         </Labeled>
       </Validateable>
     </Container>

@@ -119,9 +119,10 @@ export function useEditing<TState>(
     updateState(pristineState)
   }, [pristineState])
 
-  const handleSave = useCallback(() => {
-    return onSave(state)
-  }, [onSave, state])
+  const handleSave = useCallback(async () => {
+    if (!isDirty) return
+    await onSave(state)
+  }, [isDirty, onSave, state])
 
   useGlobalEdit(
     useMemo(

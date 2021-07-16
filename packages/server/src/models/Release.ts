@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
+import { platformRepository, releaseRepository } from '../repositories'
 import Game from './Game'
 import GameOwnership from './GameOwnership'
 import Platform from './Platform'
@@ -37,23 +38,46 @@ export default class Release {
 
   @JoinColumn({ name: 'platform' })
   @ManyToOne(() => Platform, (platform) => platform.releases)
-  public lazyPlatform: Promise<Platform | null>
+  public lazyPlatform: Promise<Platform | null | undefined>
 
   @Field(() => Platform)
   public get platform() {
     return this.lazyPlatform
   }
 
-  public set platform(platform: Promise<Platform | null> | Platform | null) {
-    this.lazyPlatform = Promise.resolve(platform)
+  public set platform(newValue: Promise<Platform | null | undefined> | Platform | null | undefined | string) {
+    if (typeof newValue === 'string') {
+      this.lazyPlatform = platformRepository.findOne(newValue).then((entry) => {
+        if (!entry) throw new Error('Release not found')
+        return entry
+      })
+    } else {
+      this.lazyPlatform = Promise.resolve(newValue)
+    }
   }
 
   @ManyToOne(() => Release, (release) => release.leadTo)
+  @JoinColumn({ name: 'basedOn' })
+  public lazyBasedOn: Promise<Release | null | undefined>
+  
   @Field(() => Release, { nullable: true })
-  public basedOn: Promise<Release | null>
+  public get basedOn() {
+    return this.lazyBasedOn
+  }
+
+  public set basedOn(newValue: Promise<Release | null | undefined> | Release | null | undefined | string) {
+    if (typeof newValue === 'string') {
+      this.lazyBasedOn = releaseRepository.findOne(newValue).then((entry) => {
+        if (!entry) throw new Error('Release not found')
+        return entry
+      })
+    } else {
+      this.lazyBasedOn = Promise.resolve(newValue)
+    }
+  }
 
   @Field(() => [Release])
-  @OneToMany(() => Release, (release) => release.basedOn)
+  @OneToMany(() => Release, (release) => release.lazyBasedOn)
   public leadTo: Promise<Release[]>
 
   @OneToMany(() => Review, (review) => review.release)

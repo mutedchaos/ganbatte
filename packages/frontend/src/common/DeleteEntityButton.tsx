@@ -16,6 +16,8 @@ interface Props {
   id: string
   entityName: string
   targetPage?: string
+  onDelete?(): void
+  invalidate?: string
 }
 const Button = styled.button`
   background: none;
@@ -23,15 +25,24 @@ const Button = styled.button`
   font-size: 24px;
   border: 3px solid transparent;
   cursor: pointer;
-  transition: border-color 150ms linear;
+  transition: border-color 150ms linear, background-color 150ms linear;
   border-radius: 30px;
   &:hover {
     border: 3px solid pink;
     color: red;
+    background: #ffeeee;
   }
 `
 
-export default function DeleteEntityButton({ id, typeLabel, type, entityName, targetPage }: Props) {
+export default function DeleteEntityButton({
+  invalidate,
+  id,
+  typeLabel,
+  type,
+  entityName,
+  targetPage,
+  onDelete,
+}: Props) {
   const [mutate] = useMutation<DeleteEntityButtonMutation>(graphql`
     mutation DeleteEntityButtonMutation($type: String!, $id: String!) {
       deleteEntity(id: $id, type: $type) {
@@ -61,6 +72,12 @@ export default function DeleteEntityButton({ id, typeLabel, type, entityName, ta
             if (targetPage) {
               navigate(targetPage)
             }
+            onDelete?.()
+          },
+          updater(store) {
+            if (invalidate) {
+              store.get(invalidate)?.invalidateRecord()
+            }
           },
         })
       },
@@ -68,7 +85,7 @@ export default function DeleteEntityButton({ id, typeLabel, type, entityName, ta
         if (!(err instanceof CancelledError)) throw err
       }
     )
-  }, [confirm, entityName, id, mutate, targetPage, type, typeLabel])
+  }, [confirm, entityName, id, invalidate, mutate, onDelete, targetPage, type, typeLabel])
 
   return (
     <FloatRight>

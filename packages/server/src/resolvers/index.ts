@@ -1,4 +1,5 @@
 import { AuthenticationResolver } from './AuthenticationResolver'
+import { BusinessEntityRelationshipResolver } from './BusinessEntityRelationshipResolver'
 import { BusinessEntityResolver } from './BusinessEntityResolver'
 import GameOwnershipResolver from './GameOwnershipResolver'
 import { GameResolver } from './GameResolver'
@@ -15,5 +16,5 @@ export const resolvers = [
   BusinessEntityResolver,
   ReleaseResolver,
   AuthenticationResolver,
-  GameOwnershipResolver,
+  GameOwnershipResolver,BusinessEntityRelationshipResolver
 ] as const

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Arg, Authorized, Ctx, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { v4 as uuid } from 'uuid'
 
@@ -32,6 +33,21 @@ class CreateRelease {
   public specifier: string
   @Field({ nullable: true })
   public releaseDate: Date
+}
+
+@InputType()
+class ReleaseUpdate {
+  @Field()
+  public platformId: string
+
+  @Field(() => String, { nullable: true })
+  public basedOn: string | null
+
+  @Field()
+  public specifier: string
+
+  @Field(() => Date, { nullable: true })
+  public releaseDate: Date | null
 }
 
 @Resolver(() => Release)
@@ -80,6 +96,22 @@ export class ReleaseResolver {
       }
     }
     return game
+  }
+
+  @Authorized(Role.DATA_MANAGER)
+  @Mutation(() => Release)
+  async updateRelease(@Arg('id') id: string, @Arg('data') data: ReleaseUpdate) {
+    const release = await releaseRepository.findOne(id)
+    if (!release) throw new Error('Release not found')
+
+    release.basedOn = data.basedOn ? releaseRepository.findOne(data.basedOn) : null
+    release.specifier = data.specifier.trim()
+    release.platform = data.platformId
+    release.releaseDate = data.releaseDate
+
+    await releaseRepository.save(release)
+
+    return release
   }
 
   @FieldResolver(() => GameOwnership)

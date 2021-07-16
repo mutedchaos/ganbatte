@@ -95,6 +95,8 @@ type TestEntity {
 type Mutation {
   login(password: String!, username: String!): AuthResponse!
   createAccount(password: String!, username: String!): AuthResponse!
+  createBusinessEntityRelation(data: BusinessEntityRelationData!, releaseId: String!): Release!
+  updateBusinessEntityRelation(data: BusinessEntityRelationData!, id: String!): ReleaseRelatedBusinessEntity!
   createBusinessEntity(name: String!): BusinessEntity!
   updateOwnership(ownershipId: String, ownershipType: OwnershipType!, releaseId: String!): Release!
   createGame(name: String!): Game!
@@ -102,11 +104,18 @@ type Mutation {
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
   createReleases(data: CreateRelease!): Game!
+  updateRelease(data: ReleaseUpdate!, id: String!): Release!
 }
 
 type AuthResponse {
   success: Boolean!
   errorMessage: String
+}
+
+input BusinessEntityRelationData {
+  role: ReleaseEntityRole!
+  businessEntity: String!
+  roleDescription: String!
 }
 
 input GameUpdate {
@@ -123,6 +132,13 @@ input CreateRelease {
   developer: String
   publisher: String
   platforms: [String!]!
+  specifier: String!
+  releaseDate: DateTime
+}
+
+input ReleaseUpdate {
+  platformId: String!
+  basedOn: String
   specifier: String!
   releaseDate: DateTime
 }

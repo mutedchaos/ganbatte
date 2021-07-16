@@ -17,7 +17,7 @@ export default function Release({ release }: Props) {
     <TogglableEditable editor={<ReleaseEditor releaseId={release.id} />}>
       <Container>
         {release.specifier ? release.specifier + ' released' : 'Released'} on {release.platform.name}
-        {release.releaseDate && 'on ' + intepreteDate(new Date(release.releaseDate)).formatted}
+        {release.releaseDate && ' on ' + intepreteDate(new Date(release.releaseDate)).formatted}
         <Ownership release={release} />
       </Container>
     </TogglableEditable>
