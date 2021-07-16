@@ -12,7 +12,7 @@ const Label = styled.label`
   user-select: none;
 `
 
-export default function TextInput<TField extends string, TValue>({
+export default function CheckboxArrayInput<TField extends string, TValue>({
   value,
   onUpdate,
   field,

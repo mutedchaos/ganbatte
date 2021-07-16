@@ -11,7 +11,7 @@ import { DeleteEntityButtonMutation } from './__generated__/DeleteEntityButtonMu
 import CancelledError from './CancelledError'
 
 interface Props {
-  type: 'game' | 'release'
+  type: 'game' | 'release' | 'releaseRelatedBusinessEntity'
   typeLabel: string
   id: string
   entityName: string
@@ -72,7 +72,11 @@ export default function DeleteEntityButton({ id, typeLabel, type, entityName, ta
 
   return (
     <FloatRight>
-      <Button onClick={handleClick}>🗑</Button>
+      <DeleteEntityButtonVisual onClick={handleClick} />
     </FloatRight>
   )
+}
+
+export function DeleteEntityButtonVisual(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  return <Button {...props}>🗑</Button>
 }

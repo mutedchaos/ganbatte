@@ -12,8 +12,6 @@ import SuggestSavingChanges from './layouts/SuggestSavingChanges/SuggestSavingCh
 import Authentication from './pages/authentication/Authentication'
 import Router from './Router'
 
-// import { graphql } from 'babel-plugin-relay/macro'
-
 function App() {
   return (
     <div>

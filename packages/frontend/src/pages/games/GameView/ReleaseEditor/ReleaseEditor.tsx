@@ -13,6 +13,7 @@ import { headings } from '../../../../components/headings'
 import { useEditing } from '../../../../contexts/ActiveEditingContext'
 import { Validateable } from '../../../../contexts/Validation'
 import { ReleaseEditorQuery } from './__generated__/ReleaseEditorQuery.graphql'
+import BusinessEntityRelationEditor from './BusinessEntityRelationEditor'
 
 const Container = styled.div`
   margin: 10px;
@@ -117,6 +118,9 @@ export default function ReleaseEditor({ releaseId }: Props) {
             gameId={release.game.id}
             allowNull
           />
+        </Labeled>
+        <Labeled label="Business entities">
+          <BusinessEntityRelationEditor relations={release.businessEntities} />
         </Labeled>
       </Validateable>
     </Container>

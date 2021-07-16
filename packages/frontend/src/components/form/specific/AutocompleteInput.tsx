@@ -6,20 +6,28 @@ import Autosuggest from 'react-autosuggest'
 import { useRelayEnvironment } from 'react-relay'
 import { fetchQuery } from 'relay-runtime'
 
+import { useValidation } from '../../../contexts/Validation'
 import { AutocompleteInputQuery } from './__generated__/AutocompleteInputQuery.graphql'
 
 interface Props<TField extends string> {
   type: 'businessEntity'
   value: string | null
   field: TField
+  required?: boolean
 
   onUpdate(update: { [key in TField]: string | null }): void
 }
 
-export default function AutocompleteInput<TField extends string>({ value, onUpdate, field, type }: Props<TField>) {
+export default function AutocompleteInput<TField extends string>({
+  required,
+  value,
+  onUpdate,
+  field,
+  type,
+}: Props<TField>) {
   const handleChange = useCallback(
     (_e: any, { newValue }: { newValue: string }) => {
-      onUpdate({ [field]: newValue } as { [key in TField]: string })
+      onUpdate({ [field]: newValue || null } as { [key in TField]: string | null })
     },
     [field, onUpdate]
   )
@@ -66,6 +74,9 @@ export default function AutocompleteInput<TField extends string>({ value, onUpda
   const renderSuggestion = useCallback((suggestion: string) => {
     return <span>{suggestion}</span>
   }, [])
+
+  const isValid = !required || !!value?.trim()
+  useValidation(isValid)
 
   return (
     <Autosuggest
