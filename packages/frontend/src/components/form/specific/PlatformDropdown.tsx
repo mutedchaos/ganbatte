@@ -23,7 +23,7 @@ export function PlatformDropdownImpl<TField extends string>(props: Props<TField>
   const data = useCachedData('platforms')
 
   const options = useMemo(() => {
-    return data.listPlatforms.map((platform) => ({ value: platform.id, label: platform.name, key: platform.id }))
+    return data.listPlatforms.map((platform) => ({ value: platform.id, label: platform.name }))
   }, [data.listPlatforms])
 
   return <DropdownInput {...props} options={options} />

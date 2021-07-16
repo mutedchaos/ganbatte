@@ -30,6 +30,7 @@ type Release {
   id: String!
   specifier: String!
   releaseDate: DateTime
+  game: Game!
   platform: Platform!
   basedOn: Release
   leadTo: [Release!]!

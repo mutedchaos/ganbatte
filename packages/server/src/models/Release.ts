@@ -26,6 +26,7 @@ export default class Release {
   @ManyToOne(() => Game, (game) => game.releases, { nullable: false })
   public lazyGame: Promise<Game>
 
+  @Field(() => Game)
   public get game() {
     return this.lazyGame
   }
