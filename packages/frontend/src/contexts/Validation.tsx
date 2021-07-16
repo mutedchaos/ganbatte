@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 
-import { ChildrenOnlyProps } from '../common/ChildrenOnlyProps'
 import { useVaguelyUniqueId } from '../common/useVaguelyUniqueId'
 
 interface ValidCtx {
@@ -24,7 +23,12 @@ export function useIsFailingValidation() {
   return !useContext(validContext)?.isValid
 }
 
-export function Validateable({ children }: ChildrenOnlyProps) {
+interface ValidateableProps {
+  children: ReactNode
+  onValidate?(isValid: boolean): void
+}
+
+export function Validateable({ children, onValidate }: ValidateableProps) {
   const [validations, setValidations] = useState<Validation[]>([])
   const validValue = useMemo<ValidCtx>(
     () => ({
@@ -44,6 +48,10 @@ export function Validateable({ children }: ChildrenOnlyProps) {
     }),
     []
   )
+
+  useEffect(() => {
+    onValidate?.(validValue.isValid)
+  }, [onValidate, validValue.isValid])
 
   return (
     <controlContext.Provider value={controlValue}>

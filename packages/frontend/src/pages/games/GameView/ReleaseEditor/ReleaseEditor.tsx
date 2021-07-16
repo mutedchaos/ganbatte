@@ -3,11 +3,14 @@ import { useCallback, useMemo } from 'react'
 import { useLazyLoadQuery } from 'react-relay'
 import styled from 'styled-components'
 
+import DateInput from '../../../../components/form/DateInput'
 import Labeled from '../../../../components/form/Labeled'
 import PlatformDropdown from '../../../../components/form/specific/PlatformDropdown'
 import TextInput from '../../../../components/form/TextInput'
 import { headings } from '../../../../components/headings'
+import { Label } from '../../../../components/misc/Label'
 import { useEditing } from '../../../../contexts/ActiveEditingContext'
+import { Validateable } from '../../../../contexts/Validation'
 import { ReleaseEditorQuery } from './__generated__/ReleaseEditorQuery.graphql'
 
 const Container = styled.div`
@@ -23,6 +26,7 @@ interface Props {
 interface State {
   platformId: string
   specifier: string
+  releaseDate: Date | null
 }
 
 const Flex = styled.div`
@@ -69,24 +73,30 @@ export default function ReleaseEditor({ releaseId }: Props) {
     () => ({
       platformId: release.platform.id,
       specifier: release.specifier,
+      releaseDate: release.releaseDate ? new Date(release.releaseDate) : null,
     }),
-    [release.platform.id, release.specifier]
+    [release.platform.id, release.releaseDate, release.specifier]
   )
 
   const handleSave = useCallback(async () => {}, [])
-  const { state, updateState } = useEditing(pristineState, handleSave)
+  const { state, updateState, validate } = useEditing(pristineState, handleSave)
 
   return (
     <Container>
-      <headings.BlockHeading>Editing release</headings.BlockHeading>
-      <Flex>
-        <Labeled label="Platform">
-          <PlatformDropdown value={state.platformId} field="platformId" onUpdate={updateState} />
+      <Validateable onValidate={validate}>
+        <headings.BlockHeading>Editing release</headings.BlockHeading>
+        <Flex>
+          <Labeled label="Platform">
+            <PlatformDropdown value={state.platformId} field="platformId" onUpdate={updateState} />
+          </Labeled>
+          <Labeled label="Release description/specifier">
+            <TextInput value={state.specifier} field="specifier" onUpdate={updateState} />
+          </Labeled>
+        </Flex>
+        <Labeled label="Release date">
+          <DateInput value={state.releaseDate} field="releaseDate" onUpdate={updateState} />
         </Labeled>
-        <Labeled label="Release description/specifier">
-          <TextInput value={state.specifier} field="specifier" onUpdate={updateState} />
-        </Labeled>
-      </Flex>
+      </Validateable>
     </Container>
   )
 }

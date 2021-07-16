@@ -113,6 +113,7 @@ export function useEditing<TState>(
   )
 
   const isDirty = useMemo(() => JSON.stringify(state) !== JSON.stringify(pristineState), [pristineState, state])
+  const [isValid, setIsValid] = useState(true)
 
   const onReset = useCallback(() => {
     updateState(pristineState)
@@ -125,14 +126,14 @@ export function useEditing<TState>(
   useGlobalEdit(
     useMemo(
       () => ({
-        isDirty: isDirty,
-        isValid: true,
+        isDirty,
+        isValid,
         onReset,
         onSave: handleSave,
       }),
-      [handleSave, isDirty, onReset]
+      [handleSave, isDirty, isValid, onReset]
     )
   )
 
-  return useMemo(() => ({ state, updateState }), [state])
+  return useMemo(() => ({ state, updateState, validate: setIsValid }), [state])
 }
