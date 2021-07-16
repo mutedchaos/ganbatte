@@ -2,7 +2,7 @@
 import 'reflect-metadata'
 
 import { ApolloServer } from 'apollo-server'
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { AuthChecker, buildSchema } from 'type-graphql'
 
 import { connectToDatabase } from './db'
@@ -34,12 +34,20 @@ async function run() {
       const header = req.headers?.authorization
       if (!header || !header.startsWith('Bearer ')) return { user: null, res }
       const token = header.substring(7)
-      const tokenData = jwt.verify(token, jwtConfig.secret, {
-        issuer: jwtConfig.issuer,
-        audience: jwtConfig.audience,
-      })
+      let tokenData: JwtPayload
+      try {
+        const decoded = jwt.verify(token, jwtConfig.secret, {
+          issuer: jwtConfig.issuer,
+          audience: jwtConfig.audience,
+        })
+        if (typeof decoded === 'string') throw new Error('Internal error')
 
-      if (typeof tokenData === 'string') throw new Error('Internal error')
+        tokenData = decoded
+      } catch (err) {
+        console.warn(err.stack)
+        return { user: null, res }
+      }
+
       const userId = tokenData.sub
       if (!userId) throw new Error('Invalid token')
       if (!tokenData.exp || expiringSoon(tokenData.exp)) {
