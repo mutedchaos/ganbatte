@@ -74,7 +74,6 @@ export default function GameDetailEditor() {
       <Labeled label="Sort Name">
         <TextInput value={state.sortName} field={'sortName'} onUpdate={updateState} />
       </Labeled>
-      <div>{JSON.stringify(state)}</div>
     </>
   )
 }

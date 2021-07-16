@@ -1,15 +1,20 @@
-import { Arg, Authorized, Field, InputType, Mutation, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Field, FieldResolver, InputType, Mutation, Resolver, Root } from 'type-graphql'
+import { v4 as uuid } from 'uuid'
 
 import Game from '../models/Game'
+import GameOwnership, { OwnershipType } from '../models/GameOwnership'
 import Release from '../models/Release'
 import ReleaseRelatedBusinessEntity, { ReleaseEntityRole } from '../models/ReleaseRelatedBusinessEntity'
 import {
+  gameOwnershipRepository,
   gameRepository,
   platformRepository,
   releaseRelatedBusinessEntityRepository,
   releaseRepository,
 } from '../repositories'
 import getBusinessEntityPossiblyCreatingOne from '../services/businessEntities/getBusinessEntityPossiblyCreatingOne'
+import fieldAssign from '../services/fieldAssign'
+import { AuthorizedGqlContext } from '../services/gqlContext'
 import { Role } from '../services/roles'
 
 @InputType()
@@ -29,7 +34,7 @@ class CreateRelease {
   public releaseDate: Date
 }
 
-@Resolver()
+@Resolver(() => Release)
 export class ReleaseResolver {
   @Authorized(Role.DATA_MANAGER)
   @Mutation(() => Game)
@@ -68,5 +73,25 @@ export class ReleaseResolver {
       }
     }
     return game
+  }
+
+  @FieldResolver(() => GameOwnership)
+  @Authorized()
+  async ownership(@Ctx() context: AuthorizedGqlContext, @Root() release: Release): Promise<GameOwnership> {
+    const record = await gameOwnershipRepository.findOne({
+      where: {
+        user: context.user,
+        release: release,
+      },
+    })
+    if (record) return record
+
+    return fieldAssign(new GameOwnership(), {
+      id: uuid(),
+      user: Promise.resolve(context.user),
+      release: Promise.resolve(release),
+      ownershipType: OwnershipType.None,
+      isNew: true,
+    })
   }
 }

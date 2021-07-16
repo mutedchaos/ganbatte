@@ -4,6 +4,13 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import Release from './Release'
 import User from './User'
 
+export enum OwnershipType {
+  None = 'none',
+  Owned = 'owned',
+  Access = 'access',
+  Wishlisted = 'wishlisted',
+}
+
 @ObjectType()
 @Entity()
 export default class GameOwnership {
@@ -12,14 +19,18 @@ export default class GameOwnership {
   public id: string
 
   @Column()
-  public acquisitionDate: Date
+  public recorded: Date
 
   @Column()
-  public recorded: Date
+  @Field(() => OwnershipType)
+  public ownershipType: OwnershipType
 
   @ManyToOne(() => Release, (release) => release.owners)
   public release: Promise<Release>
 
   @ManyToOne(() => User, (user) => user.ownedGames)
   public user: Promise<User>
+
+  @Field({ nullable: true })
+  public isNew?: boolean // true if this is a synthetic one that does not exist in the db
 }

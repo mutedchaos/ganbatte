@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
+import DebugView from '../../../components/DebugView'
 import Editable from '../../../components/misc/Editable'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
@@ -25,6 +26,11 @@ export default function GameView() {
           platform {
             name
           }
+          ownership {
+            id
+            ownershipType
+            isNew
+          }
         }
       }
     }
@@ -43,6 +49,7 @@ export function GameViewImpl() {
   const data = useCachedData('game')
   return (
     <div key={data.game.id}>
+      <DebugView data={data} label="Game Data" />
       <Editable editor={<GameDetailEditor />}>
         <h2>{data.game.name}</h2>
       </Editable>
