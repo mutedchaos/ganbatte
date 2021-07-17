@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import styled from 'styled-components'
 
 import { ValidationStatus } from '../common'
+import Labeled from '../components/form/Labeled'
+import TextInput from '../components/form/TextInput'
 import LoadingIndicator from '../components/LoadingIndicator'
 import FormControls from '../components/misc/FormControls'
 import { Input } from '../components/misc/Input'
-import { Label } from '../components/misc/Label'
 import { ValidationError } from '../components/misc/ValidationError'
+import { Validateable } from '../contexts/Validation'
 import AvailabilityChecker from './AvailabilityChecker'
 
 interface Props {
@@ -24,14 +26,20 @@ const HiddenSpan = styled.span`
   visibility: hidden;
 `
 
+interface State {
+  name: string
+}
+
 export default function CreateEntityForm({ onValidate, entityType, onSubmit, onCancel }: Props) {
   const [submitting, setSubmitting] = useState(false)
-  const [value, setValue] = useState('')
   const [validationStatus, setValidationStatus] = useState(ValidationStatus.Validating)
   const [nameValidationStatus, setNameValidationStatus] = useState(ValidationStatus.Validating)
-  const updateValue = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value), [])
 
-  const sanitizedName = useMemo(() => value.trim().replace(/\s{2,}/g, ' '), [value])
+  const [{ name }, updateState] = useReducer((state: State, update: Partial<State>) => ({ ...state, ...update }), {
+    name: '',
+  })
+
+  const sanitizedName = useMemo(() => name.trim().replace(/\s{2,}/g, ' '), [name])
 
   useEffect(() => {
     let active = true
@@ -61,40 +69,43 @@ export default function CreateEntityForm({ onValidate, entityType, onSubmit, onC
   )
 
   return (
-    <form onSubmit={handleSubmit}>
-      {sanitizedName && (
-        <AvailabilityChecker
-          name={sanitizedName}
-          entityType={entityType}
-          onUpdateValidationStatus={setNameValidationStatus}
-        />
-      )}
-      <Label>Name</Label>
-      <Input autoFocus value={value} onChange={updateValue} />
-      <div key="validation">
-        {nameValidationStatus === ValidationStatus.Invalid && sanitizedName && (
-          <ValidationError>An entity already exists with this name.</ValidationError>
+    <Validateable>
+      <form onSubmit={handleSubmit}>
+        {sanitizedName && (
+          <AvailabilityChecker
+            name={sanitizedName}
+            entityType={entityType}
+            onUpdateValidationStatus={setNameValidationStatus}
+          />
         )}
-      </div>
-      <FormControls
-        onCancel={onCancel}
-        disableSubmit={
-          validationStatus !== ValidationStatus.Valid ||
-          nameValidationStatus !== ValidationStatus.Valid ||
-          submitting ||
-          !sanitizedName
-        }
-        submitLabel={
-          submitting ? (
-            <>
-              <AbsoluteLoadingIndicator />
-              <HiddenSpan>Create</HiddenSpan>
-            </>
-          ) : (
-            'Create'
-          )
-        }
-      />
-    </form>
+        <Labeled label="Name">
+          <TextInput autoFocus value={name} onUpdate={updateState} field="name" required />
+        </Labeled>
+        <div key="validation">
+          {nameValidationStatus === ValidationStatus.Invalid && sanitizedName && (
+            <ValidationError>An entity already exists with this name.</ValidationError>
+          )}
+        </div>
+        <FormControls
+          onCancel={onCancel}
+          disableSubmit={
+            validationStatus !== ValidationStatus.Valid ||
+            nameValidationStatus !== ValidationStatus.Valid ||
+            submitting ||
+            !sanitizedName
+          }
+          submitLabel={
+            submitting ? (
+              <>
+                <AbsoluteLoadingIndicator />
+                <HiddenSpan>Create</HiddenSpan>
+              </>
+            ) : (
+              'Create'
+            )
+          }
+        />
+      </form>
+    </Validateable>
   )
 }

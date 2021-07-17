@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 import styled, { css } from 'styled-components'
-import { useValidation } from '../../contexts/Validation'
 
+import { useSetRequired } from '../../contexts/requiredContext'
+import { useValidation } from '../../contexts/Validation'
 
 type Props<TField extends string> = {
   value: string
@@ -34,6 +35,7 @@ export default function TextInput<TField extends string>({
     [field, onUpdate]
   )
 
+  useSetRequired(!!otherProps.required)
   const isValid = (!otherProps.required || !!value.trim()) && (onValidate?.(value) ?? true)
   useValidation(isValid)
 

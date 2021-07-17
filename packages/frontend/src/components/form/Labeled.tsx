@@ -1,5 +1,7 @@
-import { ReactNode } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import styled from 'styled-components'
+
+import { RequiredCtx, requiredContext } from '../../contexts/requiredContext'
 
 interface Props {
   label: ReactNode
@@ -29,14 +31,25 @@ const Required = styled.span`
 `
 
 export default function Labeled({ label, children, sublabel, required }: Props) {
+  const [ctxRequired, setCtxRequired] = useState(false)
+
+  const requiredContextValue = useMemo<RequiredCtx>(
+    () => ({
+      setRequired: setCtxRequired,
+    }),
+    []
+  )
+
   return (
-    <Container>
-      <Label>
-        {label}
-        {required && <Required>*</Required>}
-      </Label>
-      {sublabel && <Sublabel>{sublabel}</Sublabel>}
-      <Body>{children}</Body>
-    </Container>
+    <requiredContext.Provider value={requiredContextValue}>
+      <Container>
+        <Label>
+          {label}
+          {required || (ctxRequired && <Required>*</Required>)}
+        </Label>
+        {sublabel && <Sublabel>{sublabel}</Sublabel>}
+        <Body>{children}</Body>
+      </Container>
+    </requiredContext.Provider>
   )
 }
