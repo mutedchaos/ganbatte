@@ -1,7 +1,7 @@
 import './autocomplete.css'
 
 import { graphql } from 'babel-plugin-relay/macro'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
 import { useRelayEnvironment } from 'react-relay'
 import { fetchQuery } from 'relay-runtime'
@@ -10,10 +10,11 @@ import { useValidation } from '../../../contexts/Validation'
 import { AutocompleteInputQuery } from './__generated__/AutocompleteInputQuery.graphql'
 
 interface Props<TField extends string> {
-  type: 'businessEntity'
+  type: 'businessEntity' | 'game'
   value: string | null
   field: TField
   required?: boolean
+  onlySuggestedValues?: boolean
 
   onUpdate(update: { [key in TField]: string | null }): void
 }
@@ -24,22 +25,30 @@ export default function AutocompleteInput<TField extends string>({
   onUpdate,
   field,
   type,
+  onlySuggestedValues,
 }: Props<TField>) {
+  const [effectiveValue, setEffectiveValue] = useState(value)
+
+  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [lastSuggestions, setLastSuggestions] = useState<string[]>([])
+  useEffect(() => {
+    setEffectiveValue(value)
+  }, [value])
+
   const handleChange = useCallback(
     (_e: any, { newValue }: { newValue: string }) => {
+      setEffectiveValue(newValue)
+      if (onlySuggestedValues) {
+        if (!suggestions.includes(newValue)) {
+          setEffectiveValue(newValue)
+          return
+        }
+      }
       onUpdate({ [field]: newValue || null } as { [key in TField]: string | null })
     },
-    [field, onUpdate]
+    [field, onUpdate, onlySuggestedValues, suggestions]
   )
 
-  const inputProps = useMemo(
-    () => ({
-      value: value ?? '',
-      onChange: handleChange,
-    }),
-    [handleChange, value]
-  )
-  const [suggestions, setSuggestions] = useState<string[]>([])
   const relayEnvironment = useRelayEnvironment()
 
   const updateSuggestions = useCallback(
@@ -75,8 +84,24 @@ export default function AutocompleteInput<TField extends string>({
     return <span>{suggestion}</span>
   }, [])
 
-  const isValid = !required || !!value?.trim()
+  useEffect(() => {
+    if (suggestions.length) setLastSuggestions(suggestions)
+  }, [suggestions])
+
+  const isValid =
+    (!required || !!value?.trim()) &&
+    (!onlySuggestedValues || (!!effectiveValue && lastSuggestions.includes(effectiveValue)))
+
   useValidation(isValid)
+
+  const inputProps = useMemo(
+    () => ({
+      value: effectiveValue ?? '',
+      onChange: handleChange,
+      style: { outline: isValid ? 'none' : '1px solid red' },
+    }),
+    [effectiveValue, handleChange, isValid]
+  )
 
   return (
     <Autosuggest

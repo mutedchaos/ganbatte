@@ -11,7 +11,7 @@ import { DeleteEntityButtonMutation } from './__generated__/DeleteEntityButtonMu
 import CancelledError from './CancelledError'
 
 interface Props {
-  type: 'game' | 'release' | 'releaseRelatedBusinessEntity'
+  type: 'game' | 'release' | 'releaseRelatedBusinessEntity' | 'sequel'
   typeLabel: string
   id: string
   entityName: string

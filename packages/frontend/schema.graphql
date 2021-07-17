@@ -3,6 +3,7 @@ type Query {
   businessEntity(businessEntityId: String!): BusinessEntity!
   listGames: [Game!]!
   game(gameId: String!): Game!
+  getGameByName(name: String!): Game!
   isNameAvailable(type: String!, name: String!): Boolean!
   getAutocompleteSuggestions(type: String!, query: String!): [NameIdPair!]!
   getAuthenticatedUser: CurrentUser!
@@ -23,7 +24,24 @@ type Game {
   id: String!
   name: String!
   sortName: String!
+  sequels: [Sequel!]!
+  sequelOf: [Sequel!]!
   releases: [Release!]!
+}
+
+type Sequel {
+  id: String!
+  sequelType: SequelType!
+  predecessor: Game!
+  successor: Game!
+}
+
+enum SequelType {
+  DirectSequel
+  Prequel
+  SpiritualSequel
+  Remaster
+  Reboot
 }
 
 type Release {
@@ -105,6 +123,7 @@ type Mutation {
   createPlatform(name: String!): Platform!
   createReleases(data: CreateRelease!): Game!
   updateRelease(data: ReleaseUpdate!, id: String!): Release!
+  createSequel(sequelType: SequelType!, successor: String!, predecessor: String!): [Game!]!
 }
 
 type AuthResponse {

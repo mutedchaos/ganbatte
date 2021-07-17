@@ -34,9 +34,11 @@ export default class Game {
   public sortName: string
 
   @OneToMany(() => Sequel, (sequel) => sequel.predecessor)
+  @Field(() => [Sequel])
   public sequels: Promise<Sequel[]>
 
   @OneToMany(() => Sequel, (sequel) => sequel.successor)
+  @Field(() => [Sequel])
   public sequelOf: Promise<Sequel[]>
 
   @OneToMany(() => Review, (review) => review.game)

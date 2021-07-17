@@ -30,6 +30,7 @@ export class GameResolver {
     const game = await gameRepository.findOne(id)
     if (!game) throw new Error('Invalid game')
     Object.assign(game, data)
+    game.nameLower = game.name.toLowerCase()
     await gameRepository.save(game)
     return game
   }
@@ -42,6 +43,11 @@ export class GameResolver {
   @Query(() => Game)
   async game(@Arg('gameId') gameId: string) {
     return await gameRepository.findOne(gameId)
+  }
+
+  @Query(() => Game)
+  async getGameByName(@Arg('name') name: string) {
+    return await gameRepository.findOne({ name: name })
   }
   /*
   @FieldResolver(() => [Release])

@@ -1,48 +1,53 @@
 import { graphql } from 'babel-plugin-relay/macro'
 import React, { useContext } from 'react'
+import { useLazyLoadQuery } from 'react-relay'
 
-import { useCachedData } from '../../../common/CachedDataProvider'
-import { default as CachedLoader } from '../../../common/EnsureLoaded'
+import { useCachedData, useDataCache } from '../../../common/CachedDataProvider'
 import DebugView from '../../../components/DebugView'
+import LoadingIndicator from '../../../components/LoadingIndicator'
 import Editable from '../../../components/misc/Editable'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
+import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import GameDetailEditor from './GameDetailEditor'
 import { GameReleases } from './GameReleases'
+import GameTree from './GameTree/GameTree'
 
 export default function GameView() {
   const gameId = useContext(routePropContext).gameId as string
 
-  const query = graphql`
-    query GameViewQuery($gameId: String!) {
-      game(gameId: $gameId) {
-        id
-        name
-        sortName
-        releases {
+  const data = useLazyLoadQuery<GameViewQuery>(
+    graphql`
+      query GameViewQuery($gameId: String!) {
+        game(gameId: $gameId) {
           id
-          specifier
-          releaseDate
-          platform {
-            name
-          }
-          ownership {
+          name
+          sortName
+          releases {
             id
-            ownershipType
-            isNew
+            specifier
+            releaseDate
+            platform {
+              id
+              name
+            }
+            ownership {
+              id
+              ownershipType
+              isNew
+            }
           }
         }
       }
-    }
-  `
-
-  return (
-    <MainLayout heading="Games">
-      <CachedLoader entity="game" id={gameId} query={query}>
-        <GameViewImpl />
-      </CachedLoader>
-    </MainLayout>
+    `,
+    { gameId }
   )
+
+  console.log('HI', JSON.stringify(data, null, 2))
+  useDataCache('game', data as any)
+  const cached = useCachedData('game')
+
+  return <MainLayout heading="Games">{cached !== data ? <LoadingIndicator /> : <GameViewImpl />}</MainLayout>
 }
 
 export function GameViewImpl() {
@@ -54,6 +59,7 @@ export function GameViewImpl() {
         <h2>{data.game.name}</h2>
       </Editable>
       <GameReleases />
+      <GameTree />
     </div>
   )
 }

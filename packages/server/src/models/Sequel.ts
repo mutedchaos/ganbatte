@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ObjectType, registerEnumType } from 'type-graphql'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import Game from './Game'
@@ -10,6 +10,8 @@ export enum SequelType {
   Remaster = 'remaster',
   Reboot = 'reboot',
 }
+
+registerEnumType(SequelType, { name: 'SequelType' })
 
 @ObjectType()
 @Entity()
@@ -26,8 +28,10 @@ export default class Sequel {
   public sequelType: SequelType
 
   @ManyToOne(() => Game, (game) => game.sequels)
+  @Field(() => Game)
   public predecessor: Promise<Game>
 
+  @Field(() => Game)
   @ManyToOne(() => Game, (game) => game.sequelOf)
   public successor: Promise<Game>
 }

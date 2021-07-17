@@ -1,12 +1,15 @@
 import React, { ReactNode, useCallback } from 'react'
 import styled, { css } from 'styled-components'
 
+import { useSetRequired } from '../../contexts/requiredContext'
 import { useValidation } from '../../contexts/Validation'
 
 export interface Option<TValue> {
   label: ReactNode
   value: TValue
 }
+
+export type ListOption<T> = Option<T>
 
 interface Props<TField extends string, TValue> {
   options: Array<Option<TValue>>
@@ -43,6 +46,7 @@ export default function TypedValueSelect<TField extends string, TValue>({
 
   const isValid = !required || (value !== undefined && value !== null)
   useValidation(isValid)
+  useSetRequired(!!required)
 
   return (
     <Select isValid={isValid} value={nativeValue} onChange={handleChange}>
