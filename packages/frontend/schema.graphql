@@ -11,6 +11,7 @@ type Query {
   listPlatforms: [Platform!]!
   platform(platformId: String!): Platform!
   getRelease(id: String!): Release!
+  gameFranchise(gameId: String!): GameFranchise!
   testEntity(id: String!): TestEntity!
   anotherTestEntity: TestEntity!
 }
@@ -104,6 +105,11 @@ type User {
   id: String!
   username: String!
   role: String!
+}
+
+type GameFranchise {
+  games: [Game!]!
+  sequels: [Sequel!]!
 }
 
 type TestEntity {

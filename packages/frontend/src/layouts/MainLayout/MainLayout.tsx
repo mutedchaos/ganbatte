@@ -12,6 +12,7 @@ interface Props {
 
 const Body = styled.div`
   padding: 20px;
+  max-width: 1200px;
 `
 
 export default function MainLayout({ children, heading }: Props) {

@@ -43,7 +43,6 @@ export default function GameView() {
     { gameId }
   )
 
-  console.log('HI', JSON.stringify(data, null, 2))
   useDataCache('game', data as any)
   const cached = useCachedData('game')
 
@@ -59,7 +58,7 @@ export function GameViewImpl() {
         <h2>{data.game.name}</h2>
       </Editable>
       <GameReleases />
-      <GameTree />
+      <GameTree gameId={data.game.id} />
     </div>
   )
 }

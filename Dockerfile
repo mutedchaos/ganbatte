@@ -37,6 +37,7 @@ FROM frontend-deps AS frontend
 WORKDIR /app/packages/frontend
 COPY packages/frontend/ ./
 COPY --from=gql-schema /lib/schema.graphql ./
+RUN npm run relay-compiler
 COPY health.js ./
 CMD ["npm", "start"]
 
