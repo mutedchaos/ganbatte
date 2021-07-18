@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react'
 import styled from 'styled-components'
+
 import { ValidationStatus } from '../common'
 import Labeled from '../components/form/Labeled'
 import TextInput from '../components/form/TextInput'
@@ -9,12 +10,11 @@ import { ValidationError } from '../components/misc/ValidationError'
 import { Validateable } from '../contexts/Validation'
 import AvailabilityChecker from './AvailabilityChecker'
 
-
 interface Props {
   onValidate?(name: string): Promise<string | null>
   onSubmit(name: string): Promise<void>
   onCancel(): void
-  entityType: 'game' | 'platform' | 'businessEntity'
+  entityType: 'game' | 'platform' | 'businessEntity' | 'genre'
 }
 
 const AbsoluteLoadingIndicator = styled(LoadingIndicator)`

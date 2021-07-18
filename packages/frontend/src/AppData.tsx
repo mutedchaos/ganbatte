@@ -15,6 +15,11 @@ import {
 } from './pages/businessEntities/BusinessEntityView/__generated__/BusinessEntityViewQuery.graphql'
 import GamesQueryImpl, { GamesQuery } from './pages/games/__generated__/GamesQuery.graphql'
 import { GameViewQuery, default as GameViewQueryImpl } from './pages/games/GameView/__generated__/GameViewQuery.graphql'
+import { GenresQuery, default as GenresQueryImpl } from './pages/genres/__generated__/GenresQuery.graphql'
+import {
+  GenreViewQuery,
+  default as GenreViewQueryImpl,
+} from './pages/genres/GenreView/__generated__/GenreViewQuery.graphql'
 import {
   PlatformViewQuery,
   default as PlatformViewQueryImpl,
@@ -33,6 +38,9 @@ export interface DataCtx {
 
   businessEntities: PreloadedQuery<BusinessEntitiesQuery> | null | undefined
   businessEntity: PreloadedQuery<BusinessEntityViewQuery> | null | undefined
+
+  genres: PreloadedQuery<GenresQuery> | null | undefined
+  genre: PreloadedQuery<GenreViewQuery> | null | undefined
 }
 
 interface LoadCtx {
@@ -42,6 +50,8 @@ interface LoadCtx {
   platform(platformId: string): void
   businessEntities(): void
   businessEntity(businessEntityId: string): void
+  genres(): void
+  genre(genreId: string): void
 }
 
 const dataContext = React.createContext<DataCtx>(null as any)
@@ -57,6 +67,9 @@ export default function AppData({ children }: Props) {
   const [businessEntities, loadBusinessEntities] = useQueryLoader<BusinessEntitiesQuery>(BusinessEntitiesQueryImpl)
   const [businessEntity, loadBusinessEntity] = useQueryLoader<BusinessEntityViewQuery>(BusinessEntityViewQueryImpl)
 
+  const [genres, loadGenres] = useQueryLoader<GenresQuery>(GenresQueryImpl)
+  const [genre, loadGenre] = useQueryLoader<GenreViewQuery>(GenreViewQueryImpl)
+
   const data = useMemo<DataCtx>(
     () => ({
       games,
@@ -65,8 +78,10 @@ export default function AppData({ children }: Props) {
       platform,
       businessEntities,
       businessEntity,
+      genres,
+      genre,
     }),
-    [businessEntities, businessEntity, game, games, platform, platforms]
+    [businessEntities, businessEntity, game, games, genre, genres, platform, platforms]
   )
 
   const loaders = useMemo<LoadCtx>(
@@ -89,8 +104,14 @@ export default function AppData({ children }: Props) {
       platform(platformId: string) {
         loadPlatform({ platformId })
       },
+      genres() {
+        loadGenres({})
+      },
+      genre(genreId: string) {
+        loadGenre({ genreId })
+      },
     }),
-    [loadBusinessEntities, loadBusinessEntity, loadGame, loadGames, loadPlatform, loadPlatforms]
+    [loadBusinessEntities, loadBusinessEntity, loadGame, loadGames, loadGenre, loadGenres, loadPlatform, loadPlatforms]
   )
 
   return (

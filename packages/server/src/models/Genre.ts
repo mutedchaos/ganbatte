@@ -13,7 +13,12 @@ export default class Genre {
 
   @Column()
   @Index({ unique: true })
+  @Field()
   public name: string
+
+  @Column()
+  @Index({ unique: true })
+  public nameLower: string
 
   @OneToMany(() => GameGenre, (gg) => gg.genre)
   public games: Promise<GameGenre[]>

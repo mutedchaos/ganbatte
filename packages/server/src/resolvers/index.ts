@@ -1,9 +1,9 @@
-import { SequelType } from '../models/Sequel'
 import { AuthenticationResolver } from './AuthenticationResolver'
 import { BusinessEntityRelationshipResolver } from './BusinessEntityRelationshipResolver'
 import { BusinessEntityResolver } from './BusinessEntityResolver'
 import GameOwnershipResolver from './GameOwnershipResolver'
 import { GameResolver } from './GameResolver'
+import GenreResolver from './GenreResolver'
 import { MiscResolver } from './MiscResolver'
 import { PlatformResolver } from './PlatformResolver'
 import { ReleaseResolver } from './ReleaseResolver'
@@ -21,4 +21,5 @@ export const resolvers = [
   GameOwnershipResolver,
   BusinessEntityRelationshipResolver,
   SequelResolver,
+  GenreResolver,
 ] as const

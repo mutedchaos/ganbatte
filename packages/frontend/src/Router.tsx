@@ -8,6 +8,9 @@ import CreateNewBusinessEntity from './pages/businessEntities/CreateNewBusinessE
 import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
 import GameView from './pages/games/GameView/GameView'
+import CreateNewGenre from './pages/genres/CreateNewGenre'
+import Genres from './pages/genres/Genres'
+import GenreView from './pages/genres/GenreView/GenreView'
 import Home from './pages/home/Home'
 import Me from './pages/me/Me'
 import CreateNewPlatform from './pages/platforms/CreateNewPlatform'
@@ -39,6 +42,10 @@ export default function Router() {
       <ReachDestination path="/businessEntities" jsx={<BusinessEntities />} />
       <ReachDestination path="/businessEntities/-/create" jsx={<CreateNewBusinessEntity />} />
       <ReachDestination path="/businessEntities/:businessEntityId" jsx={<BusinessEntityView />} />
+
+      <ReachDestination path="/genres" jsx={<Genres />} />
+      <ReachDestination path="/genres/-/create" jsx={<CreateNewGenre />} />
+      <ReachDestination path="/genres/:genreId" jsx={<GenreView />} />
     </ReachRouter>
   )
 }

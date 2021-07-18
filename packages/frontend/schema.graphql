@@ -4,6 +4,8 @@ type Query {
   listGames: [Game!]!
   game(gameId: String!): Game!
   getGameByName(name: String!): Game!
+  getGenre(genreId: String!): Genre!
+  getGenres: [Genre!]!
   isNameAvailable(type: String!, name: String!): Boolean!
   getAutocompleteSuggestions(type: String!, query: String!): [NameIdPair!]!
   getAuthenticatedUser: CurrentUser!
@@ -92,6 +94,11 @@ enum OwnershipType {
   Wishlisted
 }
 
+type Genre {
+  id: String!
+  name: String!
+}
+
 type NameIdPair {
   id: String!
   name: String!
@@ -125,6 +132,7 @@ type Mutation {
   updateOwnership(ownershipId: String, ownershipType: OwnershipType!, releaseId: String!): Release!
   createGame(name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
+  createGenre(name: String!): Genre!
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
   createReleases(data: CreateRelease!): Game!
