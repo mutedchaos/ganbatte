@@ -49,7 +49,7 @@ const ActiveStyle = styled(BaseStyle)`
 `
 
 const PrefixStyle = styled(BaseStyle)`
-  background: darkorange;
+  background: gold;
 `
 
 const Hide = styled.div`
@@ -63,7 +63,7 @@ const Hide = styled.div`
 const HideLeft = Hide
 
 export default function NavBarLink({ to, children }: Props) {
-  const match = useMatch(to)
+  const match = useMatch(to === '/' ? '/' : to + '/*')
   const isModalActive = useIsModalActive()
 
   return (
