@@ -97,6 +97,27 @@ enum OwnershipType {
 type Genre {
   id: String!
   name: String!
+  games: [GameGenre!]!
+  subgenres: [Subgenre!]!
+  parents: [Subgenre!]!
+}
+
+type GameGenre {
+  id: String!
+}
+
+type Subgenre {
+  id: String!
+  association: GenreAssociationType!
+  parent: Genre!
+  child: Genre!
+}
+
+enum GenreAssociationType {
+  Full
+  Partial
+  Expected
+  ExplicitNo
 }
 
 type NameIdPair {
@@ -133,6 +154,7 @@ type Mutation {
   createGame(name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
   createGenre(name: String!): Genre!
+  updateGenre(name: String!, genreId: String!): Genre!
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
   createPlatform(name: String!): Platform!
   createReleases(data: CreateRelease!): Game!

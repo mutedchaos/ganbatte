@@ -1,9 +1,10 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ObjectType, registerEnumType } from 'type-graphql'
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import Genre from './Genre'
 import { GenreAssociationType } from './misc/GenreAssociationType'
 
+registerEnumType(GenreAssociationType, { name: 'GenreAssociationType' })
 @ObjectType()
 @Entity()
 export default class Subgenre {
@@ -15,11 +16,14 @@ export default class Subgenre {
     type: 'enum',
     enum: GenreAssociationType,
   })
+  @Field(() => GenreAssociationType)
   public association: GenreAssociationType
 
+  @Field(() => Genre)
   @ManyToOne(() => Genre, (genre) => genre.subgenres)
   public parent: Genre
 
+  @Field(() => Genre)
   @ManyToOne(() => Genre, (genre) => genre.parents)
   public child: Genre
 }

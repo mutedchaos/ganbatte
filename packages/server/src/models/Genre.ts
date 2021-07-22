@@ -20,12 +20,15 @@ export default class Genre {
   @Index({ unique: true })
   public nameLower: string
 
+  @Field(() => [GameGenre])
   @OneToMany(() => GameGenre, (gg) => gg.genre)
   public games: Promise<GameGenre[]>
 
+  @Field(() => [Subgenre])
   @OneToMany(() => Subgenre, (sg) => sg.parent)
   public subgenres: Promise<Subgenre[]>
 
+  @Field(() => [Subgenre])
   @OneToMany(() => Subgenre, (sg) => sg.child)
   public parents: Promise<Subgenre[]>
 }

@@ -32,4 +32,18 @@ export default class GenreResolver {
     await genreRepository.save(genre)
     return genre
   }
+
+  @Authorized(Role.DATA_MANAGER)
+  @Mutation(() => Genre)
+  async updateGenre(@Arg('genreId') genreId: string, @Arg('name') name: string): Promise<Genre> {
+    const properName = name.trim()
+    const genre = await genreRepository.findOne(genreId)
+    if (!genre) throw new Error('Invalid genre')
+    fieldAssign(genre, {
+      name: properName,
+      nameLower: properName.toLowerCase(),
+    })
+    await genreRepository.save(genre)
+    return genre
+  }
 }
