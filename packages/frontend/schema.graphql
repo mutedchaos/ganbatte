@@ -1,6 +1,8 @@
 type Query {
   listBusinessEntities: [BusinessEntity!]!
   businessEntity(businessEntityId: String!): BusinessEntity!
+  getFeatureTypes: [FeatureType!]!
+  getFeatureType(featureId: String!): FeatureType!
   listGames: [Game!]!
   game(gameId: String!): Game!
   getGameByName(name: String!): Game!
@@ -23,6 +25,31 @@ type BusinessEntity {
   name: String!
 }
 
+type FeatureType {
+  id: String!
+  name: String!
+  editorStyle: FeaturePickerStyle!
+  features: [Feature!]!
+}
+
+enum FeaturePickerStyle {
+  Dropdown
+  Checkboxes
+}
+
+type Feature {
+  id: String!
+  name: String!
+  games: [GameFeature!]!
+  type: FeatureType!
+}
+
+type GameFeature {
+  id: String!
+  game: Game!
+  feature: Feature!
+}
+
 type Game {
   id: String!
   name: String!
@@ -31,6 +58,7 @@ type Game {
   sequelOf: [Sequel!]!
   genres: [GameGenre!]!
   releases: [Release!]!
+  features: [GameFeature!]!
   relatedGenres: [Genre!]!
 }
 
@@ -155,6 +183,7 @@ type Mutation {
   createBusinessEntityRelation(data: BusinessEntityRelationData!, releaseId: String!): Release!
   updateBusinessEntityRelation(data: BusinessEntityRelationData!, id: String!): ReleaseRelatedBusinessEntity!
   createBusinessEntity(name: String!): BusinessEntity!
+  createFeatureType(name: String!): FeatureType!
   addGameGenre(association: GenreAssociationType!, genreId: String!, gameId: String!): GameGenre!
   updateGameGenre(association: GenreAssociationType!, genreId: String!, id: String!): GameGenre!
   updateOwnership(ownershipId: String, ownershipType: OwnershipType!, releaseId: String!): Release!

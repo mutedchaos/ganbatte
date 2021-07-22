@@ -14,7 +14,7 @@ interface Props {
   onValidate?(name: string): Promise<string | null>
   onSubmit(name: string): Promise<void>
   onCancel(): void
-  entityType: 'game' | 'platform' | 'businessEntity' | 'genre'
+  entityType: 'game' | 'platform' | 'businessEntity' | 'genre' | 'featureType'
 }
 
 const AbsoluteLoadingIndicator = styled(LoadingIndicator)`

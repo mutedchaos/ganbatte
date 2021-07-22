@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 export interface RequiredCtx {
   setRequired(state: boolean): void
@@ -7,5 +7,8 @@ export interface RequiredCtx {
 export const requiredContext = React.createContext<RequiredCtx | null>(null)
 
 export function useSetRequired(isRequired: boolean) {
-  return useContext(requiredContext)?.setRequired(isRequired)
+  const requiredCtx = useContext(requiredContext)
+  useEffect(() => {
+    requiredCtx?.setRequired(isRequired)
+  }, [isRequired, requiredCtx])
 }

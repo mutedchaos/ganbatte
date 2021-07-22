@@ -1,7 +1,10 @@
 import { Repository, getConnection } from 'typeorm'
 
 import BusinessEntity from './models/BusinessEntity'
+import Feature from './models/Feature'
+import FeatureType from './models/FeatureType'
 import Game from './models/Game'
+import GameFeature from './models/GameFeature'
 import GameGenre from './models/GameGenre'
 import GameOwnership from './models/GameOwnership'
 import Genre from './models/Genre'
@@ -31,6 +34,9 @@ export const businessEntityRepository = createRepositoryProxy(BusinessEntity)
 export const platformRepository = createRepositoryProxy(Platform)
 export const gameOwnershipRepository = createRepositoryProxy(GameOwnership)
 export const releaseRelatedBusinessEntityRepository = createRepositoryProxy(ReleaseRelatedBusinessEntity)
+export const featureTypeRepository = createRepositoryProxy(FeatureType)
+export const featureRepository = createRepositoryProxy(Feature)
+export const gameFeatureRepository = createRepositoryProxy(GameFeature)
 
 export const repositoryByName = {
   test: testRepository,
@@ -46,6 +52,9 @@ export const repositoryByName = {
   platform: platformRepository,
   gameOwnership: gameOwnershipRepository,
   releaseRelatedBusinessEntity: releaseRelatedBusinessEntityRepository,
+  featureType: featureTypeRepository,
+  feature: featureRepository,
+  gameFeature: gameFeatureRepository,
 }
 
 function createRepositoryProxy<T>(entity: Constructable<T>): Repository<T> {

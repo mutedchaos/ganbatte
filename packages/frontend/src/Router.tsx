@@ -5,6 +5,9 @@ import { routePropContext } from './contexts/RoutePropContext'
 import BusinessEntities from './pages/businessEntities/BusinessEntities'
 import BusinessEntityView from './pages/businessEntities/BusinessEntityView/BusinessEntityView'
 import CreateNewBusinessEntity from './pages/businessEntities/CreateNewBusinessEntity'
+import CreateNewFeature from './pages/features/CreateNewFeature'
+import Features from './pages/features/Features'
+import FeatureView from './pages/features/FeatureView/FeatureView'
 import CreateNewGame from './pages/games/CreateNewGame'
 import Games from './pages/games/Games'
 import GameView from './pages/games/GameView/GameView'
@@ -46,6 +49,10 @@ export default function Router() {
       <ReachDestination path="/genres" jsx={<Genres />} />
       <ReachDestination path="/genres/-/create" jsx={<CreateNewGenre />} />
       <ReachDestination path="/genres/:genreId" jsx={<GenreView />} />
+
+      <ReachDestination path="/features" jsx={<Features />} />
+      <ReachDestination path="/features/-/create" jsx={<CreateNewFeature />} />
+      <ReachDestination path="/features/:featureId" jsx={<FeatureView />} />
     </ReachRouter>
   )
 }

@@ -22,6 +22,7 @@ export default function NavBar() {
       <NavBarLink to="/platforms">Platforms</NavBarLink>
       <NavBarLink to="/businessEntities">Business entities</NavBarLink>
       <NavBarLink to="/genres">Genres</NavBarLink>
+      <NavBarLink to="/features">Features</NavBarLink>
       <NavBarLink to="/me">Me</NavBarLink>
       <Spacer />
       <EditorLock />
