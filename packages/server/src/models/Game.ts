@@ -44,6 +44,7 @@ export default class Game {
   @OneToMany(() => Review, (review) => review.game)
   public reviews: Promise<Review[]>
 
+  @Field(() => [GameGenre])
   @OneToMany(() => GameGenre, (genre) => genre.game)
   public genres: Promise<GameGenre[]>
 

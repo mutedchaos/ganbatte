@@ -10,6 +10,7 @@ import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import GameDetailEditor from './GameDetailEditor'
+import GameGenres from './GameGenres'
 import { GameReleases } from './GameReleases'
 import GameTree from './GameTree/GameTree'
 
@@ -37,6 +38,23 @@ export default function GameView() {
               isNew
             }
           }
+          genres {
+            id
+            association
+            genre {
+              id
+            }
+          }
+          relatedGenres {
+            id
+            name
+            subgenres {
+              association
+              child {
+                id
+              }
+            }
+          }
         }
       }
     `,
@@ -59,6 +77,7 @@ export function GameViewImpl() {
       </Editable>
       <GameReleases />
       <GameTree gameId={data.game.id} />
+      <GameGenres />
     </div>
   )
 }

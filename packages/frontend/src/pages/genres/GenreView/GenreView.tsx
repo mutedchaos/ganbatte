@@ -53,7 +53,7 @@ export function GenreViewQueryImpl() {
   const parents = useMemo(() => parentsUnfiltered.filter((x) => x), [parentsUnfiltered])
   const subgenres = useMemo(() => subgenresUnfiltered.filter((x) => x), [subgenresUnfiltered])
   return (
-    <>
+    <div key={data.getGenre.id}>
       <Editable editor={<GenreEditor />}>
         <h2>{data.getGenre.name}</h2>
       </Editable>
@@ -82,6 +82,9 @@ export function GenreViewQueryImpl() {
           </ul>
         )}
       </TogglableEditable>
-    </>
+    </div>
+
+
+    
   )
 }

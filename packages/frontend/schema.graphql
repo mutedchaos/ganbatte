@@ -29,7 +29,9 @@ type Game {
   sortName: String!
   sequels: [Sequel!]!
   sequelOf: [Sequel!]!
+  genres: [GameGenre!]!
   releases: [Release!]!
+  relatedGenres: [Genre!]!
 }
 
 type Sequel {
@@ -45,6 +47,35 @@ enum SequelType {
   SpiritualSequel
   Remaster
   Reboot
+}
+
+type GameGenre {
+  id: String!
+  association: GenreAssociationType!
+  game: Game!
+  genre: Genre!
+}
+
+enum GenreAssociationType {
+  Full
+  Partial
+  Expected
+  ExplicitNo
+}
+
+type Genre {
+  id: String!
+  name: String!
+  games: [GameGenre!]!
+  subgenres: [Subgenre!]!
+  parents: [Subgenre!]!
+}
+
+type Subgenre {
+  id: String!
+  association: GenreAssociationType!
+  parent: Genre!
+  child: Genre!
 }
 
 type Release {
@@ -92,32 +123,6 @@ enum OwnershipType {
   Owned
   Access
   Wishlisted
-}
-
-type Genre {
-  id: String!
-  name: String!
-  games: [GameGenre!]!
-  subgenres: [Subgenre!]!
-  parents: [Subgenre!]!
-}
-
-type GameGenre {
-  id: String!
-}
-
-type Subgenre {
-  id: String!
-  association: GenreAssociationType!
-  parent: Genre!
-  child: Genre!
-}
-
-enum GenreAssociationType {
-  Full
-  Partial
-  Expected
-  ExplicitNo
 }
 
 type NameIdPair {

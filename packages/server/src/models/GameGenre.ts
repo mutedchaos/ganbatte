@@ -16,11 +16,14 @@ export default class GameGenre {
     type: 'enum',
     enum: GenreAssociationType,
   })
+  @Field(() => GenreAssociationType)
   public association: GenreAssociationType
 
+  @Field(() => Game)
   @ManyToOne(() => Game, (game) => game.genres)
   public game: Promise<Game>
 
+  @Field(() => Genre)
   @ManyToOne(() => Genre, (genre) => genre.games)
   public genre: Promise<Genre>
 }

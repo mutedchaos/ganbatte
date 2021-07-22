@@ -1,6 +1,7 @@
-import { Arg, Authorized, Field, InputType, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
 
 import Game from '../models/Game'
+import Genre from '../models/Genre'
 import { gameRepository } from '../repositories'
 import { Role } from '../services/roles'
 
@@ -49,9 +50,24 @@ export class GameResolver {
   async getGameByName(@Arg('name') name: string) {
     return await gameRepository.findOne({ name: name })
   }
-  /*
-  @FieldResolver(() => [Release])
-  async releases(@Root() game: Game) {
-    return await game.releases
-  }*/
+
+  @FieldResolver(() => [Genre])
+  async relatedGenres(@Root() game: Game): Promise<Genre[]> {
+    const output: Genre[] = []
+
+    for (const gameGenre of await game.genres) {
+      await handle(await gameGenre.genre)
+    }
+
+    async function handle(genre: Genre) {
+      if (output.some((o) => o.id === genre.id)) return
+      output.push(genre)
+
+      for (const subgenre of await genre.subgenres) {
+        await handle(await subgenre.child)
+      }
+    }
+
+    return output
+  }
 }
