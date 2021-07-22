@@ -1,9 +1,11 @@
 import compact from 'lodash/compact'
 import { useMemo } from 'react'
 
-import { useCachedData } from '../../../common/CachedDataProvider'
-import required from '../../../common/required'
-import { GameViewQueryResponse, GenreAssociationType } from './__generated__/GameViewQuery.graphql'
+import { useCachedData } from '../../../../common/CachedDataProvider'
+import required from '../../../../common/required'
+import ToggableEditable from '../../../../components/misc/TogglableEditable'
+import { GameViewQueryResponse, GenreAssociationType } from '../__generated__/GameViewQuery.graphql'
+import GameGenreEditor from './GameGenreEditor'
 
 type Genre = GameViewQueryResponse['game']['relatedGenres'][number]
 
@@ -25,15 +27,17 @@ export default function GameGenres() {
   return (
     <>
       <h1>Genre(s)</h1>
-      {genres
-        .filter((g) => g.association !== 'ExplicitNo')
-        .map((genre) => (
-          <div key={genre.genre.id}>
-            <p>
-              {genre.genre.name} {genre.association}
-            </p>
-          </div>
-        ))}
+      <ToggableEditable editor={<GameGenreEditor />}>
+        {genres
+          .filter((g) => g.association !== 'ExplicitNo' && g.association !== 'Expected')
+          .map((genre) => (
+            <div key={genre.genre.id}>
+              <p>
+                {genre.genre.name} {genre.association}
+              </p>
+            </div>
+          ))}
+      </ToggableEditable>
     </>
   )
 }
