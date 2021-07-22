@@ -183,6 +183,8 @@ type Mutation {
   createBusinessEntityRelation(data: BusinessEntityRelationData!, releaseId: String!): Release!
   updateBusinessEntityRelation(data: BusinessEntityRelationData!, id: String!): ReleaseRelatedBusinessEntity!
   createBusinessEntity(name: String!): BusinessEntity!
+  createFeature(name: String!, featureTypeId: String!): Feature!
+  updateFeature(name: String!, featureId: String!): Feature!
   createFeatureType(name: String!): FeatureType!
   updateFeatureType(editorStyle: FeaturePickerStyle!, name: String!, id: String!): FeatureType!
   addGameGenre(association: GenreAssociationType!, genreId: String!, gameId: String!): GameGenre!
