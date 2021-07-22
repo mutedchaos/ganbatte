@@ -26,7 +26,7 @@ export default function GameGenres() {
 
   return (
     <>
-      <h1>Genre(s)</h1>
+      <h2>Genre(s)</h2>
       <ToggableEditable editor={<GameGenreEditor />}>
         {genres
           .filter((g) => g.association !== 'ExplicitNo' && g.association !== 'Expected')

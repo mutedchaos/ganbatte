@@ -1,7 +1,9 @@
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql'
 
 import Feature from '../models/Feature'
-import { featureRepository, featureTypeRepository } from '../repositories'
+import Game from '../models/Game'
+import GameFeature from '../models/GameFeature'
+import { featureRepository, featureTypeRepository, gameFeatureRepository, gameRepository } from '../repositories'
 import fieldAssign from '../services/fieldAssign'
 import { Role } from '../services/roles'
 
@@ -16,7 +18,7 @@ export default class FeatureResolver {
 
     const feature = fieldAssign(new Feature(), {
       name: sanitizedName,
-      type: featureType,
+      type: Promise.resolve(featureType),
     })
     await featureRepository.save(feature)
 
@@ -36,5 +38,45 @@ export default class FeatureResolver {
     await featureRepository.save(feature)
 
     return feature
+  }
+  @Mutation(() => Game)
+  @Authorized(Role.DATA_MANAGER)
+  async updateFeatureSet(
+    @Arg('gameId') gameId: string,
+    @Arg('featureTypeId') featureTypeId: string,
+    @Arg('featureIds', () => [String]) featureIds: string[]
+  ): Promise<Game> {
+    const game = await gameRepository.findOne(gameId)
+    if (!game) throw new Error('Invalid game')
+
+    const featureType = await featureTypeRepository.findOne(featureTypeId)
+    if (!featureType) throw new Error('Invalid feature type')
+
+    const validFeatures = await featureType.features
+
+    if (featureIds.some((featureId) => !validFeatures.some((feat) => feat.id === featureId))) {
+      throw new Error('Invalid feature ids')
+    }
+
+    const gameFeats = await game.features
+
+    const toAdd = featureIds.filter((featId) => gameFeats.every((feat) => feat.featureId !== featId))
+    const toRemove = gameFeats.filter((gameFeat) => !featureIds.includes(gameFeat.featureId))
+
+    await gameFeatureRepository.remove(toRemove)
+
+    for (const item of toAdd) {
+      const feature = validFeatures.find((feat) => feat.id === item)
+      if (!feature) throw new Error('Internal error')
+      const gameFeat = fieldAssign(new GameFeature(), {
+        game: Promise.resolve(game),
+        feature: Promise.resolve(feature),
+      })
+
+      await gameFeatureRepository.save(gameFeat)
+    }
+    const freshGame = await gameRepository.findOne(gameId)
+    if (!freshGame) throw new Error('Internal error')
+    return freshGame
   }
 }

@@ -1,5 +1,5 @@
 import { Field, ObjectType } from 'type-graphql'
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import Feature from './Feature'
 import Game from './Game'
@@ -15,7 +15,11 @@ export default class GameFeature {
   @ManyToOne(() => Game, (game) => game.features)
   public game: Promise<Game>
 
+  @Column(() => String)
+  public featureId: string
+
   @Field(() => Feature)
   @ManyToOne(() => Feature, (feat) => feat.games)
+  @JoinColumn({ name: 'featureId' })
   public feature: Promise<Feature>
 }

@@ -10,9 +10,10 @@ import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import GameDetailEditor from './GameDetailEditor'
-import GameGenres from './Genres/GameGenres'
+import GameFeatures from './GameFeatures/GameFeatures'
 import { GameReleases } from './GameReleases'
 import GameTree from './GameTree/GameTree'
+import GameGenres from './Genres/GameGenres'
 
 export default function GameView() {
   const gameId = useContext(routePropContext).gameId as string
@@ -56,6 +57,17 @@ export default function GameView() {
               }
             }
           }
+          featuresByType {
+            type {
+              id
+              name
+              editorStyle
+            }
+            features {
+              id
+              name
+            }
+          }
         }
       }
     `,
@@ -79,6 +91,7 @@ export function GameViewImpl() {
       <GameReleases />
       <GameTree gameId={data.game.id} />
       <GameGenres />
+      <GameFeatures />
     </div>
   )
 }

@@ -60,6 +60,7 @@ type Game {
   releases: [Release!]!
   features: [GameFeature!]!
   relatedGenres: [Genre!]!
+  featuresByType: [TypeAndFeatures!]!
 }
 
 type Sequel {
@@ -153,6 +154,11 @@ enum OwnershipType {
   Wishlisted
 }
 
+type TypeAndFeatures {
+  type: FeatureType!
+  features: [Feature!]!
+}
+
 type NameIdPair {
   id: String!
   name: String!
@@ -185,6 +191,7 @@ type Mutation {
   createBusinessEntity(name: String!): BusinessEntity!
   createFeature(name: String!, featureTypeId: String!): Feature!
   updateFeature(name: String!, featureId: String!): Feature!
+  updateFeatureSet(featureIds: [String!]!, featureTypeId: String!, gameId: String!): Game!
   createFeatureType(name: String!): FeatureType!
   updateFeatureType(editorStyle: FeaturePickerStyle!, name: String!, id: String!): FeatureType!
   addGameGenre(association: GenreAssociationType!, genreId: String!, gameId: String!): GameGenre!

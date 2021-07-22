@@ -10,15 +10,19 @@ import { useConfirmationPopup } from '../contexts/useConfirmationPopup'
 import { DeleteEntityButtonMutation } from './__generated__/DeleteEntityButtonMutation.graphql'
 import CancelledError from './CancelledError'
 
-interface Props {
-  type: 'game' | 'release' | 'releaseRelatedBusinessEntity' | 'sequel' | 'subgenre' | 'gamegenre' | 'feature'
+type Props = {
   typeLabel: string
-  id: string
   entityName: string
   targetPage?: string
   onDelete?(): void
   invalidate?: string
-}
+} & (
+  | {
+      id: string
+      type: 'game' | 'release' | 'releaseRelatedBusinessEntity' | 'sequel' | 'subgenre' | 'gamegenre' | 'feature'
+    }
+  | { id?: undefined; type: 'custom' }
+)
 const Button = styled.button`
   background: none;
   border: none;
@@ -66,6 +70,9 @@ export default function DeleteEntityButton({
       }
     ).then(
       () => {
+        if (type === 'custom' || typeof id !== 'string') {
+          return onDelete?.()
+        }
         mutate({
           variables: { type, id },
           onCompleted() {

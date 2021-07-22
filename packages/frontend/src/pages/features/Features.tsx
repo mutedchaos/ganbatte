@@ -8,24 +8,24 @@ import CreateNewButton from '../../components/buttons/CreateNewButton'
 import FloatRight from '../../components/styles/FloatRight'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 
-export default function Features() {
-  const query = graphql`
-    query FeaturesQuery {
-      getFeatureTypes {
+export const featuresQuery = graphql`
+  query FeaturesQuery {
+    getFeatureTypes {
+      id
+      name
+      editorStyle
+      features {
         id
         name
-        editorStyle
-        features {
-          id
-          name
-        }
       }
     }
-  `
+  }
+`
 
+export default function Features() {
   return (
     <MainLayout heading="Features">
-      <CachedLoader entity={'features'} query={query}>
+      <CachedLoader entity={'features'} query={featuresQuery}>
         <FeaturesImpl />
       </CachedLoader>
     </MainLayout>

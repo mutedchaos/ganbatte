@@ -1,5 +1,18 @@
-import { Arg, Authorized, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
+import {
+  Arg,
+  Authorized,
+  Field,
+  FieldResolver,
+  InputType,
+  Mutation,
+  ObjectType,
+  Query,
+  Resolver,
+  Root,
+} from 'type-graphql'
 
+import Feature from '../models/Feature'
+import FeatureType from '../models/FeatureType'
 import Game from '../models/Game'
 import Genre from '../models/Genre'
 import { gameRepository } from '../repositories'
@@ -12,6 +25,14 @@ export class GameUpdate implements Partial<Game> {
 
   @Field()
   public sortName?: string
+}
+
+@ObjectType()
+class TypeAndFeatures {
+  @Field()
+  public type: FeatureType
+  @Field(() => [Feature])
+  public features: Feature[] = []
 }
 
 @Resolver(() => Game)
@@ -69,5 +90,27 @@ export class GameResolver {
     }
 
     return output
+  }
+
+  @FieldResolver(() => [TypeAndFeatures])
+  async featuresByType(@Root() game: Game): Promise<TypeAndFeatures[]> {
+    const outputData = new Map<string, TypeAndFeatures>()
+
+    for (const gameFeature of await game.features) {
+      const feature = await gameFeature.feature
+      const type = await feature.type
+      const typeAndFeatures = (function (outputData: Map<string, TypeAndFeatures>, type: FeatureType) {
+        const taf1 = outputData.get(type.id)
+        if (taf1) return taf1
+        const taf2 = new TypeAndFeatures()
+        taf2.type = type
+        outputData.set(type.id, taf2)
+        return taf2
+      })(outputData, type)
+
+      typeAndFeatures.features.push(feature)
+    }
+
+    return Array.from(outputData.values())
   }
 }
