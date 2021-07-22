@@ -1,5 +1,3 @@
-import { platform } from 'os'
-
 import { Arg, Authorized, Mutation, Query, Resolver } from 'type-graphql'
 
 import Genre from '../models/Genre'

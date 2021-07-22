@@ -160,6 +160,8 @@ type Mutation {
   createReleases(data: CreateRelease!): Game!
   updateRelease(data: ReleaseUpdate!, id: String!): Release!
   createSequel(sequelType: SequelType!, successor: String!, predecessor: String!): [Game!]!
+  createSubgenre(association: GenreAssociationType!, childId: String!, parentId: String!): Subgenre!
+  updateSubgenre(association: GenreAssociationType!, childId: String!, id: String!): Subgenre!
 }
 
 type AuthResponse {

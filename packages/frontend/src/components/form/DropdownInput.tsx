@@ -27,7 +27,7 @@ const Select = styled.select<{ isValid: boolean }>`
     `}
 `
 
-export default function TypedValueSelect<TField extends string, TValue>({
+export default function DropdownInput<TField extends string, TValue>({
   options,
   value,
   field,

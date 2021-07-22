@@ -8,7 +8,7 @@ import CreateNewButton from '../../components/buttons/CreateNewButton'
 import FloatRight from '../../components/styles/FloatRight'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 
-export default function BusinessEntities() {
+export default function Genres() {
   const query = graphql`
     query GenresQuery {
       getGenres {
@@ -37,7 +37,7 @@ export function GenresImpl() {
       </FloatRight>
       <h2>Genres</h2>
       <ul>
-        {data.getGenres.map((genre) => (
+        {data.getGenres?.map((genre) => (
           <li key={genre.id}>
             <Link to={`/genres/${genre.id}`}>{genre.name}</Link>
           </li>

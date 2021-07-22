@@ -19,7 +19,7 @@ const Button = styled.button<{ editing: boolean }>`
   color: ${({ editing }) => (editing ? 'blue' : 'black')};
 `
 
-export default function ToggalbleEditable({ children, editor }: Props) {
+export default function ToggableEditable({ children, editor }: Props) {
   const [editing, setEditing] = useState(false)
   const globalEdit = !useIsEditorLocked()
   const toggle = useCallback(() => setEditing((x) => !x), [])

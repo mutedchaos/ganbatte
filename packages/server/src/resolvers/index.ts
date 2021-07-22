@@ -8,6 +8,7 @@ import { MiscResolver } from './MiscResolver'
 import { PlatformResolver } from './PlatformResolver'
 import { ReleaseResolver } from './ReleaseResolver'
 import SequelResolver from './SequelResolver'
+import SubgenreResolver from './SubgenreResolver'
 import { TestResolver } from './TestResolver'
 
 export const resolvers = [
@@ -22,4 +23,5 @@ export const resolvers = [
   BusinessEntityRelationshipResolver,
   SequelResolver,
   GenreResolver,
+  SubgenreResolver,
 ] as const

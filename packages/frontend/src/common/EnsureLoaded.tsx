@@ -12,9 +12,10 @@ interface Props {
   entity: SupportedEntity
   id?: string
   query: GraphQLTaggedNode
+  requiredKey?: string
 }
 
-export default function EnsureLoaded({ children, entity, id, query }: Props) {
+export default function EnsureLoaded({ children, entity, id, query, requiredKey }: Props) {
   const loaders = useAppLoaders()
   useEffect(() => {
     const loader = loaders[entity]
@@ -30,7 +31,7 @@ export default function EnsureLoaded({ children, entity, id, query }: Props) {
   if (!queryRef) return <LoadingIndicator />
 
   return (
-    <Cacher query={query} entity={entity}>
+    <Cacher query={query} entity={entity} requiredKey={requiredKey}>
       {children}
     </Cacher>
   )
@@ -40,13 +41,14 @@ interface CacherProps {
   children: ReactNode
   query: GraphQLTaggedNode
   entity: SupportedEntity
+  requiredKey?: string
 }
 
-function Cacher({ children, query, entity }: CacherProps) {
+function Cacher({ children, query, entity, requiredKey }: CacherProps) {
   const data = usePreloadedQuery(query, useAppData()[entity] as any)
   useDataCache(entity, data as any)
-  const entry = useCachedData(entity)
-  if (!entry) return <LoadingIndicator />
+  const entry: any = useCachedData(entity)
+  if (!entry || (requiredKey && !entry[requiredKey])) return <LoadingIndicator />
   return <>{children}</>
 }
 

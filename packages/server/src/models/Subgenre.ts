@@ -21,9 +21,9 @@ export default class Subgenre {
 
   @Field(() => Genre)
   @ManyToOne(() => Genre, (genre) => genre.subgenres)
-  public parent: Genre
+  public parent: Promise<Genre>
 
   @Field(() => Genre)
   @ManyToOne(() => Genre, (genre) => genre.parents)
-  public child: Genre
+  public child: Promise<Genre>
 }
