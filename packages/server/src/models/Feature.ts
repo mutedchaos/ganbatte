@@ -4,6 +4,7 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'ty
 import FeatureType from './FeatureType'
 import GameFeature from './GameFeature'
 
+
 @ObjectType()
 @Entity()
 export default class Feature {

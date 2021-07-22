@@ -30,4 +30,23 @@ export default class FeatureTypeResolver {
     await featureTypeRepository.save(featureType)
     return featureType
   }
+
+  @Mutation(() => FeatureType)
+  async updateFeatureType(
+    @Arg('id') id: string,
+    @Arg('name') name: string,
+    @Arg('editorStyle', () => FeaturePickerStyle) editorStyle: FeaturePickerStyle
+  ): Promise<FeatureType> {
+    const properName = name.trim()
+    const featureType = await featureTypeRepository.findOne(id)
+    if (!featureType) throw new Error('Invalid feature type')
+    fieldAssign(featureType, {
+      name: properName,
+      nameLower: properName.toLowerCase(),
+      editorStyle,
+    })
+
+    await featureTypeRepository.save(featureType)
+    return featureType
+  }
 }

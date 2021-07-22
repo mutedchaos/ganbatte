@@ -3,8 +3,10 @@ import React, { useContext } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
+import Editable from '../../../components/misc/Editable'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
+import FeatureTypeEditor from './FeatureTypeEditor'
 
 export default function FeatureView() {
   const featureId = useContext(routePropContext).featureId as string
@@ -23,9 +25,6 @@ export default function FeatureView() {
     }
   `
 
-
-  
-
   return (
     <MainLayout heading="Feature">
       <CachedLoader entity="feature" id={featureId} query={query}>
@@ -36,7 +35,21 @@ export default function FeatureView() {
 }
 
 export function FeatureViewImpl() {
-  const data = useCachedData('feature')
+  const { getFeatureType: featureType } = useCachedData('feature')
 
-  return <h1>{data.getFeatureType.name}</h1>
+  return (
+    <>
+      <h1>{featureType.name}</h1>
+      <Editable editor={<FeatureTypeEditor />}>
+        <p>Suggested editor style: {featureType.editorStyle}</p>
+      </Editable>
+      <h2>Options</h2>
+      {!featureType.features.length && <p>None</p>}
+      <ul>
+        {featureType.features.map((feat) => (
+          <li key={feat.id}>{feat.name}</li>
+        ))}
+      </ul>
+    </>
+  )
 }
