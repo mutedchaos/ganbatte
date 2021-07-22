@@ -1,6 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
+import GameFeature from './GameFeature'
 import GameGenre from './GameGenre'
 import Release from './Release'
 import Review from './Review'
@@ -51,4 +52,8 @@ export default class Game {
   @Field(() => [Release])
   @OneToMany(() => Release, (release) => release.lazyGame)
   public releases: Promise<Release[]>
+
+  @Field(() => [GameFeature])
+  @OneToMany(() => GameFeature, (feat) => feat.game)
+  public features: Promise<GameFeature[]>
 }
