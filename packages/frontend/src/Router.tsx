@@ -16,6 +16,8 @@ import Genres from './pages/genres/Genres'
 import GenreView from './pages/genres/GenreView/GenreView'
 import Home from './pages/home/Home'
 import Me from './pages/me/Me'
+import AddManyGames from './pages/misc/AddManyGames'
+import MiscPage from './pages/misc/MiscPage'
 import CreateNewPlatform from './pages/platforms/CreateNewPlatform'
 import Platforms from './pages/platforms/Platforms'
 import PlatformView from './pages/platforms/PlatformView/PlatformView'
@@ -33,6 +35,8 @@ export default function Router() {
     <ReachRouter>
       <ReachDestination path="/" jsx={<Home />} />
       <ReachDestination path="/me" jsx={<Me />} />
+      <ReachDestination path="/misc" jsx={<MiscPage />} />
+      <ReachDestination path="/misc/addManyGames" jsx={<AddManyGames />} />
 
       <ReachDestination path="/games" jsx={<Games />} />
       <ReachDestination path="/games/-/create" jsx={<CreateNewGame />} />

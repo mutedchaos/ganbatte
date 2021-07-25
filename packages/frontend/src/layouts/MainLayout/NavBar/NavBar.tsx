@@ -24,6 +24,7 @@ export default function NavBar() {
       <NavBarLink to="/genres">Genres</NavBarLink>
       <NavBarLink to="/features">Features</NavBarLink>
       <NavBarLink to="/me">Me</NavBarLink>
+      <NavBarLink to="/misc">Misc</NavBarLink>
       <Spacer />
       <EditorLock />
       <AppTitle />

@@ -57,10 +57,23 @@ class TypeAndFeatures {
 export class GameResolver {
   @Mutation(() => Game)
   @Authorized(Role.DATA_MANAGER)
-  async createGame(@Arg('name') name: string) {
+  async createGame(
+    @Arg('name') name: string,
+    @Arg('findOnDuplicate', () => Boolean, { nullable: true }) findOnDuplicate?: boolean
+  ) {
     const game = new Game(name)
-    await gameRepository.save(game)
-    return game
+    try {
+      await gameRepository.save(game)
+      return game
+    } catch (err) {
+      console.log('code', err.code, typeof err.code)
+      if (err.code === '23505' && findOnDuplicate) {
+        const foundGame = gameRepository.findOne({ nameLower: game.nameLower })
+        if (!foundGame) throw err
+        return foundGame
+      }
+      throw err
+    }
   }
 
   @Mutation(() => Game)
