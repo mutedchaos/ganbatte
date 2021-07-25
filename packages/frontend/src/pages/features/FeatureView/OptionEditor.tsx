@@ -17,13 +17,14 @@ interface Props {
   featureTypeId: string
   entry: Entry
   onDelete(id: string): void
+  autoFocus?: boolean
 }
 
 interface State {
   name: string
 }
 
-export default function OptionEditor({ entry, onDelete, featureTypeId }: Props) {
+export default function OptionEditor({ entry, onDelete, featureTypeId, autoFocus }: Props) {
   const [createMutation] = useMutation<OptionEditorCreateMutation>(graphql`
     mutation OptionEditorCreateMutation($featureTypeId: String!, $name: String!) {
       createFeature(featureTypeId: $featureTypeId, name: $name) {
@@ -91,7 +92,7 @@ export default function OptionEditor({ entry, onDelete, featureTypeId }: Props) 
     <Validateable onValidate={validate}>
       <Flex>
         <Labeled label="Name">
-          <TextInput value={state.name} onUpdate={updateState} field="name" />
+          <TextInput value={state.name} onUpdate={updateState} field="name" autoFocus={autoFocus} />
         </Labeled>
 
         {entry.isNew ? (

@@ -1,3 +1,4 @@
+import { entries } from 'lodash'
 import { useCallback, useState } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
@@ -44,6 +45,7 @@ export default function FeatureOptionEditor() {
             entry={entry}
             onDelete={handleDelete}
             featureTypeId={feature.getFeatureType.id}
+            autoFocus={entry === newEntries[newEntries.length - 1]}
           />
         ))}
       <OrangeButton onClick={createNew}>Create new option</OrangeButton>

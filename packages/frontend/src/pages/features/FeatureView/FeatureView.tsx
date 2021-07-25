@@ -40,7 +40,7 @@ export function FeatureViewImpl() {
   const { getFeatureType: featureType } = useCachedData('feature')
 
   return (
-    <>
+    <div key={featureType.id}>
       <h1>{featureType.name}</h1>
       <Editable editor={<FeatureTypeEditor />}>
         <p>Suggested editor style: {featureType.editorStyle}</p>
@@ -54,6 +54,6 @@ export function FeatureViewImpl() {
           ))}
         </ul>
       </ToggableEditable>
-    </>
+    </div>
   )
 }

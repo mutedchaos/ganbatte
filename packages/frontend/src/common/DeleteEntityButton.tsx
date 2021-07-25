@@ -102,5 +102,5 @@ export default function DeleteEntityButton({
 }
 
 export function DeleteEntityButtonVisual(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <Button {...props}>🗑</Button>
+  return <Button type='button' {...props}>🗑</Button>
 }
