@@ -1,22 +1,30 @@
 import {
   Arg,
   Authorized,
+  Ctx,
   Field,
   FieldResolver,
+  Float,
   InputType,
   Mutation,
   ObjectType,
   Query,
   Resolver,
   Root,
+  registerEnumType,
 } from 'type-graphql'
 
 import Feature from '../models/Feature'
 import FeatureType from '../models/FeatureType'
 import Game from '../models/Game'
 import Genre from '../models/Genre'
-import { gameRepository } from '../repositories'
+import Review, { RatingType, reviewRatingSources } from '../models/Review'
+import { gameRepository, reviewRepository } from '../repositories'
+import fieldAssign from '../services/fieldAssign'
+import { AuthorizedGqlContext } from '../services/gqlContext'
 import { Role } from '../services/roles'
+
+registerEnumType(RatingType, { name: 'RatingType' })
 
 @InputType()
 export class GameUpdate implements Partial<Game> {
@@ -25,6 +33,16 @@ export class GameUpdate implements Partial<Game> {
 
   @Field()
   public sortName?: string
+}
+
+@ObjectType()
+@InputType()
+export class PersonalRating {
+  @Field(() => Review, { nullable: true })
+  public actual?: Review
+
+  @Field(() => Review, { nullable: true })
+  public expected?: Review
 }
 
 @ObjectType()
@@ -112,5 +130,58 @@ export class GameResolver {
     }
 
     return Array.from(outputData.values())
+  }
+
+  @Authorized()
+  @FieldResolver(() => PersonalRating)
+  async myRating(@Root() game: Game, @Ctx() context: AuthorizedGqlContext): Promise<PersonalRating> {
+    const reviews = await game.reviews
+    const myReviews = reviews.filter((r) => r.isPersonal && r.userId === context.user.id)
+
+    return fieldAssign(new PersonalRating(), {
+      expected: myReviews.find((r) => r.reviewSource === reviewRatingSources.expected),
+      actual: myReviews.find((r) => r.reviewSource === reviewRatingSources.actual),
+    })
+  }
+
+  @Authorized()
+  @Mutation(() => Game)
+  async updateGameRating(
+    @Arg('gameId') gameId: string,
+    @Arg('ratingType', () => RatingType) ratingType: RatingType,
+    @Arg('rating', () => Float, { nullable: true }) rating: number | null,
+    @Ctx() ctx: AuthorizedGqlContext
+  ): Promise<Game> {
+    const game = await gameRepository.findOne(gameId)
+    if (!game) throw new Error('Invalid game')
+
+    const reviews = await game.reviews
+    const source = reviewRatingSources[ratingType]
+    const review = reviews.find((r) => r.userId === ctx.user.id && r.reviewSource === source)
+
+    if (typeof rating === 'number') {
+      if (review) {
+        review.score = rating
+        await reviewRepository.save(review)
+      } else {
+        const newReview = fieldAssign(new Review(), {
+          user: Promise.resolve(ctx.user),
+          score: rating,
+          game: Promise.resolve(game),
+          reviewSource: source,
+          isPersonal: true,
+        })
+        await reviewRepository.save(newReview)
+      }
+    } else {
+      if (review) {
+        await reviewRepository.delete(review)
+      }
+      // else: nothing to do
+    }
+
+    const refreshedGame = await gameRepository.findOne(gameId)
+    if (!refreshedGame) throw new Error('Internal error')
+    return refreshedGame
   }
 }

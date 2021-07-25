@@ -61,6 +61,7 @@ type Game {
   features: [GameFeature!]!
   relatedGenres: [Genre!]!
   featuresByType: [TypeAndFeatures!]!
+  myRating: PersonalRating!
 }
 
 type Sequel {
@@ -159,6 +160,19 @@ type TypeAndFeatures {
   features: [Feature!]!
 }
 
+type PersonalRating {
+  actual: Review
+  expected: Review
+}
+
+type Review {
+  id: String!
+  reviewSource: String!
+  reviewUrl: String
+  score: Float!
+  isPersonal: Boolean!
+}
+
 type NameIdPair {
   id: String!
   name: String!
@@ -199,6 +213,7 @@ type Mutation {
   updateOwnership(ownershipId: String, ownershipType: OwnershipType!, releaseId: String!): Release!
   createGame(name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
+  updateGameRating(rating: Float, ratingType: RatingType!, gameId: String!): Game!
   createGenre(name: String!): Genre!
   updateGenre(name: String!, genreId: String!): Genre!
   deleteEntity(id: String!, type: String!): DeletedIdContainer!
@@ -224,6 +239,11 @@ input BusinessEntityRelationData {
 input GameUpdate {
   name: String!
   sortName: String!
+}
+
+enum RatingType {
+  actual
+  expected
 }
 
 type DeletedIdContainer {

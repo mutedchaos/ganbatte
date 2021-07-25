@@ -1,9 +1,19 @@
 import { Field, ObjectType } from 'type-graphql'
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import Game from './Game'
 import Release from './Release'
 import User from './User'
+
+export enum RatingType {
+  actual = 'actual',
+  expected = 'expected',
+}
+
+export const reviewRatingSources = {
+  [RatingType.actual]: '__personal_rating',
+  [RatingType.expected]: '__personal_expectation',
+}
 
 @ObjectType()
 @Entity()
@@ -21,14 +31,18 @@ export default class Review {
   public reviewUrl: string | null
 
   @Field(() => Number)
-  @Column()
+  @Column({ type: 'float' })
   public score: number
 
   @Field(() => Boolean)
   @Column()
   public isPersonal: boolean
 
+  @Column()
+  public userId: string | null
+
   @ManyToOne(() => User, (user) => user.reviews, { nullable: true })
+  @JoinColumn({ name: 'userId' })
   public user: Promise<User | null>
 
   @ManyToOne(() => Release, (release) => release.reviews, { nullable: true })

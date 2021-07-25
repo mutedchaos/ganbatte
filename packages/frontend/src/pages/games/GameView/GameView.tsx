@@ -14,6 +14,7 @@ import GameFeatures from './GameFeatures/GameFeatures'
 import { GameReleases } from './GameReleases'
 import GameTree from './GameTree/GameTree'
 import GameGenres from './Genres/GameGenres'
+import GameRating from './GameRating/GameRating'
 
 export default function GameView() {
   const gameId = useContext(routePropContext).gameId as string
@@ -68,6 +69,16 @@ export default function GameView() {
               name
             }
           }
+          myRating {
+            expected {
+              id
+              score
+            }
+            actual {
+              id
+              score
+            }
+          }
         }
       }
     `,
@@ -92,6 +103,7 @@ export function GameViewImpl() {
       <GameTree gameId={data.game.id} />
       <GameGenres />
       <GameFeatures />
+      <GameRating />
     </div>
   )
 }
