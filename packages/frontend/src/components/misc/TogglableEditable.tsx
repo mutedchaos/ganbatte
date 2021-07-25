@@ -19,15 +19,26 @@ const Button = styled.button<{ editing: boolean }>`
   color: ${({ editing }) => (editing ? 'blue' : 'black')};
 `
 
+const ChildContainer = styled.div<{ focused: boolean }>`
+  background: ${({ focused }) => (focused ? 'lightblue' : 'white')};
+  outline: 4px solid ${({ focused }) => (focused ? 'lightblue' : 'white')};
+`
+
 export default function ToggableEditable({ children, editor }: Props) {
   const [editing, setEditing] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
   const globalEdit = !useIsEditorLocked()
   const toggle = useCallback(() => setEditing((x) => !x), [])
+
+  const handleMouseEnter = useCallback(() => setIsFocused(true), [])
+  const handleMouseLeave = useCallback(() => setIsFocused(false), [])
   return (
     <Container>
-      <Content>{editing && globalEdit ? editor : children}</Content>
+      <Content>
+        {editing && globalEdit ? editor : <ChildContainer focused={isFocused}>{children}</ChildContainer>}
+      </Content>
       {globalEdit && (
-        <Button editing={editing} onClick={toggle}>
+        <Button onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} editing={editing} onClick={toggle}>
           ✎
         </Button>
       )}
