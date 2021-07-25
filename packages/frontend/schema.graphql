@@ -211,7 +211,7 @@ type Mutation {
   addGameGenre(association: GenreAssociationType!, genreId: String!, gameId: String!): GameGenre!
   updateGameGenre(association: GenreAssociationType!, genreId: String!, id: String!): GameGenre!
   updateOwnership(ownershipId: String, ownershipType: OwnershipType!, releaseId: String!): Release!
-  createGame(findOnDuplicate: Boolean, name: String!): Game!
+  createGame(platform: String, findOnDuplicate: Boolean, name: String!): Game!
   updateGame(data: GameUpdate!, id: String!): Game!
   updateGameRating(rating: Float, ratingType: RatingType!, gameId: String!): Game!
   createGenre(name: String!): Genre!

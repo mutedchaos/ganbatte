@@ -18,8 +18,9 @@ import Feature from '../models/Feature'
 import FeatureType from '../models/FeatureType'
 import Game from '../models/Game'
 import Genre from '../models/Genre'
+import Release from '../models/Release'
 import Review, { RatingType, reviewRatingSources } from '../models/Review'
-import { gameRepository, reviewRepository } from '../repositories'
+import { gameRepository, platformRepository, releaseRepository, reviewRepository } from '../repositories'
 import fieldAssign from '../services/fieldAssign'
 import { AuthorizedGqlContext } from '../services/gqlContext'
 import { Role } from '../services/roles'
@@ -59,14 +60,22 @@ export class GameResolver {
   @Authorized(Role.DATA_MANAGER)
   async createGame(
     @Arg('name') name: string,
-    @Arg('findOnDuplicate', () => Boolean, { nullable: true }) findOnDuplicate?: boolean
+    @Arg('findOnDuplicate', () => Boolean, { nullable: true }) findOnDuplicate?: boolean,
+    @Arg('platform', () => String, { nullable: true }) platformId?: string
   ) {
     const game = new Game(name)
     try {
       await gameRepository.save(game)
+      const platform = platformId && (await platformRepository.findOne(platformId))
+      if (platform) {
+        const release = fieldAssign(new Release(), {
+          game,
+          platform,
+        })
+        await releaseRepository.save(release)
+      }
       return game
     } catch (err) {
-      console.log('code', err.code, typeof err.code)
       if (err.code === '23505' && findOnDuplicate) {
         const foundGame = gameRepository.findOne({ nameLower: game.nameLower })
         if (!foundGame) throw err
