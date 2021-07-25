@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash'
 import { useCallback, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
@@ -46,15 +47,19 @@ export default function FeatureDropdowns<TField extends string>({
   )
 
   const baseOptions = useMemo<Array<ListOption<string | null>>>(
-    () => [
-      { value: null, label: 'No selection' },
-      ...featureType.features
-        .filter((feat) => !value.includes(feat.id))
-        .map((feature) => ({
-          label: feature.name,
-          value: feature.id,
-        })),
-    ],
+    () =>
+      sortBy(
+        [
+          { value: null, label: 'No selection' },
+          ...featureType.features
+            .filter((feat) => !value.includes(feat.id))
+            .map((feature) => ({
+              label: feature.name,
+              value: feature.id,
+            })),
+        ],
+        'label'
+      ),
     [featureType.features, value]
   )
 

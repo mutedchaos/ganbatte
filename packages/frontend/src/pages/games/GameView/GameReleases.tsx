@@ -17,11 +17,13 @@ export function GameReleases() {
     modal((props) => <CreateNewReleaseModal {...props} />)
   }, [modal])
 
+  const filteredReleases = game.releases.filter((release) => release?.platform?.name)
+
   return (
     <>
       <h2>Releases</h2>
-      {game.releases.length
-        ? sortBy(game.releases, (release) => release.releaseDate).map((release) => (
+      {filteredReleases.length
+        ? sortBy(filteredReleases, (release) => release.releaseDate).map((release) => (
             <Release key={release.id} release={release} />
           ))
         : 'No releases'}

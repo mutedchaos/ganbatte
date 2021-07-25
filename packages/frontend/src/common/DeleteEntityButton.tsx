@@ -19,7 +19,15 @@ type Props = {
 } & (
   | {
       id: string
-      type: 'game' | 'release' | 'releaseRelatedBusinessEntity' | 'sequel' | 'subgenre' | 'gamegenre' | 'feature'
+      type:
+        | 'game'
+        | 'release'
+        | 'releaseRelatedBusinessEntity'
+        | 'sequel'
+        | 'subgenre'
+        | 'gamegenre'
+        | 'feature'
+        | 'genre'
     }
   | { id?: undefined; type: 'custom' }
 )
@@ -102,5 +110,9 @@ export default function DeleteEntityButton({
 }
 
 export function DeleteEntityButtonVisual(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  return <Button type='button' {...props}>🗑</Button>
+  return (
+    <Button type="button" {...props}>
+      🗑
+    </Button>
+  )
 }

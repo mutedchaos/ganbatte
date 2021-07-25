@@ -2,9 +2,11 @@ import { graphql } from 'babel-plugin-relay/macro'
 import React, { useContext, useMemo } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
+import DeleteEntityButton from '../../../common/DeleteEntityButton'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
 import Editable from '../../../components/misc/Editable'
 import TogglableEditable from '../../../components/misc/TogglableEditable'
+import FloatRight from '../../../components/styles/FloatRight'
 import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import GenreEditor from './Edit/GenreEditor'
@@ -54,6 +56,15 @@ export function GenreViewQueryImpl() {
   const subgenres = useMemo(() => subgenresUnfiltered.filter((x) => x), [subgenresUnfiltered])
   return (
     <div key={data.getGenre.id}>
+      <FloatRight>
+        <DeleteEntityButton
+          entityName={data.getGenre.name}
+          id={data.getGenre.id}
+          type={'genre'}
+          typeLabel="genre"
+          targetPage="/genres"
+        />
+      </FloatRight>
       <Editable editor={<GenreEditor />}>
         <h2>{data.getGenre.name}</h2>
       </Editable>
@@ -83,8 +94,5 @@ export function GenreViewQueryImpl() {
         )}
       </TogglableEditable>
     </div>
-
-
-    
   )
 }

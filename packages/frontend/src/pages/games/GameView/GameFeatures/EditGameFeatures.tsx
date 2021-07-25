@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+
 import { useCachedData } from '../../../../common/CachedDataProvider'
 import required from '../../../../common/required'
 import OrangeButton from '../../../../components/buttons/OrangeButton'
@@ -6,8 +7,6 @@ import EnsureFeaturesAreLoaded from '../../../../components/loaders/EnsureFeatur
 import { GameViewQueryResponse } from '../__generated__/GameViewQuery.graphql'
 import AddNewFeatureType from './AddNewFeatureType'
 import GameFeatureTypeEditor from './GameFeatureTypeEditor'
-
-
 
 export type Entry = GameViewQueryResponse['game']['featuresByType'][number] & { isNew?: boolean }
 
@@ -64,6 +63,19 @@ function EditGameFeaturesImpl() {
     newFeatures,
   ])
 
+  const createAll = useCallback(() => {
+    setNewFeatures((old) => [
+      ...old,
+      ...featureTypes
+        .filter((ft) => !excludedFromNew.includes(ft.id))
+        .map((ft) => ({
+          type: ft,
+          features: [],
+          isNew: true,
+        })),
+    ])
+  }, [excludedFromNew, featureTypes])
+
   useEffect(() => {
     const duplicate = newFeatures.find((nf) => game.featuresByType.some((fbt) => fbt.type.id === nf.type.id))
 
@@ -87,7 +99,10 @@ function EditGameFeaturesImpl() {
       {addingNew ? (
         <AddNewFeatureType onCancel={stopCreating} excludedIds={excludedFromNew} onAdd={create} />
       ) : (
-        <OrangeButton onClick={startCreating}>Add features of a new type</OrangeButton>
+        <>
+          <OrangeButton onClick={startCreating}>Add features of a new type</OrangeButton>{' '}
+          <OrangeButton onClick={createAll}>All placeholders for all feature types</OrangeButton>
+        </>
       )}
     </>
   )

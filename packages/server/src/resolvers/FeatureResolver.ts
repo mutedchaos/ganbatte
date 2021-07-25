@@ -58,10 +58,13 @@ export default class FeatureResolver {
       throw new Error('Invalid feature ids')
     }
 
-    const gameFeats = await game.features
+    const validFeatureIds = validFeatures.map((vf) => vf.id)
 
-    const toAdd = featureIds.filter((featId) => gameFeats.every((feat) => feat.featureId !== featId))
-    const toRemove = gameFeats.filter((gameFeat) => !featureIds.includes(gameFeat.featureId))
+    const allGameFeats = await game.features
+    const relevantGameFeats = allGameFeats.filter((gf) => validFeatureIds.includes(gf.featureId))
+
+    const toAdd = featureIds.filter((featId) => relevantGameFeats.every((feat) => feat.featureId !== featId))
+    const toRemove = relevantGameFeats.filter((gameFeat) => !featureIds.includes(gameFeat.featureId))
 
     await gameFeatureRepository.remove(toRemove)
 
