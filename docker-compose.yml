@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   postgres:
-    image: postgres
+    image: postgres:12
     volumes:
       - ./local/pgdata:/var/lib/postgresql/data
     ports:
@@ -14,15 +14,18 @@ services:
       context: .
       target: frontend
     ports:
-      - 3000:3000
+      - 3000:5173
     volumes:
-      - ./packages/frontend/src:/app/packages/frontend/src
+      - ./frontend/src:/app/frontend/src
   server:
+    depends_on:
+      - postgres
     build:
       context: .
       target: server
+    environment:
+      NO_DOTENV: 'true'
     volumes:
-      - ./packages/server/src:/app/packages/server/src
+      - ./server/src:/app/server/src
     ports:
       - 3001:3000
-

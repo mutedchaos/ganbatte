@@ -3,3 +3,4 @@ docker-compose.override.yml
 .postgres-env
 local
 packages/server/lib
+.env
