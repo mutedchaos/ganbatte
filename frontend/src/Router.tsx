@@ -1,7 +1,6 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { routePropContext } from './contexts/RoutePropContext'
 import BusinessEntities from './pages/businessEntities/BusinessEntities'
 import BusinessEntityView from './pages/businessEntities/BusinessEntityView/BusinessEntityView'
 import CreateNewBusinessEntity from './pages/businessEntities/CreateNewBusinessEntity'
@@ -21,11 +20,6 @@ import MiscPage from './pages/misc/MiscPage'
 import CreateNewPlatform from './pages/platforms/CreateNewPlatform'
 import Platforms from './pages/platforms/Platforms'
 import PlatformView from './pages/platforms/PlatformView/PlatformView'
-
-interface DestinationProps {
-  path: string
-  element: ReactNode
-}
 
 export default function Router() {
   return (

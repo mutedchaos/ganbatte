@@ -10,7 +10,7 @@ export class PlatformResolver {
   @Mutation(() => Platform)
   async createPlatform(@Arg('name') name: string) {
     const platform = new Platform(name)
-      await platformRepository.save(platform)
+    await platformRepository.save(platform)
     return platform
   }
 

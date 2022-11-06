@@ -3,17 +3,17 @@ import { useCallback, useState } from 'react'
 import { getVaguelyUniqueId } from '../../../../common/useVaguelyUniqueId'
 import OrangeButton from '../../../../components/buttons/OrangeButton'
 import { DeepNullSimpleValues, IdRequired } from '../../../../my-types'
-import { GameTreeEditorQueryResponse } from './__generated__/GameTreeEditorQuery.graphql'
+import { GameTreeEditorQuery } from './__generated__/GameTreeEditorQuery.graphql'
 import SequelEdit from './SequelEdit'
 
 interface Props {
   gameId: string
   fixed: 'successor' | 'predecessor'
-  existing: GameTreeEditorQueryResponse['game']['sequelOf']
+  existing: GameTreeEditorQuery['response']['game']['sequelOf']
 }
 
 export type Entry = IdRequired<
-  DeepNullSimpleValues<GameTreeEditorQueryResponse['game']['sequelOf'][number] & { isNew?: boolean }>
+  DeepNullSimpleValues<GameTreeEditorQuery['response']['game']['sequelOf'][number] & { isNew?: boolean }>
 >
 
 export default function SequelEditor({ gameId, existing, fixed }: Props) {

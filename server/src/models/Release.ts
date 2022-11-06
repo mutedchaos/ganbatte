@@ -59,7 +59,7 @@ export default class Release {
   @ManyToOne(() => Release, (release) => release.leadTo)
   @JoinColumn({ name: 'basedOn' })
   public lazyBasedOn: Promise<Release | null | undefined>
-  
+
   @Field(() => Release, { nullable: true })
   public get basedOn() {
     return this.lazyBasedOn

@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { Arg, Authorized, Ctx, Field, FieldResolver, InputType, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { v4 as uuid } from 'uuid'
 

@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
+
 import { useCachedData } from '../../common/CachedDataProvider'
 import CheckboxArrayInput from '../../components/form/CheckboxArrayInput'
 import EnsurePlatformsAreLoaded from '../../components/loaders/EnsurePlatformsAreLoaded'
-
 
 interface Props<TField extends string> {
   value: string[]

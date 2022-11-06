@@ -1,5 +1,6 @@
-import React, { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { graphql } from 'react-relay'
+import { useParams } from 'react-router-dom'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import DeleteEntityButton from '../../../common/DeleteEntityButton'
@@ -7,13 +8,12 @@ import { default as CachedLoader } from '../../../common/EnsureLoaded'
 import Editable from '../../../components/misc/Editable'
 import TogglableEditable from '../../../components/misc/TogglableEditable'
 import FloatRight from '../../../components/styles/FloatRight'
-import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import GenreEditor from './Edit/GenreEditor'
 import SubgenreEditor from './Edit/SubgenreEditor'
 
 export default function GenreView() {
-  const genreId = useContext(routePropContext).genreId as string
+  const { genreId } = useParams()
 
   const query = graphql`
     query GenreViewQuery($genreId: String!) {

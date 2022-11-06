@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { getVaguelyUniqueId } from '../common/useVaguelyUniqueId'
 
+import { getVaguelyUniqueId } from '../common/useVaguelyUniqueId'
 
 interface MyError {
   message: string

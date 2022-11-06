@@ -8,6 +8,6 @@ export default async function getBusinessEntityPossiblyCreatingOne(name: string)
 
   const newEntity = new BusinessEntity(name.trim())
   await businessEntityRepository.save(newEntity)
-  
+
   return newEntity
 }

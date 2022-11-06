@@ -13,7 +13,7 @@ interface Props<TValue> {
 
 export default function TypedValueSelect<TValue>({ options, value, onChange }: Props<TValue>) {
   const nativeValue = options.findIndex((item) => item.value === value).toString()
-  
+
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const valueIndex = +e.target.value

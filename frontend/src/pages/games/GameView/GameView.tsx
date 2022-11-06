@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
-import { graphql } from 'react-relay'
-import { useLazyLoadQuery } from 'react-relay'
+import { graphql, useLazyLoadQuery } from 'react-relay'
+import { useParams } from 'react-router-dom'
 
 import { useCachedData, useDataCache } from '../../../common/CachedDataProvider'
 import DebugView from '../../../components/DebugView'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import Editable from '../../../components/misc/Editable'
-import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import GameDetailEditor from './GameDetailEditor'
@@ -17,8 +15,8 @@ import GameTree from './GameTree/GameTree'
 import GameGenres from './Genres/GameGenres'
 
 export default function GameView() {
-  const gameId = useContext(routePropContext).gameId as string
-
+  const { gameId } = useParams()
+  if (!gameId) throw new Error('gameId is required')
   const data = useLazyLoadQuery<GameViewQuery>(
     graphql`
       query GameViewQuery($gameId: String!) {

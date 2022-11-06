@@ -8,18 +8,17 @@ import mutateAsPromise from '../../../../common/mutateAsPromise'
 import FeatureDropdowns from '../../../../components/form/specific/FeatureDropdowns'
 import { Flex } from '../../../../components/styles/Flex'
 import { useEditing } from '../../../../contexts/ActiveEditingContext'
-import { FeaturesQueryResponse } from '../../../features/__generated__/FeaturesQuery.graphql'
+import { FeaturesQuery } from '../../../features/__generated__/FeaturesQuery.graphql'
 import { GameFeatureTypeEditorMutation } from './__generated__/GameFeatureTypeEditorMutation.graphql'
 import type { Entry } from './EditGameFeatures'
 
 interface Props {
   gameId: string
-  featureType: FeaturesQueryResponse['getFeatureTypes'][number]
+  featureType: FeaturesQuery['response']['getFeatureTypes'][number]
   entry: Entry
   onDelete(typeId: string): void
 }
 
-interface Props {}
 interface State {
   features: Array<string | null>
 }

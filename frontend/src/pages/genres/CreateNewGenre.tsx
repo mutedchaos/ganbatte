@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom'
 import React, { useCallback } from 'react'
 import { graphql } from 'react-relay'
 import { useMutation } from 'react-relay/hooks'
+import { useNavigate } from 'react-router-dom'
 
 import CreateEntityForm from '../../forms/CreateEntityForm'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 import { CreateNewGenreMutation } from './__generated__/CreateNewGenreMutation.graphql'
 
 export default function CreateNewGenre() {
+  const navigate = useNavigate()
   const [mutate] = useMutation<CreateNewGenreMutation>(graphql`
     mutation CreateNewGenreMutation($name: String!) {
       createGenre(name: $name) {
@@ -33,11 +34,11 @@ export default function CreateNewGenre() {
         })
       })
     },
-    [mutate]
+    [mutate, navigate]
   )
   const returnToList = useCallback(() => {
     navigate('/genres')
-  }, [])
+  }, [navigate])
 
   return (
     <MainLayout heading="Create New Genre">

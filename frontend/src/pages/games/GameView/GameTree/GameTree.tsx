@@ -4,12 +4,12 @@ import { useLazyLoadQuery } from 'react-relay'
 
 import TypedValueSelect, { StringLabeledOption } from '../../../../components/form/TypedValueSelect'
 import TogglableEditable from '../../../../components/misc/TogglableEditable'
-import { GameTreeQuery, GameTreeQueryResponse } from './__generated__/GameTreeQuery.graphql'
+import { GameTreeQuery } from './__generated__/GameTreeQuery.graphql'
 import GameTreeEditor from './GameTreeEditor'
 import SimpleTree from './SimpleTree'
 import TreeGraph from './TreeGraph'
 
-export type Tree = GameTreeQueryResponse['gameFranchise']
+export type Tree = GameTreeQuery['response']['gameFranchise']
 
 const options: Array<StringLabeledOption<'simple' | 'graph'>> = [
   {

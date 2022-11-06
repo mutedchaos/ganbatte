@@ -58,7 +58,7 @@ export const repositoryByName = {
 }
 
 function createRepositoryProxy<T>(entity: Constructable<T>): Repository<T> {
-  return (new Proxy<{ repository: null | Repository<T> }>(
+  return new Proxy<{ repository: null | Repository<T> }>(
     {
       repository: null,
     },
@@ -70,5 +70,5 @@ function createRepositoryProxy<T>(entity: Constructable<T>): Repository<T> {
         return obj.repository[prop as keyof Repository<T>]
       },
     }
-  ) as unknown) as Repository<T>
+  ) as unknown as Repository<T>
 }

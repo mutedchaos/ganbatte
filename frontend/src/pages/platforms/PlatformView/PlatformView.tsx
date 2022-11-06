@@ -1,13 +1,12 @@
-import React, { useContext } from 'react'
 import { graphql } from 'react-relay'
+import { useParams } from 'react-router-dom'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
-import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 
 export default function PlatformView() {
-  const platformId = useContext(routePropContext).platformId as string
+  const { platformId } = useParams()
 
   const query = graphql`
     query PlatformViewQuery($platformId: String!) {

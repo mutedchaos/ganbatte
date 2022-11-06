@@ -1,13 +1,12 @@
-import React, { useContext } from 'react'
 import { graphql } from 'react-relay'
+import { useParams } from 'react-router-dom'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
-import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 
 export default function BusinessEntityView() {
-  const businessEntityId = useContext(routePropContext).businessEntityId as string
+  const { businessEntityId } = useParams()
 
   const query = graphql`
     query BusinessEntityViewQuery($businessEntityId: String!) {

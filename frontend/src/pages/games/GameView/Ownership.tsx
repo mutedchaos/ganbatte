@@ -3,11 +3,11 @@ import { graphql } from 'react-relay'
 import { useMutation } from 'react-relay'
 
 import TypedValueSelect, { StringLabeledOption } from '../../../components/form/TypedValueSelect'
-import { GameViewQueryResponse } from './__generated__/GameViewQuery.graphql'
+import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import { OwnershipMutation, OwnershipType } from './__generated__/OwnershipMutation.graphql'
 
 interface Props {
-  release: GameViewQueryResponse['game']['releases'][number]
+  release: GameViewQuery['response']['game']['releases'][number]
 }
 
 const options: Array<StringLabeledOption<OwnershipType>> = [

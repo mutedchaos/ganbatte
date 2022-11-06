@@ -8,6 +8,7 @@ import MainLayout from '../../layouts/MainLayout/MainLayout'
 import { CreateNewBusinessEntityMutation } from './__generated__/CreateNewBusinessEntityMutation.graphql'
 
 export default function CreateNewBusinessEntity() {
+  const navigate = useNavigate()
   const [mutate] = useMutation<CreateNewBusinessEntityMutation>(graphql`
     mutation CreateNewBusinessEntityMutation($name: String!) {
       createBusinessEntity(name: $name) {
@@ -33,12 +34,12 @@ export default function CreateNewBusinessEntity() {
         })
       })
     },
-    [mutate]
+    [mutate, navigate]
   )
 
   const returnToList = useCallback(() => {
     navigate('/businessentities')
-  }, [])
+  }, [navigate])
 
   return (
     <MainLayout heading="Create New BusinessEntity">

@@ -1,9 +1,12 @@
-import { GameTreeQueryResponse } from './__generated__/GameTreeQuery.graphql'
+import { GameTreeQuery } from './__generated__/GameTreeQuery.graphql'
 
 interface Props {
-  tree: GameTreeQueryResponse['gameFranchise']
-  node: GameTreeQueryResponse['gameFranchise']['games'][number]
+  tree: GameTreeQuery['response']['gameFranchise']
+  node: GameTreeQuery['response']['gameFranchise']['games'][number]
   depth: number
 }
 
-export default function FranchiseNode({ tree, node, depth }: Props) {}
+export default function FranchiseNode({ tree, node, depth }: Props) {
+  console.log(tree, node, depth)
+  return null
+}

@@ -1,13 +1,14 @@
-import { Link } from 'react-router-dom'
 import React, { useCallback } from 'react'
 import { graphql } from 'react-relay'
 import { useMutation } from 'react-relay/hooks'
+import { useNavigate } from 'react-router-dom'
 
 import CreateEntityForm from '../../forms/CreateEntityForm'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 import { CreateNewPlatformMutation } from './__generated__/CreateNewPlatformMutation.graphql'
 
 export default function CreateNewPlatform() {
+  const navigate = useNavigate()
   const [mutate] = useMutation<CreateNewPlatformMutation>(graphql`
     mutation CreateNewPlatformMutation($name: String!) {
       createPlatform(name: $name) {
@@ -33,11 +34,11 @@ export default function CreateNewPlatform() {
         })
       })
     },
-    [mutate]
+    [mutate, navigate]
   )
   const returnToList = useCallback(() => {
     navigate('/platforms')
-  }, [])
+  }, [navigate])
 
   return (
     <MainLayout heading="Create New Platform">

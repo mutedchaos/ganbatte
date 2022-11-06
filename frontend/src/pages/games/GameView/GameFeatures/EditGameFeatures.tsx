@@ -4,11 +4,11 @@ import { useCachedData } from '../../../../common/CachedDataProvider'
 import required from '../../../../common/required'
 import OrangeButton from '../../../../components/buttons/OrangeButton'
 import EnsureFeaturesAreLoaded from '../../../../components/loaders/EnsureFeaturesAreLoaded'
-import { GameViewQueryResponse } from '../__generated__/GameViewQuery.graphql'
+import { GameViewQuery } from '../__generated__/GameViewQuery.graphql'
 import AddNewFeatureType from './AddNewFeatureType'
 import GameFeatureTypeEditor from './GameFeatureTypeEditor'
 
-export type Entry = GameViewQueryResponse['game']['featuresByType'][number] & { isNew?: boolean }
+export type Entry = GameViewQuery['response']['game']['featuresByType'][number] & { isNew?: boolean }
 
 export default function EditGameFeatures() {
   return (
@@ -58,10 +58,10 @@ function EditGameFeaturesImpl() {
     [featureTypes]
   )
 
-  const excludedFromNew = useMemo(() => [...game.featuresByType, ...newFeatures].map((f) => f.type.id), [
-    game.featuresByType,
-    newFeatures,
-  ])
+  const excludedFromNew = useMemo(
+    () => [...game.featuresByType, ...newFeatures].map((f) => f.type.id),
+    [game.featuresByType, newFeatures]
+  )
 
   const createAll = useCallback(() => {
     setNewFeatures((old) => [

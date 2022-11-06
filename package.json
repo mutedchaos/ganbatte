@@ -5,17 +5,26 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npm run --rm lint",
-    "tsc": "npm run --rm tsc",
-    "update": "npm run --rm update",
-    "prettier": "prettier --write $(find server/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json') $(find frontend/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json')"
+    "lint": "npm run --ws --rm lint",
+    "tsc": "npm --ws run --rm tsc",
+    "update": "npm run --ws --rm update",
+    "prettier": "prettier --write $(find server/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json') $(find frontend/src -name '*.tsx' -o -name '*.ts' -o -name '*.js' -o -name '*.json')",
+    "pre-commit-eslint-and-prettier": "pre-commit-eslint-and-prettier"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.27.0",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "import-sort-style-module": "^6.0.0",
-    "prettier": "^2.2.1",
-    "prettier-plugin-import-sort": "0.0.7"
+    "pre-commit": "^1.2.2",
+    "pre-commit-eslint-and-prettier": "^1.0.0",
+    "prettier": "^2.7.1",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "typescript": "^4.8.4"
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
@@ -23,8 +32,11 @@
       "parser": "typescript"
     }
   },
-  "workspaces":[
+  "workspaces": [
     "frontend",
     "server"
+  ],
+  "pre-commit": [
+    "pre-commit-eslint-and-prettier"
   ]
 }

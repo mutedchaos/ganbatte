@@ -2,12 +2,12 @@ import styled from 'styled-components'
 
 import { intepreteDate } from '../../../common/dateUtils'
 import TogglableEditable from '../../../components/misc/TogglableEditable'
-import { GameViewQueryResponse } from './__generated__/GameViewQuery.graphql'
+import { GameViewQuery } from './__generated__/GameViewQuery.graphql'
 import Ownership from './Ownership'
 import ReleaseEditor from './ReleaseEditor/ReleaseEditor'
 
 interface Props {
-  release: GameViewQueryResponse['game']['releases'][number]
+  release: GameViewQuery['response']['game']['releases'][number]
 }
 
 const Container = styled.div``

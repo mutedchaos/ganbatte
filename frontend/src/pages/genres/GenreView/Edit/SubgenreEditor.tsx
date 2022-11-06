@@ -3,10 +3,10 @@ import { useCallback, useState } from 'react'
 import { useCachedData } from '../../../../common/CachedDataProvider'
 import { getVaguelyUniqueId } from '../../../../common/useVaguelyUniqueId'
 import OrangeButton from '../../../../components/buttons/OrangeButton'
-import { GenreAssociationType, GenreViewQueryResponse } from '../__generated__/GenreViewQuery.graphql'
+import { GenreAssociationType, GenreViewQuery } from '../__generated__/GenreViewQuery.graphql'
 import SingleSubgenreEditor from './SingleSubgenreEditor'
 
-type StoredEntry = GenreViewQueryResponse['getGenre']['subgenres'][number]
+type StoredEntry = GenreViewQuery['response']['getGenre']['subgenres'][number]
 
 export type Entry =
   | (StoredEntry & { isNew?: undefined })

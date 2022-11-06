@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom'
 import React, { useCallback } from 'react'
 import { graphql } from 'react-relay'
 import { useMutation } from 'react-relay/hooks'
+import { useNavigate } from 'react-router-dom'
 
 import CreateEntityForm from '../../forms/CreateEntityForm'
 import MainLayout from '../../layouts/MainLayout/MainLayout'
 import { CreateNewGameMutation } from './__generated__/CreateNewGameMutation.graphql'
 
 export default function CreateNewGame() {
+  const navigate = useNavigate()
+
   const [mutate] = useMutation<CreateNewGameMutation>(graphql`
     mutation CreateNewGameMutation($name: String!) {
       createGame(name: $name) {
@@ -33,12 +35,12 @@ export default function CreateNewGame() {
         })
       })
     },
-    [mutate]
+    [mutate, navigate]
   )
 
   const returnToList = useCallback(() => {
     navigate('/games')
-  }, [])
+  }, [navigate])
 
   return (
     <MainLayout heading="Create New Game">

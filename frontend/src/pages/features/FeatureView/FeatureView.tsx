@@ -1,17 +1,16 @@
-import React, { useContext } from 'react'
 import { graphql } from 'react-relay'
+import { useParams } from 'react-router-dom'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { default as CachedLoader } from '../../../common/EnsureLoaded'
 import Editable from '../../../components/misc/Editable'
 import ToggableEditable from '../../../components/misc/TogglableEditable'
-import { routePropContext } from '../../../contexts/RoutePropContext'
 import MainLayout from '../../../layouts/MainLayout/MainLayout'
 import FeatureOptionEditor from './FeatureOptionEditor'
 import FeatureTypeEditor from './FeatureTypeEditor'
 
 export default function FeatureView() {
-  const featureId = useContext(routePropContext).featureId as string
+  const { featureId } = useParams()
 
   const query = graphql`
     query FeatureViewQuery($featureId: String!) {

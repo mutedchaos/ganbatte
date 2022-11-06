@@ -1,5 +1,5 @@
-import { Link, useMatch }  from 'react-router-dom'
 import React, { ReactNode } from 'react'
+import { Link, useMatch } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { useIsModalActive } from '../../../contexts/modal'
@@ -75,7 +75,7 @@ export default function NavBarLink({ to, children }: Props) {
         <StyledLink to={to} key="link">
           {!match ? (
             <DefaultStyle>{children}</DefaultStyle>
-          ) : match.path === to ? (
+          ) : match.pathname === to ? (
             <ActiveStyle>{children}</ActiveStyle>
           ) : (
             <PrefixStyle>{children}</PrefixStyle>

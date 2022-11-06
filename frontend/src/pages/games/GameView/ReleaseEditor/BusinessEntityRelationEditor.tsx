@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react'
 
 import { getVaguelyUniqueId } from '../../../../common/useVaguelyUniqueId'
 import OrangeButton from '../../../../components/buttons/OrangeButton'
-import { ReleaseEditorQueryResponse } from './__generated__/ReleaseEditorQuery.graphql'
+import { ReleaseEditorQuery } from './__generated__/ReleaseEditorQuery.graphql'
 import SingleBusinessEntityRelationEditor from './SingleBusinessEntityRelationEditor'
 
-type Relation = ReleaseEditorQueryResponse['getRelease']['businessEntities'][number]
+type Relation = ReleaseEditorQuery['response']['getRelease']['businessEntities'][number]
 
 interface Props {
   releaseId: string

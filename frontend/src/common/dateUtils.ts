@@ -6,9 +6,10 @@ type Variant = {
 const variants: { [seconds: number]: Variant } = {
   0: {
     inteprete(date) {
-      const isoDate = `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1)
+      const isoDate = `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}-${date
+        .getUTCDate()
         .toString()
-        .padStart(2, '0')}-${date.getUTCDate().toString().padStart(2, '0')}`
+        .padStart(2, '0')}`
       return { type: 'date', value: isoDate, formatted: isoDate }
     },
     asDate(value) {

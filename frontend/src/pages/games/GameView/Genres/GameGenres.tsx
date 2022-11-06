@@ -4,10 +4,10 @@ import { useMemo } from 'react'
 import { useCachedData } from '../../../../common/CachedDataProvider'
 import required from '../../../../common/required'
 import ToggableEditable from '../../../../components/misc/TogglableEditable'
-import { GameViewQueryResponse, GenreAssociationType } from '../__generated__/GameViewQuery.graphql'
+import { GameViewQuery, GenreAssociationType } from '../__generated__/GameViewQuery.graphql'
 import GameGenreEditor from './GameGenreEditor'
 
-type Genre = GameViewQueryResponse['game']['relatedGenres'][number]
+type Genre = GameViewQuery['response']['game']['relatedGenres'][number]
 
 interface AssociatedGenre {
   association: GenreAssociationType

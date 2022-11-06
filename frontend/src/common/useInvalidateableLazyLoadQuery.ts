@@ -9,7 +9,7 @@ export default function useInvalidateableLazyLoadQuery<TQuery extends OperationT
   const [fetchKey, setFetchKey] = useState(0)
   const response = useLazyLoadQuery<TQuery>(query, vars, { fetchKey: fetchKey.toString() })
 
-  const idArray = useMemo(() => [getId(response)], [])
+  const idArray = useMemo(() => [getId(response)], [response])
   const invalidate = useCallback(() => setFetchKey((key) => ++key), [])
   useSubscribeToInvalidationState(idArray, invalidate)
 

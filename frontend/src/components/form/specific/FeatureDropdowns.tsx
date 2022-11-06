@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo } from 'react'
 import styled from 'styled-components'
 
 import required from '../../../common/required'
-import { FeaturesQueryResponse } from '../../../pages/features/__generated__/FeaturesQuery.graphql'
+import { FeaturesQuery } from '../../../pages/features/__generated__/FeaturesQuery.graphql'
 import TextButton from '../../buttons/TextButton'
 import DropdownInput, { ListOption } from '../DropdownInput'
 
@@ -12,7 +12,7 @@ interface Props<TField extends string> {
   field: TField
 
   onUpdate(update: { [key in TField]: Array<string | null> }): void
-  featureType: FeaturesQueryResponse['getFeatureTypes'][number]
+  featureType: FeaturesQuery['response']['getFeatureTypes'][number]
 }
 
 const Container = styled.div`

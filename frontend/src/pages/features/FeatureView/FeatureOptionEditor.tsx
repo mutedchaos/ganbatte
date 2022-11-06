@@ -1,13 +1,12 @@
-import { entries } from 'lodash'
 import { useCallback, useState } from 'react'
 
 import { useCachedData } from '../../../common/CachedDataProvider'
 import { getVaguelyUniqueId } from '../../../common/useVaguelyUniqueId'
 import OrangeButton from '../../../components/buttons/OrangeButton'
-import { FeatureViewQueryResponse } from './__generated__/FeatureViewQuery.graphql'
+import { FeatureViewQuery } from './__generated__/FeatureViewQuery.graphql'
 import OptionEditor from './OptionEditor'
 
-type StoredEntry = FeatureViewQueryResponse['getFeatureType']['features'][number]
+type StoredEntry = FeatureViewQuery['response']['getFeatureType']['features'][number]
 
 export type Entry =
   | (StoredEntry & { isNew?: undefined })

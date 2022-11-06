@@ -14,9 +14,10 @@ interface Props {
 
 export default function AvailabilityChecker(props: Props) {
   const { onUpdateValidationStatus } = props
-  const triggerLoading = useCallback(() => onUpdateValidationStatus(ValidationStatus.Validating), [
-    onUpdateValidationStatus,
-  ])
+  const triggerLoading = useCallback(
+    () => onUpdateValidationStatus(ValidationStatus.Validating),
+    [onUpdateValidationStatus]
+  )
   return (
     <Suspense fallback={<BlankLoadingIndicator onMount={triggerLoading} />}>
       <AvailabilityCheckerImpl {...props} />

@@ -39,6 +39,7 @@ export function GlobalEditProvider({ children }: ChildrenOnlyProps) {
 
   const unregister = useCallback<GlobalEditRegistrationCtx['unregister']>((key) => {
     setEditors((old) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [key]: toRemove, ...rest } = old
       return rest
     })

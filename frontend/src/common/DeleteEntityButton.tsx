@@ -101,7 +101,7 @@ export default function DeleteEntityButton({
         if (!(err instanceof CancelledError)) throw err
       }
     )
-  }, [confirm, entityName, id, invalidate, mutate, onDelete, targetPage, type, typeLabel])
+  }, [confirm, entityName, id, invalidate, mutate, navigate, onDelete, targetPage, type, typeLabel])
 
   return (
     <FloatRight>

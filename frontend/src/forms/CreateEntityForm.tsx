@@ -62,7 +62,7 @@ export default function CreateEntityForm({ onValidate, entityType, onSubmit, onC
       e.preventDefault()
       setSubmitting(true)
 
-      onSubmit(sanitizedName).catch((err) => setSubmitting(false))
+      onSubmit(sanitizedName).catch(() => setSubmitting(false))
     },
     [onSubmit, sanitizedName]
   )

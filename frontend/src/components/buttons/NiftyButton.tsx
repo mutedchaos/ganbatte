@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import { useIsFailingValidation } from '../../contexts/Validation'
 
+import { useIsFailingValidation } from '../../contexts/Validation'
 import { ButtonVisual } from './base'
 import { PlainButton } from './PlainButton'
 
